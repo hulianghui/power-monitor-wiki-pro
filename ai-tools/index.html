@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 小工具 - 电力在线监测知识库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: #00d9ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 1.1em;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 217, 255, 0.4);
+            box-shadow: 0 25px 70px rgba(0, 217, 255, 0.15);
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .tool-name {
+            color: #00d9ff;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .tool-desc {
+            color: #8892b0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00d9ff;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回首页</a>
+        
+        <div class="header">
+            <h1>🤖 AI 小工具</h1>
+            <p>智能计算工具集，助力电力系统分析与决策</p>
+        </div>
+
+        <div class="tools-grid">
+            <a href="battery-life-calculator.html" class="tool-card">
+                <div class="tool-icon">🔋</div>
+                <div class="tool-name">电池寿命计算器</div>
+                <div class="tool-desc">基于 IoT 设备电流数据，计算电池续航时间。支持多状态电流输入、自放电率计算，适用于各类电池供电设备的寿命预估。</div>
+            </a>
+
+            <!-- 预留更多工具位置 -->
+        </div>
+    </div>
+</body>
+</html>

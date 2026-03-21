@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电力在线监测知识库</title>
+    <style>
+        :root {
+            --bg: #070d1a;
+            --card: #0d1b2e;
+            --border: rgba(0,180,255,0.15);
+            --accent: #00b4ff;
+            --accent2: #00e5a0;
+            --text: #d0e8ff;
+            --muted: #5a7a99;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(7,13,26,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 60px;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text); }
+        nav { display: flex; gap: 1.5rem; }
+        nav a {
+            color: var(--muted); text-decoration: none;
+            font-size: 0.9rem; transition: color 0.2s;
+        }
+        nav a:hover { color: var(--accent); }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: radial-gradient(ellipse at center, rgba(0,180,255,0.1) 0%, transparent 70%);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: var(--muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0,180,255,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: rgba(0,180,255,0.1);
+        }
+        .card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent); }
+        .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+        /* AI小工具卡片特殊样式 */
+        .card.ai-tools .card-icon {
+            background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,180,255,0.2));
+        }
+        .card.ai-tools h3 { color: var(--accent2); }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <span>⚡</span>
+            <span>电力在线监测知识库</span>
+        </a>
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="docs/">文档</a>
+            <a href="ai-tools/">AI小工具</a>
+            <a href="about.html">关于</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>电力系统在线监测技术文档</h1>
+        <p>汇集电力设备监测、故障诊断、数据分析等技术资料，助力智能电网建设</p>
+    </section>
+
+    <main class="grid">
+        <!-- AI小工具 -->
+        <a href="ai-tools/" class="card ai-tools">
+            <div class="card-icon">🤖</div>
+            <h3>AI 小工具</h3>
+            <p>智能计算工具集，包括电池寿命计算器、功率计算器等</p>
+        </a>
+
+        <a href="docs/monitoring-system.html" class="card">
+            <div class="card-icon">📊</div>
+            <h3>监测系统</h3>
+            <p>在线监测系统架构、传感器选型、数据采集与传输技术</p>
+        </a>
+
+        <a href="docs/fault-diagnosis.html" class="card">
+            <div class="card-icon">🔍</div>
+            <h3>故障诊断</h3>
+            <p>电力设备故障诊断方法、特征提取、智能诊断算法</p>
+        </a>
+
+        <a href="docs/data-analysis.html" class="card">
+            <div class="card-icon">📈</div>
+            <h3>数据分析</h3>
+            <p>大数据分析、机器学习在电力监测中的应用</p>
+        </a>
+
+        <a href="docs/communication.html" class="card">
+            <div class="card-icon">📡</div>
+            <h3>通信技术</h3>
+            <p>电力通信协议、物联网技术、5G在电力系统中的应用</p>
+        </a>
+
+        <a href="docs/standards.html" class="card">
+            <div class="card-icon">📋</div>
+            <h3>标准规范</h3>
+            <p>电力行业相关标准、技术规范、检测规程</p>
+        </a>
+    </main>
+
+    <footer>
+        <p>© 2026 电力在线监测知识库</p>
+    </footer>
+</body>
+</html>
