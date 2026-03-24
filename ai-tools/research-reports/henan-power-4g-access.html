@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豫电无源测温 · 4G接入国网平台方案（含安全网关）</title>
+    <!-- Font Awesome for icons (v6 free via CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fc;
+            color: #1e2b45;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 20, 60, 0.25);
+            overflow: hidden;
+            padding: 2rem 2.5rem;
+        }
+
+        /* header section */
+        .header {
+            border-bottom: 3px solid #eef2f6;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0b3b5c, #1f5e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .header .badge {
+            background: #eef7ff;
+            color: #1a5d9c;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 1rem;
+            border: 1px solid #c7dfff;
+            margin-left: auto;
+        }
+
+        .subhead {
+            display: flex;
+            gap: 0.8rem;
+            color: #406e96;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 0.3rem;
+        }
+
+        .subhead i {
+            color: #2b8c5e;
+        }
+
+        /* 架构图 (可视流程) */
+        .architecture {
+            background: #f0f6fe;
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            margin: 2rem 0 3rem 0;
+            border: 1px solid #d9e8f5;
+        }
+
+        .arch-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #134b75;
+            margin-bottom: 1.8rem;
+        }
+
+        .flow-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem 1rem;
+        }
+
+        .flow-node {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.8rem;
+            min-width: 160px;
+            text-align: center;
+            box-shadow: 0 8px 18px -6px rgba(0,50,80,0.15);
+            border: 1px solid rgba(60, 130, 200, 0.2);
+            transition: all 0.2s;
+        }
+
+        .flow-node i {
+            font-size: 2rem;
+            color: #2266aa;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .flow-node .node-label {
+            font-weight: 600;
+            color: #0b3b5c;
+            font-size: 1rem;
+        }
+
+        .flow-node .node-desc {
+            font-size: 0.85rem;
+            color: #4f6f8f;
+            margin-top: 0.2rem;
+        }
+
+        .flow-arrow {
+            font-size: 2.2rem;
+            color: #3070aa;
+            font-weight: 300;
+            margin: 0 0.2rem;
+        }
+
+        /* 左右分区 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin: 2.5rem 0;
+        }
+
+        @media (max-width: 800px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 8px 25px -10px rgba(0,35,70,0.12);
+            border: 1px solid #e7edf5;
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #103a5c;
+            border-left: 6px solid #2b8c5e;
+            padding-left: 1.2rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-list li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: #1b5e8a;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .step-content h3 {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #113355;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-content p {
+            color: #2c405a;
+            font-size: 0.98rem;
+        }
+
+        .tech-tag {
+            background: #e1effb;
+            border-radius: 30px;
+            padding: 0.25rem 1rem;
+            font-size: 0.85rem;
+            color: #135b8e;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* 数据格式卡片 */
+        .code-block {
+            background: #0a1c2f;
+            color: #bcd9f0;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.2rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin: 1.5rem 0 0.5rem 0;
+            border: 1px solid #264a6b;
+        }
+
+        .interface-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .interface-table td {
+            padding: 0.7rem 0.2rem;
+            border-bottom: 1px dashed #bdd3e8;
+        }
+
+        .interface-table tr:last-child td {
+            border: none;
+        }
+
+        .key-badge {
+            background: #1d4663;
+            color: white;
+            border-radius: 16px;
+            padding: 0.2rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .note-box {
+            background: #fef7e8;
+            border-left: 6px solid #f3b33d;
+            padding: 1.2rem 1.8rem;
+            border-radius: 1rem;
+            margin: 2rem 0 1rem;
+            color: #4f3f1a;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            text-align: center;
+            color: #4d6a87;
+            border-top: 2px dashed #cbdae9;
+            padding-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-note i {
+            color: #2780c5;
+        }
+
+        /* 国网色调点缀 */
+        .sgcc-color {
+            color: #1b4c6e;
+        }
+
+        .btn-outline-sg {
+            border: 1px solid #3070aa;
+            background: transparent;
+            border-radius: 30px;
+            padding: 0.3rem 1.2rem;
+            color: #1f5882;
+            font-size: 0.9rem;
+        }
+
+        .grid-mini {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+        }
+        .grid-mini div {
+            background: #e9f1fa;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 600px) {
+            .container { padding: 1.5rem; }
+            .flow-node { min-width: 120px; padding: 0.8rem; }
+            .flow-arrow { font-size: 1.5rem; }
+        }
+
+        /* 新加的厂家标签样式 */
+        .vendor-tag {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.5rem 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,40,70,0.08);
+            border: 1px solid #c7dfff;
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+        .vendor-tag strong {
+            color: #103a5c;
+        }
+        .vendor-tag span {
+            color: #3c6e9c;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 头部区域 -->
+    <div class="header">
+        <div>
+            <h1><i class="fas fa-bolt" style="color: #e6a017; margin-right: 10px;"></i>豫电·无源无线测温</h1>
+            <div class="subhead">
+                <i class="fas fa-rss"></i> RFID手持机采集 & 4G回传
+                <span style="margin: 0 8px">|</span>
+                <i class="fas fa-cloud-upload-alt"></i> 河南省国网平台接入
+            </div>
+        </div>
+        <div class="badge"><i class="fas fa-check-circle"></i> 国网IoT标准 · 安全接入</div>
+    </div>
+
+    <!-- 可视化架构流程图 -->
+    <div class="architecture">
+        <div class="arch-title">
+            <i class="fas fa-project-diagram" style="font-size: 1.8rem;"></i> 
+            <span>数据链路全景 (手持机→河南国网平台)</span>
+        </div>
+        <div class="flow-grid">
+            <div class="flow-node">
+                <i class="fas fa-temperature-high"></i>
+                <div class="node-label">RFID无源传感器</div>
+                <div class="node-desc">温度标签 · 902-928MHz</div>
+            </div>
+            <span class="flow-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+            <div class="flow-node">
+                <i class="fas fa-mobile-alt"></i>
+                <div class="node-label">智能手持机</div>
+                <div class="node-desc">采集+处理+4G模块</div>
+            </div>
+            <span class="flow-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+            <div class="flow-node">
+                <i class="fas fa-broadcast-tower"></i>
+                <div class="node-label">4G基站</div>
+                <div class="node-desc">公网/电力专网APN</div>
+            </div>
+            <span class="flow-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+            <div class="flow-node">
+                <i class="fas fa-shield-alt"></i>
+                <div class="node-label">安全接入网关</div>
+                <div class="node-desc">国网加密隧道</div>
+            </div>
+            <span class="flow-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+            <div class="flow-node" style="background: #e1effb; border-color: #3070aa;">
+                <i class="fas fa-database" style="color: #0f3d5e;"></i>
+                <div class="node-label">河南省国网物管平台</div>
+                <div class="node-desc">数据中台/物联网中心</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem; color: #15507b; font-size: 0.95rem;">
+            <i class="fas fa-lock" style="margin-right: 6px;"></i> 全程TLS加密 + 国网数字证书双向认证 
+        </div>
+    </div>
+
+    <!-- 核心内容： 技术路径 + 接入方法 两列布局 -->
+    <div class="two-col">
+        <!-- 左侧：技术路径 (详细步骤) -->
+        <div class="card">
+            <h2><i class="fas fa-cogs" style="margin-right: 12px; color:#2b8c5e;"></i> 技术路径</h2>
+            <ul class="step-list">
+                <li>
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h3>RFID 无源触发 & 读取</h3>
+                        <p>手持机发射射频能量唤醒无源测温标签，标签反向散射携带温度（通常带传感器ID、温度数据、CRC）。符合EPC C1G2或GB/T 29768标准。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h3>边缘处理与规约转换</h3>
+                        <p>手持机内嵌中间件，将原始数据封装为JSON格式，添加设备指纹、采集时间、信号强度，按国网物模型规范（《电力物联网信息模型》）映射字段。</p>
+                        <span class="tech-tag">MQTT/CoAP 协议适配</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <h3>4G网络建立 & 专线APN</h3>
+                        <p>手持机SIM卡配置专用APN（如 sgcc.ha.china），通过4G附着获取私网IP，并自动与河南国网接入网关建立VPN或专线隧道。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <h3>传输层安全 (TLS 1.3 / 国密)</h3>
+                        <p>采用双向证书验证。手持机加载国网颁发的设备证书，连接平台接入服务器，协商加密套件（支持SM2/SM3/SM4）。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                        <h3>数据上行至河南国网平台</h3>
+                        <p>通过MQTT over TLS 发布消息至指定topic（如 /sgcc/ha/device/thermo/{devId}/up）。平台返回ACK，完成一次可靠传输。</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="grid-mini">
+                <div><i class="fas-regular fa-clock"></i> 实时/周期上报</div>
+                <div><i class="fas fa-thermometer-half"></i> 测温精度±0.5℃</div>
+                <div><i class="fas fa-id-card"></i> 国网物模型V3.0</div>
+            </div>
+        </div>
+
+        <!-- 右侧：接入方法（详细对接 + 安全网关厂家） -->
+        <div class="card">
+            <h2><i class="fas fa-plug" style="margin-right: 12px; color:#1f6e43;"></i> 接入方法·对接细则</h2>
+            <ul class="step-list">
+                <li>
+                    <span class="step-number" style="background: #2b8c5e;">①</span>
+                    <div class="step-content">
+                        <h3>设备注册 & 凭证分发</h3>
+                        <p>联系河南省国网物联网运营中心，提交手持机唯一标识（IMEI/MAC），申请设备ID和数字证书（pfx格式）。在国网“物联管理平台”录入产品模型。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number" style="background: #2b8c5e;">②</span>
+                    <div class="step-content">
+                        <h3>手持机网络参数配置</h3>
+                        <p>设置APN: <code style="background: #e3ecf3; padding: 0.2rem 0.6rem; border-radius: 12px;">sgcc.ha.iot</code> , 平台地址: <code>218.28.xx.xx</code> 或域名 <code>iot.ha.sgcc.com</code>，端口：8883（MQTTS）。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number" style="background: #2b8c5e;">③</span>
+                    <div class="step-content">
+                        <h3>数据格式 & 主题规范</h3>
+                        <p>遵循《国网河南电力物联网感知层接入规范》，Payload示例见右框。发布主题：<span class="key-badge">/ha/v1/thermo/upload</span>，心跳主题：<span class="key-badge">/ha/v1/thermo/heart</span>。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number" style="background: #2b8c5e;">④</span>
+                    <div class="step-content">
+                        <h3>安全配置与测试</h3>
+                        <p>导入根证书 (ca.crt)、设备证书及私钥，采用TLS双向认证。使用MQTT.fx或手持机调试工具模拟登录，订阅下行topic验证连通性。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number" style="background: #2b8c5e;">⑤</span>
+                    <div class="step-content">
+                        <h3>投运 & 运维监控</h3>
+                        <p>完成对接测试后，手持机进入正式运行。平台提供北向接口数据推送至河南省调、D5000系统。建议启用断点续传+本地存储。</p>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- ========= 新增：安全接入网关详解与主流厂家 ========= -->
+            <hr style="margin: 1.8rem 0 1.5rem 0; border: 1px dashed #c7dfff;">
+            <div>
+                <h4 style="display: flex; align-items: center; gap: 0.5rem; color: #144369; font-size: 1.2rem; margin-bottom: 0.8rem;">
+                    <i class="fas fa-shield-alt" style="color: #1f6e43;"></i> 安全接入网关 · 定义与主流厂家
+                </h4>
+                <p style="font-size: 0.96rem; color: #2f587b; margin-bottom: 1rem;">
+                    安全接入网关是部署在电力物联网边界的“安全门禁”，负责设备身份认证、数据加密和网络隔离。国网统一选型，河南省内项目通常采用以下厂家设备：
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem;">
+                    <div class="vendor-tag"><strong>许继电气</strong> <span>(河南本土，适配电鸿)</span></div>
+                    <div class="vendor-tag"><strong>国网信通产业集团</strong> <span>(信创产品)</span></div>
+                    <div class="vendor-tag"><strong>北京国泰网信</strong> <span>(密码技术，多省部署)</span></div>
+                    <div class="vendor-tag"><strong>国电南瑞</strong> <span>(国网核心，网关认证)</span></div>
+                </div>
+                <div style="background: #eef4fa; padding: 0.8rem 1.2rem; border-radius: 1.5rem; font-size: 0.92rem; color: #13507c;">
+                    <i class="fas fa-info-circle" style="margin-right: 6px;"></i> 
+                    <strong>对接提示：</strong>技术对接时河南九域腾龙会指定具体网关型号，并提供IP、端口及证书参数。上述厂家均为国网系统内广泛应用的供应商，实际以项目要求为准。
+                </div>
+            </div>
+            <!-- ========= 结束：安全网关内容 ========= -->
+
+            <table class="interface-table" style="margin-top: 1.8rem;">
+                <tr><td><strong>接入协议</strong></td><td>MQTT 3.1.1 (首选) / CoAP + DTLS</td></tr>
+                <tr><td><strong>传输层</strong></td><td>TCP/443 (MQTTS) 或 UDP/5684</td></tr>
+                <tr><td><strong>数据编码</strong></td><td>UTF-8 JSON 或 TLV (国网扩展)</td></tr>
+                <tr><td><strong>心跳间隔</strong></td><td>60秒，心跳内容携带电池电量</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 数据格式示例 及 安全说明卡片 (原安全要素整合后保留右侧, 左侧不变) -->
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 1.5rem 0;">
+        <div style="flex: 1.3; min-width: 300px;">
+            <div style="background: #e2f0fa; border-radius: 1.5rem; padding: 1.5rem; height: 100%;">
+                <h3 style="margin-bottom: 1rem; color: #144369;"><i class="fas fa-file-code" style="margin-right: 8px;"></i> 国网河南标准上行JSON示例</h3>
+                <div class="code-block">
+{
+  "deviceId": "HA3715R20240086",
+  "timestamp": "2026-03-13T10:28:36+08:00",
+  "dataType": "temperature",
+  "sensors": [
+    {
+      "sensorId": "RFID-A-2217",
+      "value": 48.6,
+      "unit": "℃",
+      "rssi": -62,
+      "battery": "passive"
+    },
+    {
+      "sensorId": "RFID-B-3305",
+      "value": 51.2,
+      "unit": "℃",
+      "rssi": -58
+    }
+  ],
+  "gwInfo": {
+    "model": "HT-600Pro",
+    "fwVersion": "V2.1.3",
+    "signalLevel": 0.8
+  }
+}
+                </div>
+                <p style="font-size: 0.9rem; color: #2f587b; margin-top: 0.6rem;"><i class="fas fa-check-circle" style="color:#2b8c5e;"></i> 符合国网物联网信息模型（温度/湿度/设备模型）</p>
+            </div>
+        </div>
+        <div style="flex: 1; min-width: 260px;">
+            <div style="background: #f0f7fc; border-radius: 1.5rem; padding: 1.5rem; height: 100%;">
+                <h3 style="margin-bottom: 1rem; color: #144369;"><i class="fas fa-shield-virus" style="margin-right: 8px;"></i> 安全接入要素</h3>
+                <ul style="list-style-type: none;">
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-key" style="color:#1b6b4c; width: 24px;"></i> <strong>双向TLS认证</strong> — 平台验设备证书，设备验平台证书</li>
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-microchip" style="color:#1b6b4c;"></i> <strong>硬件加密</strong> — 手持机SE安全单元存储私钥</li>
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-phone-alt" style="color:#1b6b4c;"></i> <strong>专网APN+VPN</strong> — 与公网隔离，可选IPSec</li>
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-history" style="color:#1b6b4c;"></i> <strong>防重放 & 时间戳</strong> — 携带timestamp，消息唯一ID</li>
+                </ul>
+                <div class="note-box" style="margin: 1rem 0 0 0; background: #dfecf5; border-left-color: #1e6f9c;">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i> 若采用国密，需使用支持SM2/3/4的SDK，并与平台侧协商。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 重要提醒 / 国网河南省平台对接说明 -->
+    <div class="note-box" style="background: #e1f0fa; border-left-color: #0f4c81;">
+        <i class="fas fa-map-pin" style="margin-right: 12px; color: #0f4c81;"></i> 
+        <strong>河南省国网平台接入关键点：</strong> 手持机必须提前在“国网河南电力物联网设备注册系统”中完成备案，获取平台侧生成的唯一设备秘钥。目前生产环境接入地址为 <code style="background: #c4daf0;">mqtts://iot.ha.sgcc.com.cn:8883</code>，测试环境为 <code style="background: #c4daf0;">59.69.xx.xx</code> 。首次对接需提交对接申请单（省公司科信部）。建议采用MQTT 5.0 特性支持会话延续。
+    </div>
+
+    <!-- 底部总结 + 专家建议 -->
+    <div class="footer-note">
+        <i class="fas fa-chart-line" style="font-size: 1.6rem; opacity: 0.8; margin-bottom: 0.5rem; display: block;"></i>
+        <p>专家建议：部署前进行现场信号测试及4G网络覆盖评估。手持机需具备本地存储（≥1000条），防止网络中断数据丢失。<br>
+        河南省国网平台已集成温度趋势分析模块，数据接入后可自动触发告警阈值（如>80℃）。本方案完全遵循《Q/GDW 12041-2022 电力物联网感知层设备接入技术导则》。</p>
+        <div style="margin-top: 1.2rem;">
+            <span class="btn-outline-sg"><i class="far fa-file-pdf"></i> 下载接入规范手册</span>
+            <span class="btn-outline-sg" style="margin-left: 1rem;"><i class="fas fa-headset"></i> 国网河南物联中心：0371-6790xxxx</span>
+        </div>
+        <p style="margin-top: 1.5rem; font-size: 0.85rem;">© 电力行业在线监测专家 · 版本 2.8 (含安全接入网关厂家名录)</p>
+    </div>
+</div>
+</body>
+</html>

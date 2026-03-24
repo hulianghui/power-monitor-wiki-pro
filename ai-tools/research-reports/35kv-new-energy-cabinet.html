@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>35kV新能源 · 中置柜配置 (光伏/风电)</title>
+    <!-- Font Awesome 6 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #e8f0f5;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .dashboard {
+            max-width: 1500px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 3rem 3rem 2rem 2rem;
+            box-shadow: 0 30px 45px -20px #1b4b5e;
+            padding: 2rem 2rem 2.5rem 2rem;
+            border: 1px solid rgba(70, 130, 180, 0.2);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            color: #0f3b4f;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 0.3rem;
+            flex-wrap: wrap;
+        }
+        h1 i {
+            color: #f39c12; /* 新能源金色/橙色 */
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 4px rgba(243,156,18,0.4));
+        }
+        .subhead {
+            font-size: 1.1rem;
+            color: #235e7a;
+            margin-bottom: 2rem;
+            border-left: 6px solid #f39c12;
+            padding-left: 1.2rem;
+            background: #ecf3f9;
+            border-radius: 0 20px 20px 0;
+            padding: 0.8rem 1.8rem;
+            width: fit-content;
+        }
+        .legend-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.2rem;
+            align-items: center;
+            background: #e3edf5;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2.2rem;
+            font-weight: 500;
+            border: 1px solid #b3cfdf;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1a495a;
+        }
+        .legend-item i {
+            font-size: 1.3rem;
+        }
+        .red-dot-custom {
+            color: #d43f34;
+        }
+        .bus-grey {
+            background: #608a9f;
+            width: 40px;
+            height: 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .badge-new {
+            background: #f39c12;
+            color: #1e3b47;
+            border-radius: 40px;
+            padding: 0.2rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        /* 母线区域 (带双向电流) */
+        .busbar-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0 6px;
+        }
+        .busbar-label {
+            background: #2a6d8c;
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            margin-right: 1rem;
+            white-space: nowrap;
+            border: 1px solid #1a4f68;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .busbar-visual {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .busbar-arrows {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+            color: #f39c12;
+            font-weight: bold;
+            padding: 0 8px;
+        }
+        .arrow-left, .arrow-right {
+            background: rgba(243, 156, 18, 0.15);
+            border-radius: 40px;
+            padding: 2px 14px;
+        }
+        .arrow-text {
+            background: #eed7b0;
+            color: #7b4d1a;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .busbar-line {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #608a9f;
+            height: 20px;
+            border-radius: 30px;
+            border: 1px solid #3f6c84;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        .busbar-dot-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding: 0 12px;
+        }
+        .busbar-dot {
+            width: 28px;
+            height: 28px;
+            background: #d43f34;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            box-shadow: 0 0 0 3px rgba(243,156,18,0.3);
+            border: 2px solid #faeac9;
+            margin-top: -4px;
+            position: relative;
+            z-index: 3;
+        }
+        .busbar-dot i {
+            font-size: 0.7rem;
+        }
+        .busbar-dot:hover::after {
+            content: "母线连接点 🔗 测温";
+            position: absolute;
+            top: -34px;
+            background: #0d3445;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 24px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+        /* 柜体卡片 */
+        .cabinet-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: flex-start;
+            margin-top: 20px;
+        }
+        .cabinet-card {
+            flex: 0 0 210px;
+            background: #ffffff;
+            border-radius: 30px 30px 20px 20px;
+            border: 2px solid #aac3d4;
+            box-shadow: 0 10px 16px -8px rgba(19, 62, 82, 0.3);
+            transition: all 0.15s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .cabinet-card:hover {
+            transform: translateY(-6px);
+            border-color: #f39c12;
+            box-shadow: 0 25px 25px -12px #b36d1e80;
+        }
+        .card-header {
+            background: linear-gradient(145deg, #19526b, #0f3d54);
+            color: white;
+            padding: 12px 6px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-bottom: 3px solid #f39c12;
+        }
+        .card-header i {
+            margin-right: 6px;
+            color: #ffd966;
+        }
+        .card-sub {
+            background: #dfecf3;
+            color: #134257;
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            text-align: center;
+            border-bottom: 1px dashed #91b1c5;
+            font-weight: 500;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-body {
+            padding: 14px 10px 12px;
+            background: #f9fcff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .part-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem;
+            background: white;
+            padding: 4px 8px 4px 5px;
+            border-radius: 40px;
+            border: 1px solid #d0e0eb;
+        }
+        .temp-indicator {
+            color: #d43f34;
+            width: 24px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .part-text {
+            color: #103b4c;
+            font-weight: 500;
+            flex: 1;
+        }
+        .no-temp .temp-indicator {
+            color: #7f99ae;
+        }
+        .card-footer {
+            background: #e1eef7;
+            padding: 6px 8px;
+            font-size: 0.7rem;
+            color: #1f5975;
+            text-align: center;
+            border-top: 1px dashed #87b0c7;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .current-tag {
+            background: #f39c12;
+            color: #1b3b47;
+            border-radius: 30px;
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .note-box {
+            margin-top: 3rem;
+            background: #fff1d2;
+            border-radius: 30px;
+            padding: 1.3rem 2rem;
+            border: 1px solid #f3b456;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .note-box i {
+            font-size: 2.2rem;
+            color: #c9760e;
+        }
+        .footnote {
+            color: #2b607a;
+            font-size: 0.9rem;
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        hr {
+            border: 1px solid #bfd8e7;
+            margin: 2rem 0 1rem;
+        }
+        .energy-badge {
+            background: #f1c40f;
+            color: #1f4a5c;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <h1>
+        <i class="fas fa-solar-panel"></i> 
+        35kV 新能源中置柜配置 (光伏/风电)
+        <span class="energy-badge"><i class="fas fa-bolt"></i> KYN61-40.5 型</span>
+    </h1>
+    <div class="subhead">
+        <i class="fas fa-temperature-high" style="color: #d43f34;"></i> 红色温度计/红点表示建议测温点（触头、母线连接、电缆接头）
+        <span style="margin-left: 15px;"><i class="fas fa-arrows-left-right" style="color: #f39c12;"></i> 双向电流（新能源波动）</span>
+    </div>
+
+    <!-- 图例 -->
+    <div class="legend-panel">
+        <span class="legend-item"><i class="fas fa-circle red-dot-custom"></i> 测温点</span>
+        <span class="legend-item"><span class="bus-grey"></span> 35kV 主母线</span>
+        <span class="legend-item"><i class="fas fa-arrow-right" style="color:#c47d0f;"></i> <i class="fas fa-arrow-left" style="color:#c47d0f;"></i> 电流方向(双向)</span>
+        <span class="legend-item"><i class="fas fa-info-circle"></i> 卡片灰底文字 = 柜体功能</span>
+        <span class="badge-new"><i class="fas fa-leaf"></i> 新能源专用</span>
+    </div>
+
+    <!-- 母线排 (电流双向, 适应新能源发电/用电) -->
+    <div class="busbar-section">
+        <div class="busbar-label"><i class="fas fa-charging-station"></i> 35kV 母线</div>
+        <div class="busbar-visual">
+            <div class="busbar-arrows">
+                <span class="arrow-left"><i class="fas fa-arrow-left"></i> 至升压变/电网</span>
+                <span class="arrow-text">⚡ 双向潮流 (新能源波动)</span>
+                <span class="arrow-right">至集电线路/场区 <i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="busbar-line">
+                <div class="busbar-dot-container">
+                    <!-- 9个红点对应下方9个柜子 (增加至9个以适应新能源配置) -->
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 柜体卡片行 (35kV新能源典型配置) -->
+    <div class="cabinet-row">
+        <!-- 1. 主变进线柜 (来自升压变/电网) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-tower-cell"></i> 主变进线</div>
+            <div class="card-sub">🔌 连接主变压器 · 电源总入口/出口</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头/静触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">下触头/断路器</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆/母线连接点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag"><i class="fas fa-arrows-left-right"></i> 双向</span></div>
+        </div>
+        <!-- 2. 光伏进线柜 (来自光伏阵列/逆变器) 有时光伏直接进线，也可用集电线路代替 -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-sun"></i> 光伏进线</div>
+            <div class="card-sub">☀️ 光伏阵列汇集 · 直流逆变后交流进线</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头/断路器侧</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆接线头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">避雷器接点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag"><i class="fas fa-arrow-right"></i> 流向母线</span></div>
+        </div>
+        <!-- 3. 风电进线柜 (来自风机箱变) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-fan"></i> 风电进线</div>
+            <div class="card-sub">🌬️ 风场集电线路 · 多台风机汇流</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头/静触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电流互感器接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆终端</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag"><i class="fas fa-arrow-right"></i> 流向母线</span></div>
+        </div>
+        <!-- 4. 无功补偿柜 (SVG/电容器组) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-wave-square"></i> SVG柜</div>
+            <div class="card-sub">⚡ 无功补偿 · 稳定电压</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">功率模块连接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电抗器接头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">断路器触头</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag"><i class="fas fa-arrows-left-right"></i> 双向</span></div>
+        </div>
+        <!-- 5. 接地变柜 (兼站用变) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-earth-asia"></i> 接地变柜</div>
+            <div class="card-sub">🛡️ 中性点接地 + 站用电</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">高压熔断器座</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">接地电阻连接</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">变压器进线</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag">单侧</span></div>
+        </div>
+        <!-- 6. PT柜 (电压测量/同期) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-chart-line"></i> PT柜</div>
+            <div class="card-sub">📈 电压互感器 · 测量/保护</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">PT手车触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">一次熔断器</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">避雷器接点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag">通过</span></div>
+        </div>
+        <!-- 7. 计量柜 (发电量计量) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-calculator"></i> 计量柜</div>
+            <div class="card-sub">💰 发电量/上网电量计量</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电流互感器接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电压互感器接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">转接排</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag">通过</span></div>
+        </div>
+        <!-- 8. 母联柜 (分段母线联络) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-link"></i> 母联柜</div>
+            <div class="card-sub">🔗 连接I段/II段母线</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">左母线触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">右母线触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">断路器触头</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag"><i class="fas fa-arrows-left-right"></i> 双向</span></div>
+        </div>
+        <!-- 9. 隔离柜 (检修隔离) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-shield-halved"></i> 隔离柜</div>
+            <div class="card-sub">🔒 隔离电压 · 保证安全</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">隔离刀触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">接地刀接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">母线贯穿点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3测温 <span class="current-tag">无流</span></div>
+        </div>
+    </div>
+
+    <!-- 新能源特有说明 -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; background: #e2f0f9; border-radius: 40px; padding: 1.8rem 2rem; margin: 2rem 0;">
+        <div style="flex: 2;">
+            <h3 style="color: #144d66;"><i class="fas fa-wind" style="color: #2b7d8c;"></i> 35kV新能源中置柜特点</h3>
+            <ul style="list-style: none; line-height: 2.2;">
+                <li><i class="fas fa-check-circle" style="color: #f39c12;"></i> 进线可能来自主变、光伏集电线路、风机集电线路。</li>
+                <li><i class="fas fa-check-circle" style="color: #f39c12;"></i> 包含 SVG 柜（无功补偿）、接地变柜（兼站用变）等新能源专用柜。</li>
+                <li><i class="fas fa-check-circle" style="color: #f39c12;"></i> 电流方向可能双向（发电经主变上网，或电网倒送电）。</li>
+                <li><i class="fas fa-temperature-high" style="color: #d43f34;"></i> 测温点仍集中在触头、电缆接头、母线连接处，特别是 SVG 功率模块连接点易发热。</li>
+            </ul>
+        </div>
+        <div style="flex:1; background: #f9e9cf; border-radius: 30px; padding: 1.5rem; border: 1px solid #f1b752;">
+            <span style="font-weight: 700;"><i class="fas fa-leaf"></i> 新能源小贴士</span>
+            <p style="margin-top: 12px;">• 光伏/风电出力波动大，设备易热疲劳，更需监测<br>• 35kV 中置柜通常采用 KYN61-40.5 型<br>• 接地变、SVG 柜属于新能源场站标配</p>
+        </div>
+    </div>
+
+    <!-- 解释说明 -->
+    <div class="note-box">
+        <i class="fas fa-lightbulb"></i>
+        <div class="note-text">
+            <strong>🧭 看图指引：</strong> 每个柜顶的红点是母线连接测温点；卡片内带 <i class="fas fa-temperature-high" style="color:#d43f34;"></i> 的项目需要测温。灰色文字是柜子功能，箭头表示电流流向（双向适应新能源）。
+        </div>
+    </div>
+    <div class="footnote">
+        <span><i class="far fa-check-circle" style="color: #2e7d32;"></i> 基于典型35kV新能源升压站中置柜配置</span>
+        <span><i class="fas fa-cubes"></i> 9台柜：主变进+光伏进+风电进+SVG+接地变+PT+计量+母联+隔离</span>
+    </div>
+</div>
+<!-- 底部说明 -->
+<div style="max-width:1500px; margin-top:20px; color: #286482; padding-left:20px;">
+    <i class="fas fa-arrow-up"></i> 红点均为推荐测温位置 (母线连接点 / 触头 / 电缆头)，可安装无线测温传感器。
+</div>
+</body>
+</html>

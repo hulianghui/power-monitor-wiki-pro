@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配电房中置柜 · 电流流向+功能说明（小白友好）</title>
+    <!-- Font Awesome 6 (免费) 用于图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .dashboard {
+            max-width: 1400px;
+            width: 100%;
+            background: white;
+            border-radius: 2.5rem 2.5rem 2rem 2rem;
+            box-shadow: 0 25px 40px -15px rgba(0, 20, 30, 0.3);
+            padding: 2rem 2rem 2.5rem 2rem;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #0b2b3b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.02em;
+            flex-wrap: wrap;
+        }
+        h1 i {
+            color: #d43f34;
+            font-size: 2.4rem;
+        }
+        .subhead {
+            font-size: 1.1rem;
+            color: #2c4b5c;
+            margin-bottom: 2.2rem;
+            border-left: 5px solid #d43f34;
+            padding-left: 1.2rem;
+            background: #eef2f6;
+            border-radius: 0 12px 12px 0;
+            line-height: 1.5;
+            width: fit-content;
+            padding: 0.6rem 1.5rem 0.6rem 1.2rem;
+        }
+        .legend-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            background: #e6edf3;
+            border-radius: 40px;
+            padding: 0.9rem 2rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            border: 1px solid #cbd6e3;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            color: #103544;
+        }
+        .legend-item i {
+            font-size: 1.3rem;
+        }
+        .legend-item .red-dot {
+            color: #d43f34;
+        }
+        .legend-item .grey-bus {
+            background: #5f7d95;
+            width: 40px;
+            height: 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .badge-temp {
+            background: #d43f34;
+            color: white;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        /* 母线排 (带电流方向) */
+        .busbar-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0 6px;
+        }
+        .busbar-label {
+            font-weight: 600;
+            color: #1d4b63;
+            background: #cbdde9;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+            white-space: nowrap;
+            border: 1px solid #9bb7cc;
+        }
+        .busbar-visual {
+            flex: 1;
+            display: flex;
+            flex-direction: column;  /* 让箭头在上方，母线在下方 */
+            position: relative;
+        }
+        .busbar-arrows {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 10px;
+            margin-bottom: 4px;
+            color: #d43f34;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        .arrow-left, .arrow-right {
+            background: rgba(212, 63, 52, 0.1);
+            border-radius: 40px;
+            padding: 0 8px;
+            line-height: 1;
+        }
+        .arrow-text {
+            font-size: 0.85rem;
+            background: #f0b8b0;
+            padding: 2px 12px;
+            border-radius: 40px;
+            color: #891f16;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .busbar-line {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #a1b9cb; 
+            height: 18px;
+            border-radius: 30px;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #6f8fa8;
+            width: 100%;
+        }
+        .busbar-dot-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding: 0 12px;
+        }
+        .busbar-dot {
+            width: 26px;
+            height: 26px;
+            background: #d43f34;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            box-shadow: 0 0 0 3px rgba(212,63,52,0.2), 0 4px 8px rgba(0,0,0,0.2);
+            border: 2px solid #ffe5d0;
+            margin-top: -4px;
+            position: relative;
+            z-index: 3;
+        }
+        .busbar-dot i {
+            font-size: 0.7rem;
+        }
+        .busbar-dot:hover::after {
+            content: "母线连接点 🔗 测温";
+            position: absolute;
+            top: -30px;
+            background: #103544;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+        /* 柜体卡片网格布局 */
+        .cabinet-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: flex-start;
+            margin-top: 16px;
+        }
+        .cabinet-card {
+            flex: 0 0 200px;          /* 稍微加宽一点给文字 */
+            background: #ffffff;
+            border-radius: 30px 30px 20px 20px;
+            border: 2px solid #adc4d8;
+            box-shadow: 0 10px 15px -5px rgba(20, 50, 70, 0.2);
+            transition: all 0.15s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .cabinet-card:hover {
+            transform: translateY(-6px);
+            border-color: #d43f34;
+            box-shadow: 0 24px 24px -12px rgba(180, 60, 40, 0.4);
+        }
+        .card-header {
+            background: linear-gradient(145deg, #1d4b63, #0f3448);
+            color: white;
+            padding: 12px 6px 8px 6px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-bottom: 3px solid #d43f34;
+            position: relative;
+        }
+        .card-header i {
+            margin-right: 6px;
+            color: #ffc857;
+        }
+        .card-sub {
+            background: #e7edf3;
+            color: #0f3a4b;
+            font-size: 0.78rem;
+            padding: 5px 8px;
+            text-align: center;
+            border-bottom: 1px dashed #a0bccf;
+            font-weight: 500;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-body {
+            padding: 14px 10px 12px 10px;
+            background: #f9fcff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .part-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            background: white;
+            padding: 4px 8px 4px 6px;
+            border-radius: 40px;
+            border: 1px solid #dde6ef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .temp-indicator {
+            color: #d43f34;
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+            filter: drop-shadow(0 2px 3px rgba(212,63,52,0.3));
+        }
+        .part-text {
+            color: #13303f;
+            font-weight: 500;
+            flex: 1;
+            font-size: 0.88rem;
+        }
+        .no-temp {
+            opacity: 0.5;
+        }
+        .no-temp .temp-indicator {
+            color: #7d95a8;
+        }
+        .card-footer {
+            background: #e2ecf5;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+            color: #2b5f7a;
+            text-align: center;
+            border-top: 1px dashed #96b4cb;
+            font-weight: 500;
+        }
+        .card-footer i {
+            color: #d43f34;
+            margin-right: 4px;
+        }
+        /* 额外电流方向标识在卡片顶部 */
+        .current-tag {
+            display: inline-block;
+            background: #ffe3b0;
+            border-radius: 30px;
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #a35100;
+            margin-top: 3px;
+        }
+        .note-box {
+            margin-top: 3rem;
+            background: #fff7e5;
+            border-radius: 28px;
+            padding: 1.4rem 2rem;
+            border: 1px solid #fad98b;
+            color: #3e3a2b;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .note-box i {
+            font-size: 2.5rem;
+            color: #b96f0e;
+        }
+        .note-text {
+            font-size: 1rem;
+        }
+        .note-text strong {
+            color: #b13e2b;
+        }
+        hr {
+            border: 1px solid #c9ddec;
+            margin: 2rem 0 1rem 0;
+        }
+        .footnote {
+            color: #4a677b;
+            font-size: 0.9rem;
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* 方向箭头的显眼样式 */
+        .direction-hint {
+            background: #ffffd0;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #b0540e;
+        }
+        @media (max-width: 1000px) {
+            .cabinet-row { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <h1>
+        <i class="fas fa-bolt"></i> 
+        中置柜配电房 · 一看就懂（电流流向 + 功能）
+        <span style="font-size: 1rem; background: #d43f34; color: white; padding: 0.2rem 1.2rem; border-radius: 30px; margin-left: auto;">KYN28 入门版</span>
+    </h1>
+    <div class="subhead">
+        <i class="fas fa-temperature-high" style="color: #d43f34; margin-right: 10px;"></i> 
+        红色温度计 / 红点 表示建议测温位置 —— 母线连接、触头、电缆接头。<br>
+        <i class="fas fa-arrow-left" style="color: #1e7e34;"></i> <i class="fas fa-arrow-right" style="color: #1e7e34;"></i> 箭头表示电流从进线柜流向母联和出线柜。
+    </div>
+
+    <!-- 图例 (增加方向说明) -->
+    <div class="legend-panel">
+        <span class="legend-item"><i class="fas fa-circle red-dot" style="color: #d43f34;"></i> 测温点</span>
+        <span class="legend-item"><span class="grey-bus"></span> <span>主母线 (贯穿)</span></span>
+        <span class="legend-item"><i class="fas fa-arrow-right" style="color: #2b6c3c;"></i> <i class="fas fa-arrow-left" style="color: #2b6c3c;"></i> 电流方向</span>
+        <span class="legend-item"><i class="fas fa-info-circle"></i> 卡片下方灰字 = 柜子作用</span>
+        <span class="badge-temp">必测点</span>
+    </div>
+
+    <!-- 母线排区域 (带电流方向箭头) 进线柜在左，母联在中间偏右，出线在两侧都有，这里采用左右箭头示意从进线向两侧 -->
+    <div class="busbar-section">
+        <div class="busbar-label"><i class="fas fa-charging-station"></i> 主母线</div>
+        <div class="busbar-visual">
+            <div class="busbar-arrows">
+                <span class="arrow-left"><i class="fas fa-arrow-left"></i> 至左侧负载</span>
+                <span class="arrow-text">电流从进线柜流向两侧</span>
+                <span class="arrow-right">至右侧负载 <i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="busbar-line">
+                <div class="busbar-dot-container">
+                    <!-- 7个红点对应下方7柜 -->
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                    <div class="busbar-dot" title="母线接点测温"><i class="fas fa-temperature-high"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 柜体卡片排列 (每个卡片增加子区域描述功能) -->
+    <div class="cabinet-row">
+        <!-- 柜体1 : 进线柜 (总电源进来) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-arrow-right-to-bracket"></i> 进线柜</div>
+            <div class="card-sub">📥 总电源入口 · 从变压器引来</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头 / 静触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">下触头 / 梅花触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆进出线接头</span></div>
+                <div class="part-item no-temp"><span class="temp-indicator"><i class="fas fa-circle"></i></span><span class="part-text">仪表室 (常规)</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-right"></i> 电流流出到母线</span></div>
+        </div>
+        <!-- 柜体2 : 计量柜 (测量电能) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-chart-simple"></i> 计量柜</div>
+            <div class="card-sub">⚡ 计量电能 · 电流电压采样</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">母线转接排</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电流互感器接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电压互感器熔座</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-right"></i> 电流通过</span></div>
+        </div>
+        <!-- 柜体3 : PT柜 (电压测量/提供操作电源) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-wave-square"></i> PT柜</div>
+            <div class="card-sub">📊 电压互感器 · 提供电压信号</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">PT手车触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">一次熔断器座</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">避雷器连接点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-right"></i> 电流通过</span></div>
+        </div>
+        <!-- 柜体4 : 出线柜1 (馈电到车间/楼栋) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-arrow-right-from-bracket"></i> 出线柜1</div>
+            <div class="card-sub">🏭 给1号车间供电</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头/母线侧</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">下触头/电缆侧</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆接线端子</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-left"></i> 电流从母线来</span></div>
+        </div>
+        <!-- 柜体5 : 出线柜2 (另一个馈电) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-bolt"></i> 出线柜2</div>
+            <div class="card-sub">🏢 给2号厂房供电</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">上触头/断路器</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">下触头/电流互感器</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">电缆接头 + 零序CT</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-left"></i> 电流从母线来</span></div>
+        </div>
+        <!-- 柜体6 : 母联柜 (连接两段母线，通常配合进线使用) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-link"></i> 母联柜</div>
+            <div class="card-sub">🔗 连接两段母线 · 可联络或分段</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">左母线触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">右母线触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">断路器上下触头</span></div>
+                <div class="part-item no-temp"><span class="temp-indicator"><i class="fas fa-circle"></i></span><span class="part-text">(无电缆室)</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrows-left-right"></i> 双向流通</span></div>
+        </div>
+        <!-- 柜体7 : 隔离柜 (检修时断开) -->
+        <div class="cabinet-card">
+            <div class="card-header"><i class="fas fa-shield"></i> 隔离柜</div>
+            <div class="card-sub">🛡️ 隔离电压 · 确保检修安全</div>
+            <div class="card-body">
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">隔离刀触头</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">接地刀连接点</span></div>
+                <div class="part-item"><span class="temp-indicator"><i class="fas fa-temperature-high"></i></span><span class="part-text">母线贯穿点</span></div>
+            </div>
+            <div class="card-footer"><i class="fas fa-temperature-high"></i> 3个测温点 <span class="direction-hint"><i class="fas fa-arrow-right"></i> 无电流通过(隔离)</span></div>
+        </div>
+    </div>
+
+    <!-- 结构说明和电流路径解释 -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; background: #eef5fa; border-radius: 40px; padding: 1.8rem 2rem; margin: 1.8rem 0;">
+        <div style="flex: 2; min-width: 260px;">
+            <h3 style="color: #0f3448; margin-bottom: 12px;"><i class="fas fa-circle-nodes" style="color: #d43f34;"></i> 电流这样流动 👇</h3>
+            <ul style="list-style-type: none; line-height: 2.1;">
+                <li><i class="fas fa-arrow-right" style="color: #2e7d32; width: 22px;"></i> <strong>进线柜</strong>：总电源从这里进入，电流上母线。</li>
+                <li><i class="fas fa-arrow-right" style="color: #2e7d32;"></i> <strong>母线</strong> 像一条主干道，电流向左或向右传输。</li>
+                <li><i class="fas fa-arrow-right" style="color: #2e7d32;"></i> <strong>出线柜</strong>：从母线取电，送给车间/设备。</li>
+                <li><i class="fas fa-arrow-right" style="color: #2e7d32;"></i> <strong>母联柜</strong>：像个开关，可以连通左右两段母线（通常两路进线时用）。</li>
+                <li><i class="fas fa-temperature-high" style="color: #d43f34;"></i> 所有红色 <i class="fas fa-thermometer-half"></i> 点都是容易发热的位置，需要监控温度。</li>
+            </ul>
+        </div>
+        <div style="flex:1; background: #d43f3410; border-radius: 30px; padding: 20px; border: 1px solid #d43f3440;">
+            <span style="font-weight: 700; color: #a3332a;"><i class="fas fa-question-circle"></i> 小白快速入门</span>
+            <p style="margin-top: 10px; font-size: 0.95rem;">• 进线柜 = 总闸入口<br>• 出线柜 = 分闸去各处<br>• 母联柜 = 连接左右两段的“桥梁”<br>• PT/计量柜 = 测量电压/电量的仪表<br>• 隔离柜 = 检修时断开，保护安全</p>
+        </div>
+    </div>
+
+    <!-- 底部提醒 -->
+    <div class="note-box">
+        <i class="fas fa-lightbulb"></i>
+        <div class="note-text">
+            <strong>🧠 看图思路：</strong> 母线（灰色条）上的每个红点都是测温点。柜子卡片里带 <i class="fas fa-temperature-high" style="color: #d43f34;"></i> 的项目也建议测温。箭头告诉你电流从进线柜流向出线柜。
+        </div>
+    </div>
+    <div class="footnote">
+        <span><i class="far fa-check-circle" style="color: #2e8555;"></i> 基于典型KYN28中置柜绘制 · 易懂版</span>
+        <span><i class="fas fa-vector-square"></i> 7台柜：进线+计量+PT+出线×2+母联+隔离</span>
+    </div>
+</div>
+<!-- 补充母线与柜子关系 -->
+<div style="max-width: 1400px; margin-top: 20px; font-size: 0.9rem; color: #375f75; padding-left: 20px;">
+    <i class="fas fa-arrow-up"></i> 每个柜顶红点对应母线连接点测温 — 柜内其他测温点见卡片列表。灰色字是柜子“工作职责”。
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>参数计算器 - 电力在线监测知识库</title>
+    <title>参数计算器 - 在线监测知识库</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         :root {
@@ -66,6 +66,10 @@
             color: var(--text-primary);
             background: rgba(99, 102, 241, 0.1);
         }
+        .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.15);
+        }
         .avatar {
             width: 40px;
             height: 40px;
@@ -101,25 +105,119 @@
             color: var(--text-secondary);
             font-size: 16px;
         }
-        .calculator-grid {
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            color: var(--brand-primary);
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+        }
+        .module-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
             padding-bottom: 60px;
         }
-        .calc-card {
+        .module-card {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .module-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--brand-primary);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+        }
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        .module-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .module-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .keyword {
+            padding: 4px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--brand-primary);
+        }
+        .module-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .module-enter {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            color: var(--brand-primary);
+            font-size: 14px;
+        }
+
+        /* 计算器详情页面 */
+        .calc-detail {
+            display: none;
+            padding-bottom: 60px;
+        }
+        .calc-detail.active {
+            display: block;
+        }
+        .module-list {
+            display: none;
+        }
+        .module-list.active {
+            display: grid;
+        }
+        .calc-header {
+            margin-bottom: 32px;
+        }
+        .calc-header h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .calc-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        .calc-form {
             background: rgba(17, 24, 39, 0.6);
             border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 20px;
             padding: 32px;
-        }
-        .calc-card h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
+            max-width: 600px;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .form-group label {
             display: block;
@@ -129,7 +227,7 @@
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: rgba(10, 14, 26, 0.6);
             border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 12px;
@@ -142,9 +240,14 @@
             border-color: var(--brand-primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
         .calc-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
             border: none;
             border-radius: 12px;
@@ -159,11 +262,11 @@
             box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
         }
         .result-box {
-            margin-top: 20px;
-            padding: 16px;
+            margin-top: 24px;
+            padding: 20px;
             background: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
+            border-radius: 16px;
         }
         .result-box .result-label {
             font-size: 14px;
@@ -171,9 +274,28 @@
             margin-bottom: 8px;
         }
         .result-box .result-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: var(--brand-primary);
+        }
+        .result-box .result-unit {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+        .formula-info {
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .formula-info code {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
         }
         .footer {
             text-align: center;
@@ -202,12 +324,13 @@
     <div class="header">
         <div class="logo" onclick="window.location.href='index.html'">
             <div class="logo-icon">⚡</div>
-            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">在线监测知识库</span>
         </div>
         <nav class="header-nav">
             <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
             <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
             <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item active" onclick="window.location.href='calculator.html'">参数计算</div>
             <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
         </nav>
         <div class="avatar">我</div>
@@ -217,107 +340,610 @@
         <div class="container">
             <div class="hero">
                 <h1>🧮 参数计算器</h1>
-                <p>RFID 和电力监测专业参数计算工具</p>
+                <p>RFID 和在线监测专业参数计算工具</p>
             </div>
             
-            <div class="calculator-grid">
-                <div class="calc-card">
-                    <h3>📡 RFID 读取距离计算</h3>
-                    <div class="form-group">
-                        <label>输出功率 (dBm)</label>
-                        <input type="number" id="power" value="33" min="10" max="36">
+            <!-- 模块列表 -->
+            <div class="module-list active" id="moduleList">
+                <div class="module-card" onclick="showCalculator('rfid-distance')">
+                    <div class="module-icon">📡</div>
+                    <h3>RFID 读取距离计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">发射功率</span>
+                        <span class="keyword">天线增益</span>
+                        <span class="keyword">标签灵敏度</span>
+                        <span class="keyword">自由空间损耗</span>
                     </div>
-                    <div class="form-group">
-                        <label>天线增益 (dBi)</label>
-                        <input type="number" id="antennaGain" value="6" min="0" max="15">
+                    <p class="module-desc">根据发射功率、天线增益和标签灵敏度，估算RFID系统的读取距离。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('temp-accuracy')">
+                    <div class="module-icon">🌡️</div>
+                    <h3>温度精度计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">PT100</span>
+                        <span class="keyword">NTC</span>
+                        <span class="keyword">数字传感器</span>
+                        <span class="keyword">测温误差</span>
                     </div>
-                    <div class="form-group">
-                        <label>标签灵敏度 (dBm)</label>
-                        <input type="number" id="tagSensitivity" value="-20" min="-30" max="-10">
+                    <p class="module-desc">根据传感器类型和环境条件，计算预期测温精度和误差范围。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('signal-loss')">
+                    <div class="module-icon">📶</div>
+                    <h3>信号衰减计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">路径损耗</span>
+                        <span class="keyword">自由空间损耗</span>
+                        <span class="keyword">频率衰减</span>
+                        <span class="keyword">传输距离</span>
                     </div>
-                    <div class="form-group">
-                        <label>频率 (MHz)</label>
-                        <select id="frequency">
-                            <option value="860">860 MHz</option>
-                            <option value="915" selected>915 MHz</option>
-                            <option value="2400">2400 MHz</option>
-                        </select>
+                    <p class="module-desc">计算射频信号在自由空间中的路径损耗，支持不同频段。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('current-capacity')">
+                    <div class="module-icon">⚡</div>
+                    <h3>载流量计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">电缆截面积</span>
+                        <span class="keyword">敷设方式</span>
+                        <span class="keyword">环境温度</span>
+                        <span class="keyword">安全载流量</span>
                     </div>
-                    <button class="calc-btn" onclick="calculateRfidDistance()">计算</button>
+                    <p class="module-desc">根据电缆规格和敷设条件，计算导体安全载流量。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('temp-rise')">
+                    <div class="module-icon">🔥</div>
+                    <h3>温升计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">接触电阻</span>
+                        <span class="keyword">电流热效应</span>
+                        <span class="keyword">焦耳定律</span>
+                        <span class="keyword">温升估算</span>
+                    </div>
+                    <p class="module-desc">根据接触电阻和负载电流，估算电气连接点的温升情况。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('humidity')">
+                    <div class="module-icon">💧</div>
+                    <h3>湿度补偿计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">相对湿度</span>
+                        <span class="keyword">露点温度</span>
+                        <span class="keyword">环境修正</span>
+                        <span class="keyword">传感器补偿</span>
+                    </div>
+                    <p class="module-desc">对湿度影响下的温度测量进行补偿修正。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('battery-life')">
+                    <div class="module-icon">🔋</div>
+                    <h3>电池寿命计算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">电池容量</span>
+                        <span class="keyword">工作电流</span>
+                        <span class="keyword">自放电率</span>
+                        <span class="keyword">续航时间</span>
+                    </div>
+                    <p class="module-desc">估算无线传感器电池的预期使用寿命。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('battery-life-pro')">
+                    <div class="module-icon">⚡</div>
+                    <h3>电池寿命计算器(专业版)</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">多状态模型</span>
+                        <span class="keyword">加权平均</span>
+                        <span class="keyword">IoT传感器</span>
+                        <span class="keyword">无线测温</span>
+                    </div>
+                    <p class="module-desc">多状态加权平均模型，适用于IoT传感器、无线测温等低功耗设备。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+
+                <div class="module-card" onclick="showCalculator('pressure')">
+                    <div class="module-icon">🎯</div>
+                    <h3>压力传感器换算</h3>
+                    <div class="module-keywords">
+                        <span class="keyword">4-20mA</span>
+                        <span class="keyword">0-10V</span>
+                        <span class="keyword">量程换算</span>
+                        <span class="keyword">信号转换</span>
+                    </div>
+                    <p class="module-desc">工业压力传感器信号与实际压力的换算转换。</p>
+                    <div class="module-enter">点击进入计算 →</div>
+                </div>
+            </div>
+
+            <!-- RFID读取距离计算 -->
+            <div class="calc-detail" id="calc-rfid-distance">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>📡 RFID 读取距离计算</h2>
+                    <p>根据发射功率、天线增益和标签灵敏度，估算RFID系统的最大读取距离</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>输出功率 (dBm)</label>
+                            <input type="number" id="power" value="33" min="10" max="36">
+                        </div>
+                        <div class="form-group">
+                            <label>天线增益 (dBi)</label>
+                            <input type="number" id="antennaGain" value="6" min="0" max="15">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>标签灵敏度 (dBm)</label>
+                            <input type="number" id="tagSensitivity" value="-20" min="-30" max="-10">
+                        </div>
+                        <div class="form-group">
+                            <label>工作频率 (MHz)</label>
+                            <select id="frequency">
+                                <option value="860">860 MHz</option>
+                                <option value="915" selected>915 MHz</option>
+                                <option value="2400">2400 MHz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calculateRfidDistance()">计算读取距离</button>
                     <div class="result-box">
-                        <div class="result-label">估算读取距离</div>
+                        <div class="result-label">估算最大读取距离</div>
                         <div class="result-value" id="rfidResult">-</div>
                     </div>
+                    <div class="formula-info">
+                        <strong>计算公式：</strong><br>
+                        自由空间损耗：<code>32.44 + 20×log₁₀(d) + 20×log₁₀(f)</code><br>
+                        读取距离由最大允许路径损耗决定
+                    </div>
                 </div>
+            </div>
 
-                <div class="calc-card">
-                    <h3>🌡️ 温度精度计算</h3>
-                    <div class="form-group">
-                        <label>传感器类型</label>
-                        <select id="sensorType">
-                            <option value="pt100">PT100</option>
-                            <option value="ntc">NTC</option>
-                            <option value="digital">数字温度芯片</option>
-                        </select>
+            <!-- 温度精度计算 -->
+            <div class="calc-detail" id="calc-temp-accuracy">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>🌡️ 温度精度计算</h2>
+                    <p>根据传感器类型和环境条件，计算预期测温精度和误差范围</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>传感器类型</label>
+                            <select id="sensorType">
+                                <option value="pt100">PT100 (高精度)</option>
+                                <option value="ntc">NTC 热敏电阻</option>
+                                <option value="digital">数字温度芯片</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>精度等级</label>
+                            <select id="accuracyClass">
+                                <option value="A">A级 (±0.15°C)</option>
+                                <option value="B" selected>B级 (±0.3°C)</option>
+                                <option value="C">C级 (±0.6°C)</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>环境温度 (°C)</label>
-                        <input type="number" id="envTemp" value="25" min="-40" max="85">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>环境温度 (°C)</label>
+                            <input type="number" id="envTemp" value="25" min="-40" max="85">
+                        </div>
+                        <div class="form-group">
+                            <label>测量温度 (°C)</label>
+                            <input type="number" id="measureTemp" value="80" min="-50" max="300">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>测量温度 (°C)</label>
-                        <input type="number" id="measureTemp" value="80" min="-50" max="300">
-                    </div>
-                    <button class="calc-btn" onclick="calculateTempAccuracy()">计算</button>
+                    <button class="calc-btn" onclick="calculateTempAccuracy()">计算精度</button>
                     <div class="result-box">
-                        <div class="result-label">预计精度</div>
+                        <div class="result-label">预期测温精度</div>
                         <div class="result-value" id="tempResult">-</div>
                     </div>
+                    <div class="formula-info">
+                        <strong>精度说明：</strong><br>
+                        PT100高精度适用于变压器绕组等关键测点；NTC和数字芯片适用于开关柜等常规监测。
+                    </div>
                 </div>
+            </div>
 
-                <div class="calc-card">
-                    <h3>📶 信号衰减计算</h3>
-                    <div class="form-group">
-                        <label>传输距离 (m)</label>
-                        <input type="number" id="distance" value="100" min="1" max="1000">
+            <!-- 信号衰减计算 -->
+            <div class="calc-detail" id="calc-signal-loss">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>📶 信号衰减计算</h2>
+                    <p>计算射频信号在自由空间中的路径损耗</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>传输距离 (m)</label>
+                            <input type="number" id="distance" value="100" min="1" max="10000">
+                        </div>
+                        <div class="form-group">
+                            <label>频率 (MHz)</label>
+                            <select id="freq2">
+                                <option value="860">860 MHz</option>
+                                <option value="915" selected>915 MHz</option>
+                                <option value="2400">2400 MHz</option>
+                                <option value="5800">5800 MHz (WiFi)</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>频率 (MHz)</label>
-                        <select id="freq2">
-                            <option value="860">860 MHz</option>
-                            <option value="915" selected>915 MHz</option>
-                            <option value="2400">2400 MHz</option>
-                        </select>
-                    </div>
-                    <button class="calc-btn" onclick="calculateSignalLoss()">计算</button>
+                    <button class="calc-btn" onclick="calculateSignalLoss()">计算路径损耗</button>
                     <div class="result-box">
-                        <div class="result-label">路径损耗</div>
+                        <div class="result-label">自由空间路径损耗</div>
                         <div class="result-value" id="signalResult">-</div>
                     </div>
+                    <div class="formula-info">
+                        <strong>计算公式：</strong><br>
+                        <code>FSPL = 32.44 + 20×log₁₀(d) + 20×log₁₀(f)</code><br>
+                        d = 距离(km)，f = 频率(MHz)
+                    </div>
                 </div>
+            </div>
 
-                <div class="calc-card">
-                    <h3>⚡ 载流量计算</h3>
-                    <div class="form-group">
-                        <label>电缆截面积 (mm²)</label>
-                        <input type="number" id="cableSize" value="240" min="10" max="1000">
+            <!-- 载流量计算 -->
+            <div class="calc-detail" id="calc-current-capacity">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>⚡ 载流量计算</h2>
+                    <p>根据电缆规格和敷设条件，计算导体安全载流量</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>电缆截面积 (mm²)</label>
+                            <select id="cableSize" onchange="updateCableDefault()">
+                                <option value="10">10 mm²</option>
+                                <option value="16">16 mm²</option>
+                                <option value="25">25 mm²</option>
+                                <option value="35">35 mm²</option>
+                                <option value="50">50 mm²</option>
+                                <option value="70">70 mm²</option>
+                                <option value="95">95 mm²</option>
+                                <option value="120">120 mm²</option>
+                                <option value="150">150 mm²</option>
+                                <option value="185">185 mm²</option>
+                                <option value="240" selected>240 mm²</option>
+                                <option value="300">300 mm²</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>电缆材质</label>
+                            <select id="cableMaterial">
+                                <option value="cu" selected>铜芯</option>
+                                <option value="al">铝芯</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>敷设方式</label>
+                            <select id="installMethod">
+                                <option value="air">空气中敷设</option>
+                                <option value="tray">电缆桥架</option>
+                                <option value="direct">直埋敷设</option>
+                                <option value="pipe">穿管敷设</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>环境温度 (°C)</label>
+                            <input type="number" id="envTemp2" value="30" min="20" max="50">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>敷设方式</label>
-                        <select id="installMethod">
-                            <option value="air">空气中敷设</option>
-                            <option value="tray">电缆桥架</option>
-                            <option value="direct">直埋</option>
+                        <label>相数</label>
+                        <select id="phaseCount">
+                            <option value="1">单相</option>
+                            <option value="3" selected>三相</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>环境温度 (°C)</label>
-                        <input type="number" id="envTemp2" value="30" min="20" max="50">
-                    </div>
-                    <button class="calc-btn" onclick="calculateCurrent()">计算</button>
+                    <button class="calc-btn" onclick="calculateCurrent()">计算载流量</button>
                     <div class="result-box">
                         <div class="result-label">安全载流量</div>
                         <div class="result-value" id="currentResult">-</div>
+                    </div>
+                    <div class="formula-info">
+                        <strong>计算说明：</strong><br>
+                        本计算为简化估算，实际载流量还应考虑土壤热阻系数、并列敷设间距等因素。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 温升计算 -->
+            <div class="calc-detail" id="calc-temp-rise">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>🔥 温升计算</h2>
+                    <p>根据接触电阻和负载电流，估算电气连接点的温升情况</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>接触电阻 (μΩ)</label>
+                            <input type="number" id="contactR" value="100" min="1" max="10000">
+                        </div>
+                        <div class="form-group">
+                            <label>负载电流 (A)</label>
+                            <input type="number" id="loadCurrent" value="1000" min="1" max="10000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>环境温度 (°C)</label>
+                            <input type="number" id="ambientTemp" value="25" min="-20" max="60">
+                        </div>
+                        <div class="form-group">
+                            <label>散热系数 K</label>
+                            <input type="number" id="heatCoeff" value="1" min="0.1" max="10" step="0.1">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calculateTempRise()">计算温升</button>
+                    <div class="result-box">
+                        <div class="result-label">估算温升</div>
+                        <div class="result-value" id="tempRiseResult">-</div>
+                    </div>
+                    <div class="formula-info">
+                        <strong>计算公式（焦耳定律）：</strong><br>
+                        <code>P = I² × R</code>（发热功率）<br>
+                        <code>ΔT = P / K</code>（温升 = 发热功率 / 散热系数）
+                    </div>
+                </div>
+            </div>
+
+            <!-- 湿度补偿计算 -->
+            <div class="calc-detail" id="calc-humidity">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>💧 湿度补偿计算</h2>
+                    <p>对湿度影响下的温度测量进行补偿修正</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>相对湿度 (%)</label>
+                            <input type="number" id="humidity" value="60" min="0" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>环境温度 (°C)</label>
+                            <input type="number" id="humidEnvTemp" value="25" min="-20" max="60">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>传感器类型</label>
+                        <select id="humidSensorType">
+                            <option value="ntc">NTC 热敏电阻</option>
+                            <option value="pt100">PT100</option>
+                            <option value="digital">数字传感器</option>
+                        </select>
+                    </div>
+                    <button class="calc-btn" onclick="calculateHumidity()">计算补偿值</button>
+                    <div class="result-box">
+                        <div class="result-label">露点温度（估计）</div>
+                        <div class="result-value" id="dewPointResult">-</div>
+                    </div>
+                    <div class="formula-info">
+                        <strong>说明：</strong><br>
+                        高湿度环境下，传感器可能产生凝露，影响测量精度。露点温度以下会发生凝露现象。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 电池寿命计算 -->
+            <div class="calc-detail" id="calc-battery-life">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>🔋 电池寿命计算</h2>
+                    <p>估算无线传感器电池的预期使用寿命</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>电池容量 (mAh)</label>
+                            <input type="number" id="batteryCap" value="2000" min="100" max="10000">
+                        </div>
+                        <div class="form-group">
+                            <label>电池电压 (V)</label>
+                            <select id="batteryVolt">
+                                <option value="3.0">3.0V (锂电池)</option>
+                                <option value="3.6" selected>3.6V (锂亚电池)</option>
+                                <option value="3.7">3.7V (锂聚合物)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>平均工作电流 (μA)</label>
+                            <input type="number" id="avgCurrent" value="50" min="1" max="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>采集间隔 (分钟)</label>
+                            <input type="number" id="sampleInterval" value="5" min="1" max="1440">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>自放电率 (%/年)</label>
+                        <input type="number" id="selfDischarge" value="2" min="0" max="20">
+                    </div>
+                    <button class="calc-btn" onclick="calculateBatteryLife()">计算电池寿命</button>
+                    <div class="result-box">
+                        <div class="result-label">预计电池寿命</div>
+                        <div class="result-value" id="batteryResult">-</div>
+                    </div>
+                    <div class="formula-info">
+                        <strong>计算说明：</strong><br>
+                        实际寿命受温度、负载波动等因素影响，本计算为理论估算值。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 压力传感器换算 -->
+            <div class="calc-detail" id="calc-pressure">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>🎯 压力传感器换算</h2>
+                    <p>工业压力传感器信号与实际压力的换算转换</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label>信号类型</label>
+                        <select id="signalType" onchange="updatePressureRange()">
+                            <option value="4-20ma" selected>4-20 mA 电流</option>
+                            <option value="0-10v">0-10 V 电压</option>
+                            <option value="0-5v">0-5 V 电压</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>量程下限</label>
+                            <input type="number" id="rangeMin" value="0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>量程上限</label>
+                            <input type="number" id="rangeMax" value="1" step="0.1" onchange="updatePressureUnit()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>当前信号值</label>
+                        <input type="number" id="currentSignal" value="12" step="0.01">
+                    </div>
+                    <button class="calc-btn" onclick="calculatePressure()">计算实际压力</button>
+                    <div class="result-box">
+                        <div class="result-label">实际压力值</div>
+                        <div class="result-value" id="pressureResult">-</div>
+                    </div>
+                    <div class="formula-info">
+                        <strong>换算公式（4-20mA）：</strong><br>
+                        <code>P = (Im - 4) / 16 × (FS - Zero) + Zero</code><br>
+                        Im = 实测电流(mA)，FS = 量程，Zero = 零点
+                    </div>
+                </div>
+            </div>
+
+            <!-- 电池寿命计算器(专业版) -->
+            <div class="calc-detail" id="calc-battery-life-pro">
+                <button class="back-btn" onclick="hideCalculator()">
+                    ← 返回计算器列表
+                </button>
+                <div class="calc-header">
+                    <h2>🔋 电池寿命计算器(专业版)</h2>
+                    <p>多状态加权平均模型 · 适用于 IoT 传感器、无线测温等低功耗设备</p>
+                </div>
+                <div class="calc-form" style="max-width: 800px;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 16px;">⚙️ 电池参数</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>标称容量 (mAh)</label>
+                            <input type="number" id="blp-capacity" value="2000" min="100" max="10000">
+                        </div>
+                        <div class="form-group">
+                            <label>标称电压 (V)</label>
+                            <input type="number" id="blp-voltage" value="3.6" min="2" max="4" step="0.1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>利用系数 (0~1)</label>
+                            <input type="number" id="blp-factor" value="0.9" min="0.1" max="1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>年自放电率 (%)</label>
+                            <input type="number" id="blp-self-discharge" value="2" min="0" max="20">
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--text-primary); margin: 24px 0 16px;">📈 工作状态（一个完整周期内）</h4>
+                    <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">填写每个工作状态的电流和持续时间，计算器自动加权平均</p>
+                    
+                    <div style="background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>#1电流 (mA)</label>
+                                <input type="number" id="blp-current1" value="10" min="0" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>持续时间 (秒)</label>
+                                <input type="number" id="blp-duration1" value="0.1" min="0.01" step="0.01">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>状态描述（可选）</label>
+                            <input type="text" id="blp-desc1" placeholder="例如：射频发送状态">
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>#2电流 (mA)</label>
+                                <input type="number" id="blp-current2" value="0.05" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>持续时间 (秒)</label>
+                                <input type="number" id="blp-duration2" value="300" min="0.01" step="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>状态描述（可选）</label>
+                            <input type="text" id="blp-desc2" placeholder="例如：休眠状态">
+                        </div>
+                    </div>
+
+                    <button class="calc-btn" onclick="calculateBatteryLifePro()">计算电池寿命</button>
+                    
+                    <div class="result-box">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
+                            <div>
+                                <div style="font-size: 28px; font-weight: 700; color: var(--brand-primary);" id="blp-hours">—</div>
+                                <div style="font-size: 14px; color: var(--text-secondary);">小时</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 28px; font-weight: 700; color: var(--brand-primary);" id="blp-days">—</div>
+                                <div style="font-size: 14px; color: var(--text-secondary);">天</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 28px; font-weight: 700; color: var(--brand-primary);" id="blp-years">—</div>
+                                <div style="font-size: 14px; color: var(--text-secondary);">年</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(99, 102, 241, 0.05); border-radius: 12px;">
+                        <h5 style="color: var(--text-primary); margin-bottom: 12px;">📊 预估结果详情</h5>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 13px;">
+                            <div style="color: var(--text-secondary);">加权平均电流：<span id="blp-avg-current" style="color: var(--text-primary); font-weight: 600;">— mA</span></div>
+                            <div style="color: var(--text-secondary);">自放电等效电流：<span id="blp-self-equiv" style="color: var(--text-primary); font-weight: 600;">— mA</span></div>
+                            <div style="color: var(--text-secondary);">总平均电流：<span id="blp-total-avg" style="color: var(--text-primary); font-weight: 600;">— mA</span></div>
+                            <div style="color: var(--text-secondary);">有效容量：<span id="blp-effective-cap" style="color: var(--text-primary); font-weight: 600;">— mAh</span></div>
+                            <div style="color: var(--text-secondary);">周期时长：<span id="blp-cycle" style="color: var(--text-primary); font-weight: 600;">— 秒</span></div>
+                            <div style="color: var(--text-secondary);">每日耗电：<span id="blp-daily" style="color: var(--text-primary); font-weight: 600;">— mAh</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -325,7 +951,7 @@
     </main>
 
     <footer class="footer">
-        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p>© 2026 浙江悦和科技有限公司 | 在线监测知识库</p>
         <p class="powered-by">Power By HLH</p>
     </footer>
 
@@ -335,31 +961,45 @@
     </div>
 
     <script>
+        function showCalculator(name) {
+            document.getElementById('moduleList').classList.remove('active');
+            document.querySelectorAll('.calc-detail').forEach(el => el.classList.remove('active'));
+            document.getElementById('calc-' + name).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideCalculator() {
+            document.querySelectorAll('.calc-detail').forEach(el => el.classList.remove('active'));
+            document.getElementById('moduleList').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function calculateRfidDistance() {
             const power = parseFloat(document.getElementById('power').value);
             const gain = parseFloat(document.getElementById('antennaGain').value);
             const sensitivity = parseFloat(document.getElementById('tagSensitivity').value);
             const freq = parseFloat(document.getElementById('frequency').value);
             
-            // 简化计算：读取距离 = 10^((发射功率 + 天线增益 - 标签灵敏度 - 自由空间损耗) / 20)
-            // 自由空间损耗 = 32.44 + 20*log10(d) + 20*log10(f)
-            // 假设读取距离 1m 时的损耗为基准
             const loss1m = 32.44 + 20 * Math.log10(1) + 20 * Math.log10(freq);
-            const EIRP = power + gain; // 等效全向辐射功率
+            const EIRP = power + gain;
             const maxLoss = EIRP - sensitivity;
             const distance = Math.pow(10, (maxLoss - loss1m) / 20);
             
-            document.getElementById('rfidResult').textContent = distance.toFixed(2) + ' m';
+            document.getElementById('rfidResult').textContent = distance.toFixed(2);
+            document.getElementById('rfidResult').className = 'result-value';
         }
 
         function calculateTempAccuracy() {
             const sensorType = document.getElementById('sensorType').value;
+            const accuracyClass = document.getElementById('accuracyClass').value;
             const envTemp = parseFloat(document.getElementById('envTemp').value);
             const measureTemp = parseFloat(document.getElementById('measureTemp').value);
             
             let accuracy = '±0.5°C';
             if (sensorType === 'pt100') {
-                accuracy = '±0.1°C';
+                if (accuracyClass === 'A') accuracy = '±0.15°C';
+                else if (accuracyClass === 'B') accuracy = '±0.3°C';
+                else accuracy = '±0.6°C';
             } else if (sensorType === 'ntc') {
                 accuracy = '±0.5°C';
             } else {
@@ -373,28 +1013,167 @@
             const distance = parseFloat(document.getElementById('distance').value);
             const freq = parseFloat(document.getElementById('freq2').value);
             
-            // 自由空间损耗公式
             const loss = 32.44 + 20 * Math.log10(distance) + 20 * Math.log10(freq);
             
-            document.getElementById('signalResult').textContent = loss.toFixed(2) + ' dB';
+            document.getElementById('signalResult').textContent = loss.toFixed(2);
+        }
+
+        function updateCableDefault() {
+            // 预留扩展
         }
 
         function calculateCurrent() {
             const cableSize = parseFloat(document.getElementById('cableSize').value);
             const method = document.getElementById('installMethod').value;
             const envTemp = parseFloat(document.getElementById('envTemp2').value);
+            const material = document.getElementById('cableMaterial').value;
             
-            // 简化计算：基础载流量 * 温度系数 * 敷设系数
-            let baseCurrent = cableSize * 2.5; // 简化估算
+            // 基础载流量估算（铜芯电缆空气中敷设，参考值）
+            const baseCurrents = {
+                10: 75, 16: 100, 25: 135, 35: 170, 50: 205,
+                70: 265, 95: 320, 120: 370, 150: 425, 185: 480,
+                240: 565, 300: 650
+            };
+            let baseCurrent = baseCurrents[cableSize] || cableSize * 2;
+            
+            // 材质系数：铝芯约为铜芯的0.78倍
+            if (material === 'al') baseCurrent *= 0.78;
+            
+            // 敷设系数
             let methodFactor = 1;
             if (method === 'tray') methodFactor = 0.9;
             if (method === 'direct') methodFactor = 0.8;
+            if (method === 'pipe') methodFactor = 0.75;
             
+            // 温度系数（基准30°C）
             let tempFactor = 1 - (envTemp - 30) * 0.004;
             
             const current = baseCurrent * methodFactor * tempFactor;
             
-            document.getElementById('currentResult').textContent = current.toFixed(0) + ' A';
+            document.getElementById('currentResult').textContent = Math.round(current) + ' A';
+        }
+
+        function calculateTempRise() {
+            const R = parseFloat(document.getElementById('contactR').value) * 1e-6; // μΩ to Ω
+            const I = parseFloat(document.getElementById('loadCurrent').value);
+            const Tamb = parseFloat(document.getElementById('ambientTemp').value);
+            const K = parseFloat(document.getElementById('heatCoeff').value);
+            
+            const P = I * I * R; // 发热功率 (W)
+            const deltaT = P / K; // 温升 (K)
+            const finalTemp = Tamb + deltaT;
+            
+            document.getElementById('tempRiseResult').textContent = deltaT.toFixed(2) + ' K';
+        }
+
+        function calculateHumidity() {
+            const RH = parseFloat(document.getElementById('humidity').value);
+            const T = parseFloat(document.getElementById('humidEnvTemp').value);
+            
+            // Magnus公式近似计算露点
+            const a = 17.27;
+            const b = 237.7;
+            const alpha = ((a * T) / (b + T)) + Math.log(RH / 100);
+            const dewPoint = (b * alpha) / (a - alpha);
+            
+            document.getElementById('dewPointResult').textContent = dewPoint.toFixed(1) + ' °C';
+        }
+
+        function calculateBatteryLife() {
+            const capacity = parseFloat(document.getElementById('batteryCap').value); // mAh
+            const voltage = parseFloat(document.getElementById('batteryVolt').value);
+            const avgCurrent = parseFloat(document.getElementById('avgCurrent').value); // μA
+            const interval = parseFloat(document.getElementById('sampleInterval').value); // minutes
+            const selfDischarge = parseFloat(document.getElementById('selfDischarge').value) / 100;
+            
+            // 考虑采集占空比的有效电流
+            // 假设每次采集持续 100ms
+            const activeCurrent = 10; // mA during active
+            const activeTime = 0.1 / 60; // hours per sample
+            const sleepTime = interval / 60; // hours between samples
+            const dutyCycle = activeTime / sleepTime;
+            const effectiveCurrent = (activeCurrent * dutyCycle) + (avgCurrent / 1000 * (1 - dutyCycle));
+            
+            // 考虑自放电的年度损耗
+            const effectiveCapacity = capacity * (1 - selfDischarge);
+            const hours = effectiveCapacity / effectiveCurrent;
+            const days = hours / 24;
+            const years = days / 365;
+            
+            let result;
+            if (years >= 1) {
+                result = years.toFixed(1) + ' 年';
+            } else {
+                result = days.toFixed(0) + ' 天';
+            }
+            
+            document.getElementById('batteryResult').textContent = result;
+        }
+
+        function updatePressureRange() {
+            // 预留扩展
+        }
+
+        function updatePressureUnit() {
+            // 预留扩展
+        }
+
+        function calculatePressure() {
+            const signalType = document.getElementById('signalType').value;
+            const rangeMin = parseFloat(document.getElementById('rangeMin').value);
+            const rangeMax = parseFloat(document.getElementById('rangeMax').value);
+            const signal = parseFloat(document.getElementById('currentSignal').value);
+            
+            let pressure;
+            if (signalType === '4-20ma') {
+                pressure = ((signal - 4) / 16) * (rangeMax - rangeMin) + rangeMin;
+            } else if (signalType === '0-10v') {
+                pressure = (signal / 10) * (rangeMax - rangeMin) + rangeMin;
+            } else {
+                pressure = (signal / 5) * (rangeMax - rangeMin) + rangeMin;
+            }
+            
+            document.getElementById('pressureResult').textContent = pressure.toFixed(2);
+        }
+
+        function calculateBatteryLifePro() {
+            const capacity = parseFloat(document.getElementById('blp-capacity').value);
+            const voltage = parseFloat(document.getElementById('blp-voltage').value);
+            const factor = parseFloat(document.getElementById('blp-factor').value);
+            const selfDischargeRate = parseFloat(document.getElementById('blp-self-discharge').value) / 100;
+            
+            const current1 = parseFloat(document.getElementById('blp-current1').value);
+            const duration1 = parseFloat(document.getElementById('blp-duration1').value);
+            const current2 = parseFloat(document.getElementById('blp-current2').value);
+            const duration2 = parseFloat(document.getElementById('blp-duration2').value);
+            
+            const cycleDuration = duration1 + duration2;
+            
+            const weightedAvgCurrent = (current1 * duration1 + current2 * duration2) / cycleDuration;
+            
+            const dailySelfDischargeEquiv = capacity * selfDischargeRate / 365;
+            const selfDischargeEquivCurrent = dailySelfDischargeEquiv / 24;
+            
+            const totalAvgCurrent = weightedAvgCurrent + selfDischargeEquivCurrent;
+            
+            const effectiveCapacity = capacity * factor;
+            
+            const hours = effectiveCapacity / totalAvgCurrent;
+            const days = hours / 24;
+            const years = days / 365;
+            
+            const dailyConsumption = weightedAvgCurrent * 24;
+            
+            document.getElementById('blp-hours').textContent = Math.round(hours);
+            document.getElementById('blp-days').textContent = Math.round(days);
+            document.getElementById('blp-years').textContent = years.toFixed(1);
+            
+            document.getElementById('blp-avg-current').textContent = weightedAvgCurrent.toFixed(4) + ' mA';
+            document.getElementById('blp-self-equiv').textContent = selfDischargeEquivCurrent.toFixed(4) + ' mA';
+            document.getElementById('blp-total-avg').textContent = totalAvgCurrent.toFixed(4) + ' mA';
+            document.getElementById('blp-effective-cap').textContent = effectiveCapacity.toFixed(0) + ' mAh';
+            document.getElementById('blp-cycle').textContent = cycleDuration.toFixed(2) + ' 秒';
+            document.getElementById('blp-daily').textContent = dailyConsumption.toFixed(2) + ' mAh';
         }
     </script>
 </body>
