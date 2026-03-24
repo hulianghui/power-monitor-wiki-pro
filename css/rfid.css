@@ -1,0 +1,808 @@
+/* RFID 页面专用样式 - 保持与首页统一风格 */
+
+/* RFID 主题色 */
+:root {
+    --rfid-primary: #a855f7;
+    --rfid-secondary: #ec4899;
+    --rfid-dark: #7c3aed;
+    --rfid-light: #f0abfc;
+    --rfid-glow: rgba(168, 85, 247, 0.4);
+}
+
+/* Hero 区域 - RFID 主题 */
+.rfid-hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a0b2e 50%, #0a0e1a 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 80px 40px 60px;
+}
+
+.rfid-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--rfid-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.rfid-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out reverse;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--rfid-primary);
+}
+
+.breadcrumb .separator {
+    color: var(--text-tertiary);
+}
+
+.breadcrumb .current {
+    color: var(--rfid-primary);
+    font-weight: 600;
+}
+
+.rfid-hero .hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rfid-hero .gradient-text {
+    background: linear-gradient(135deg, var(--rfid-primary) 0%, var(--rfid-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rfid-hero .hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
+.rfid-hero .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.rfid-hero .stat-item {
+    text-align: center;
+    padding: 20px 30px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    min-width: 140px;
+}
+
+.rfid-hero .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--rfid-light);
+    margin-bottom: 8px;
+}
+
+.rfid-hero .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* 模块导航 */
+.module-nav {
+    background: rgba(10, 14, 26, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    position: sticky;
+    top: 72px;
+    z-index: 100;
+    padding: 20px 0;
+}
+
+.module-tabs {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.module-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.module-tab:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: var(--rfid-primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.module-tab.active {
+    background: linear-gradient(135deg, var(--rfid-primary), var(--rfid-secondary));
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 20px var(--rfid-glow);
+}
+
+.tab-icon {
+    font-size: 24px;
+}
+
+.tab-label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 内容区域 */
+.content-section {
+    padding: 60px 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.module-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.module-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.module-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.module-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.module-header p {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+/* 内容网格 */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-bottom: 40px;
+}
+
+.info-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    padding: 32px;
+}
+
+.info-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.info-card > p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feature-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(168, 85, 247, 0.05);
+    border-left: 3px solid var(--rfid-primary);
+    border-radius: 12px;
+}
+
+.feature-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.feature-item strong {
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.feature-item p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* 工作流程 */
+.workflow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.workflow-step {
+    flex: 1;
+    min-width: 140px;
+    padding: 20px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 2px solid var(--rfid-primary);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.step-num {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--rfid-primary), var(--rfid-secondary));
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.workflow-step h5 {
+    color: var(--text-primary);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.workflow-step p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.workflow-arrow {
+    font-size: 28px;
+    color: var(--rfid-primary);
+    font-weight: 700;
+}
+
+/* 产品卡片 */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.product-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    border-color: var(--rfid-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(168, 85, 247, 0.2);
+}
+
+.product-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.product-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.product-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.product-specs {
+    text-align: left;
+    background: rgba(168, 85, 247, 0.05);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+}
+
+.spec-row:last-child {
+    border-bottom: none;
+}
+
+.spec-row span {
+    color: var(--text-secondary);
+}
+
+.spec-row strong {
+    color: var(--rfid-primary);
+}
+
+/* 应用场景 */
+.applications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.app-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.app-header {
+    padding: 32px;
+    background: rgba(168, 85, 247, 0.1);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.app-header h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.app-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.app-body {
+    padding: 32px;
+}
+
+.app-section {
+    margin-bottom: 24px;
+}
+
+.app-section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--rfid-light);
+    margin-bottom: 12px;
+}
+
+.app-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.app-section li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+.app-section li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--rfid-primary);
+    font-weight: 700;
+}
+
+.app-section p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* 实施步骤 */
+.implementation-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.step-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    padding: 32px;
+}
+
+.step-badge {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--rfid-primary), var(--rfid-secondary));
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.step-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.step-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+}
+
+.step-card li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+.step-card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--rfid-primary);
+    font-weight: 700;
+}
+
+.deliverables, .tips {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(168, 85, 247, 0.05);
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.deliverables strong, .tips strong {
+    display: block;
+    color: var(--rfid-light);
+    margin-bottom: 8px;
+}
+
+.deliverables span, .tips span {
+    display: inline-block;
+    color: var(--text-secondary);
+    margin: 4px 8px 4px 0;
+    padding: 4px 8px;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 4px;
+}
+
+/* FAQ 列表 */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-item {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.faq-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--rfid-primary);
+    margin-bottom: 16px;
+}
+
+.faq-answer {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.faq-answer p {
+    margin-bottom: 12px;
+}
+
+.faq-answer ul {
+    list-style: none;
+    padding: 0 0 0 24px;
+    margin: 12px 0;
+}
+
+.faq-answer li {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+/* 案例卡片 */
+.cases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.case-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.case-header {
+    padding: 32px;
+    background: rgba(168, 85, 247, 0.1);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.case-header h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.case-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.case-body {
+    padding: 32px;
+}
+
+.case-section {
+    margin-bottom: 24px;
+}
+
+.case-section h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--rfid-light);
+    margin-bottom: 12px;
+}
+
+.case-section p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.case-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.case-section li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+.case-section li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--rfid-primary);
+}
+
+.solution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.solution-item {
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.solution-item strong {
+    display: block;
+    color: var(--rfid-light);
+    margin-bottom: 8px;
+}
+
+.solution-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.solution-item li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.solution-item li::before {
+    content: '•';
+    position: absolute;
+    left: 4px;
+    color: var(--rfid-primary);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 20px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 12px;
+}
+
+.stat-box .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--rfid-light);
+    margin-bottom: 8px;
+}
+
+.stat-box .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .rfid-hero {
+        padding: 60px 20px 40px;
+    }
+
+    .rfid-hero .hero-title {
+        font-size: 32px;
+    }
+
+    .rfid-hero .hero-stats {
+        gap: 16px;
+    }
+
+    .module-tabs {
+        gap: 8px;
+    }
+
+    .module-tab {
+        min-width: 80px;
+        padding: 12px 16px;
+    }
+
+    .tab-label {
+        font-size: 12px;
+    }
+
+    .content-section {
+        padding: 40px 20px;
+    }
+
+    .module-header h2 {
+        font-size: 28px;
+    }
+
+    .products-grid,
+    .implementation-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow {
+        flex-direction: column;
+    }
+
+    .workflow-arrow {
+        transform: rotate(90deg);
+    }
+
+    .case-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

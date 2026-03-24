@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备选型助手 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --brand-primary: #6366f1;
+            --brand-secondary: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+        body {
+            font-family: "PingFang SC", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        .main {
+            padding-top: 120px;
+            min-height: calc(100vh - 200px);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        .selector-card {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 24px;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+        .step.active {
+            color: var(--brand-primary);
+        }
+        .step.completed {
+            color: #10b981;
+        }
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .form-section {
+            margin-bottom: 32px;
+        }
+        .form-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .option-item {
+            padding: 20px;
+            background: rgba(10, 14, 26, 0.6);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .option-item:hover {
+            border-color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .option-item.selected {
+            border-color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        .option-item .icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .option-item .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .option-item .desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            border-color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .result-card {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+        .result-card.show {
+            display: block;
+        }
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .result-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--brand-primary);
+        }
+        .result-desc {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .recommend-list {
+            text-align: left;
+            margin: 24px 0;
+        }
+        .recommend-item {
+            padding: 16px;
+            background: rgba(10, 14, 26, 0.6);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .recommend-item h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .recommend-item p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">⚡</div>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
+            <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
+            <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
+        </nav>
+        <div class="avatar">我</div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h1>🎯 设备选型助手</h1>
+                <p>根据您的应用场景，智能推荐最适合的传感器和设备</p>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step active">
+                    <div class="step-num">1</div>
+                    <span>选择场景</span>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <span>设备参数</span>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <span>获取推荐</span>
+                </div>
+            </div>
+
+            <div class="selector-card" id="step1">
+                <div class="form-section">
+                    <h3>请选择您的应用场景</h3>
+                    <div class="option-grid">
+                        <div class="option-item" onclick="selectOption(this, 'scenario', 'switchgear')">
+                            <div class="icon">⚡</div>
+                            <div class="title">开关柜测温</div>
+                            <div class="desc">断路器触头、母线连接处</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'scenario', 'transformer')">
+                            <div class="icon">🔌</div>
+                            <div class="title">变压器测温</div>
+                            <div class="desc">绕组温度、铁芯温度</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'scenario', 'cable')">
+                            <div class="icon">📶</div>
+                            <div class="title">电缆接头测温</div>
+                            <div class="desc">终端头、中间接头</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'scenario', 'overhead')">
+                            <div class="icon">🏗️</div>
+                            <div class="title">架空线路测温</div>
+                            <div class="desc">导线接头、耐张线夹</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="goToStep(2)" id="step1Btn" disabled>下一步 →</button>
+                </div>
+            </div>
+
+            <div class="selector-card" id="step2" style="display: none;">
+                <div class="form-section">
+                    <h3>请提供设备参数</h3>
+                    <div class="option-grid">
+                        <div class="option-item" onclick="selectOption(this, 'voltage', '10kv')">
+                            <div class="icon">10kV</div>
+                            <div class="title">10kV 及以下</div>
+                            <div class="desc">配电系统</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'voltage', '35kv')">
+                            <div class="icon">35kV</div>
+                            <div class="title">35kV</div>
+                            <div class="desc">变电站</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'voltage', '110kv')">
+                            <div class="icon">110kV</div>
+                            <div class="title">110kV</div>
+                            <div class="desc">高压输电</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'voltage', '220kv')">
+                            <div class="icon">220kV</div>
+                            <div class="title">220kV 及以上</div>
+                            <div class="desc">超高压输电</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3>是否需要带电安装？</h3>
+                    <div class="option-grid">
+                        <div class="option-item" onclick="selectOption(this, 'install', 'yes')">
+                            <div class="icon">⚡</div>
+                            <div class="title">带电安装</div>
+                            <div class="desc">可带电作业</div>
+                        </div>
+                        <div class="option-item" onclick="selectOption(this, 'install', 'no')">
+                            <div class="icon">🔒</div>
+                            <div class="title">停电安装</div>
+                            <div class="desc">需停电作业</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">← 上一步</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)" id="step2Btn" disabled>获取推荐 →</button>
+                </div>
+            </div>
+
+            <div class="result-card" id="result">
+                <div class="result-icon">🎉</div>
+                <div class="result-title">智能推荐结果</div>
+                <div class="result-desc">根据您的需求，为您推荐以下配置方案</div>
+                
+                <div class="recommend-list" id="recommendList">
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="resetSelector()">重新选择</button>
+                    <button class="btn btn-primary" onclick="window.location.href='chat.html'">咨询详情</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p class="powered-by">Power By HLH</p>
+    </footer>
+
+    <div class="ai-float" onclick="window.location.href='chat.html'">
+        <span>💬</span>
+        <span>AI 助手</span>
+    </div>
+
+    <script>
+        let selections = {
+            scenario: null,
+            voltage: null,
+            install: null
+        };
+
+        function selectOption(element, type, value) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selections[type] = value;
+
+            if (type === 'scenario') {
+                document.getElementById('step1Btn').disabled = false;
+            } else if (type === 'voltage' || type === 'install') {
+                if (selections.voltage && selections.install) {
+                    document.getElementById('step2Btn').disabled = false;
+                }
+            }
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.selector-card').forEach(card => {
+                card.style.display = 'none';
+            });
+            document.getElementById('step' + step).style.display = 'block';
+            
+            document.querySelectorAll('.step').forEach((s, index) => {
+                s.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    s.classList.add('completed');
+                } else if (index + 1 === step) {
+                    s.classList.add('active');
+                }
+            });
+
+            if (step === 3) {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            let recommendations = [];
+            
+            if (selections.scenario === 'switchgear') {
+                if (selections.voltage === '10kv') {
+                    recommendations.push({
+                        title: '螺母式温度传感器 (M16)',
+                        desc: '直接替换原有螺母，安装便捷。测温范围-50~+300°C，精度±0.5°C，IP68防护。适用于10kV开关柜触头测温。'
+                    });
+                    recommendations.push({
+                        title: '固定式 RFID 读写器 (4通道)',
+                        desc: '工业级设计，工作频率840-960MHz，支持4通道同时采集。RS485/以太网接口。'
+                    });
+                } else if (selections.voltage === '35kv') {
+                    recommendations.push({
+                        title: '高压绝缘型温度传感器 (35kV)',
+                        desc: '特种陶瓷封装，耐压等级35kV，爬电距离≥300mm。适用于高压开关柜触头测温。'
+                    });
+                    recommendations.push({
+                        title: '固定式 RFID 读写器 (8通道)',
+                        desc: '支持8通道同时采集，光纤通信接口，适用于高压变电站环境。'
+                    });
+                }
+            } else if (selections.scenario === 'transformer') {
+                recommendations.push({
+                    title: '贴片式温度传感器 (柔性PCB)',
+                    desc: '厚度仅1.5mm，可贴合绕组表面。测温范围-40~+150°C，精度±0.5°C。'
+                });
+                if (selections.install === 'yes') {
+                    recommendations.push({
+                        title: '表面粘贴方案',
+                        desc: '使用耐高温导热胶粘贴，配合高温扎带固定，可带电安装。'
+                    });
+                }
+            } else if (selections.scenario === 'cable') {
+                recommendations.push({
+                    title: '电缆接头专用传感器 (抱箍式)',
+                    desc: '抱箍式安装，适用线径φ20-φ80mm，无需停电。测温范围-50~+200°C，IP68防护。'
+                });
+                recommendations.push({
+                    title: '固定式 RFID 读写器 (4通道)',
+                    desc: '配合近场天线，读取距离0-0.5m，适合电缆隧道环境。'
+                });
+            } else if (selections.scenario === 'overhead') {
+                recommendations.push({
+                    title: '架空线专用温度传感器',
+                    desc: '轻质铝合金外壳，抱箍式或磁吸式安装。适用于导线接头、耐张线夹测温。'
+                });
+                recommendations.push({
+                    title: '太阳能供电读写器 + 4G通信',
+                    desc: '杆塔顶部安装，太阳能+锂电池供电，4G无线传输，适合野外环境。'
+                });
+            }
+
+            let html = '';
+            recommendations.forEach(item => {
+                html += `
+                    <div class="recommend-item">
+                        <h4>${item.title}</h4>
+                        <p>${item.desc}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('recommendList').innerHTML = html;
+            document.getElementById('result').classList.add('show');
+        }
+
+        function resetSelector() {
+            selections = {
+                scenario: null,
+                voltage: null,
+                install: null
+            };
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.getElementById('step1Btn').disabled = true;
+            document.getElementById('step2Btn').disabled = true;
+            document.getElementById('result').classList.remove('show');
+            goToStep(1);
+        }
+    </script>
+</body>
+</html>

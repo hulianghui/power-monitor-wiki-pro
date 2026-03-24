@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI调研报告 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: "PingFang SC", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        .main {
+            padding-top: 120px;
+            min-height: calc(100vh - 200px);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--brand-primary);
+            color: var(--text-primary);
+        }
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            padding-bottom: 60px;
+        }
+        .report-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .report-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--brand-primary);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+        }
+        .report-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .report-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .report-meta {
+            flex: 1;
+        }
+        .report-category {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--brand-primary);
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .report-category.industry { background: rgba(168, 85, 247, 0.15); color: var(--rfid-primary); }
+        .report-category.tech { background: rgba(6, 182, 212, 0.15); color: var(--monitor-primary); }
+        .report-category.case-study { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .report-category.market { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+        .report-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .report-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .report-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .report-date {
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+        .report-read-time {
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .ai-float:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .placeholder-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border: 2px dashed rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .placeholder-card:hover {
+            border-color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        .placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        .placeholder-text {
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">⚡</div>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
+            <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
+            <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
+            <div class="nav-item active">AI调研</div>
+        </nav>
+        <div class="avatar">我</div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h1>📊 AI调研报告</h1>
+                <p>基于AI技术生成的行业调研、市场分析和趋势预测报告，帮助您快速了解行业动态</p>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-btn active" onclick="filterReports('all')">全部</div>
+                <div class="filter-btn" onclick="filterReports('industry')">行业报告</div>
+                <div class="filter-btn" onclick="filterReports('tech')">技术趋势</div>
+                <div class="filter-btn" onclick="filterReports('case-study')">案例分析</div>
+                <div class="filter-btn" onclick="filterReports('market')">市场分析</div>
+            </div>
+
+            <div class="reports-grid" id="reportsGrid">
+                <div class="report-card" data-category="industry" onclick="openReport('rfid-market-2024')">
+                    <div class="report-header">
+                        <div class="report-icon">📈</div>
+                        <div class="report-meta">
+                            <span class="report-category industry">行业报告</span>
+                            <h3 class="report-title">2024年RFID无源无线测温行业市场分析报告</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">深度分析电力行业RFID测温市场规模、竞争格局、发展趋势及投资机会...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-03-15</span>
+                        <span class="report-read-time">阅读约8分钟</span>
+                    </div>
+                </div>
+
+                <div class="report-card" data-category="tech" onclick="openReport('5g-smart-grid')">
+                    <div class="report-header">
+                        <div class="report-icon">🔮</div>
+                        <div class="report-meta">
+                            <span class="report-category tech">技术趋势</span>
+                            <h3 class="report-title">5G+AI赋能智能电网在线监测技术趋势研究</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">探讨5G网络和人工智能技术在电力设备在线监测领域的融合应用...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-03-10</span>
+                        <span class="report-read-time">阅读约12分钟</span>
+                    </div>
+                </div>
+
+                <div class="report-card" data-category="case-study" onclick="openReport('110kv-case')">
+                    <div class="report-header">
+                        <div class="report-icon">💡</div>
+                        <div class="report-meta">
+                            <span class="report-category case-study">案例分析</span>
+                            <h3 class="report-title">某省电网110kV变电站RFID测温项目案例分析</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">通过实际项目案例，分析RFID测温技术在高压变电站的应用效果...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-03-05</span>
+                        <span class="report-read-time">阅读约6分钟</span>
+                    </div>
+                </div>
+
+                <div class="report-card" data-category="market" onclick="openReport('dga-market')">
+                    <div class="report-header">
+                        <div class="report-icon">📊</div>
+                        <div class="report-meta">
+                            <span class="report-category market">市场分析</span>
+                            <h3 class="report-title">变压器油色谱在线监测装置市场分析</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">分析变压器油色谱（DGA）在线监测市场现状、主要厂商及竞争格局...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-02-28</span>
+                        <span class="report-read-time">阅读约10分钟</span>
+                    </div>
+                </div>
+
+                <div class="report-card" data-category="tech" onclick="openReport('fault-diagnosis-ai')">
+                    <div class="report-header">
+                        <div class="report-icon">🤖</div>
+                        <div class="report-meta">
+                            <span class="report-category tech">技术趋势</span>
+                            <h3 class="report-title">基于深度学习的电力设备故障诊断技术白皮书</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">全面介绍深度学习在电力设备故障诊断中的最新研究进展与应用实践...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-02-20</span>
+                        <span class="report-read-time">阅读约15分钟</span>
+                    </div>
+                </div>
+
+                <div class="report-card" data-category="industry" onclick="openReport('smart-transformer')">
+                    <div class="report-header">
+                        <div class="report-icon">⚡</div>
+                        <div class="report-meta">
+                            <span class="report-category industry">行业报告</span>
+                            <h3 class="report-title">智能变压器在线监测技术发展白皮书</h3>
+                        </div>
+                    </div>
+                    <p class="report-desc">系统性分析智能变压器在线监测技术架构、关键技术和未来发展方向...</p>
+                    <div class="report-footer">
+                        <span class="report-date">2024-02-15</span>
+                        <span class="report-read-time">阅读约11分钟</span>
+                    </div>
+                </div>
+
+                <div class="placeholder-card" onclick="alert('调研报告持续更新中，敬请期待！')">
+                    <span class="placeholder-icon">📝</span>
+                    <span class="placeholder-text">更多报告持续更新中...</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p class="powered-by">Power By HLH</p>
+    </footer>
+
+    <div class="ai-float" onclick="window.location.href='chat.html'">
+        <span>💬</span>
+        <span>AI 助手</span>
+    </div>
+
+    <script>
+        function filterReports(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.report-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openReport(reportId) {
+            alert('报告内容持续更新中，敬请期待！\n\n报告ID: ' + reportId);
+        }
+    </script>
+</body>
+</html>

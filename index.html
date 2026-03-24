@@ -3,174 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电力在线监测知识库</title>
-    <style>
-        :root {
-            --bg: #070d1a;
-            --card: #0d1b2e;
-            --border: rgba(0,180,255,0.15);
-            --accent: #00b4ff;
-            --accent2: #00e5a0;
-            --text: #d0e8ff;
-            --muted: #5a7a99;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(7,13,26,0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 2rem;
-            display: flex; align-items: center; justify-content: space-between;
-            height: 60px;
-        }
-        .logo {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 1.1rem; font-weight: 700;
-            color: var(--accent);
-            text-decoration: none;
-        }
-        .logo span { color: var(--text); }
-        nav { display: flex; gap: 1.5rem; }
-        nav a {
-            color: var(--muted); text-decoration: none;
-            font-size: 0.9rem; transition: color 0.2s;
-        }
-        nav a:hover { color: var(--accent); }
-
-        .hero {
-            text-align: center;
-            padding: 5rem 2rem 3rem;
-            background: radial-gradient(ellipse at center, rgba(0,180,255,0.1) 0%, transparent 70%);
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p { color: var(--muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.8rem;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            display: block;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0,180,255,0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .card-icon {
-            width: 50px; height: 50px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            background: rgba(0,180,255,0.1);
-        }
-        .card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent); }
-        .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
-
-        /* AI小工具卡片特殊样式 */
-        .card.ai-tools .card-icon {
-            background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,180,255,0.2));
-        }
-        .card.ai-tools h3 { color: var(--accent2); }
-
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-        }
-    </style>
+    <title>电力在线监测知识库 - 浙江悦和科技有限公司</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">
-            <span>⚡</span>
-            <span>电力在线监测知识库</span>
-        </a>
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="docs/">文档</a>
-            <a href="ai-tools/">AI小工具</a>
-            <a href="about.html">关于</a>
-        </nav>
-    </header>
+    <!-- 背景光效 -->
+    <div class="bg-glow">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+    </div>
 
-    <section class="hero">
-        <h1>电力系统在线监测技术文档</h1>
-        <p>汇集电力设备监测、故障诊断、数据分析等技术资料，助力智能电网建设</p>
-    </section>
-
-    <main class="grid">
-        <!-- AI小工具 -->
-        <a href="ai-tools/" class="card ai-tools">
-            <div class="card-icon">🤖</div>
-            <h3>AI 小工具</h3>
-            <p>智能计算工具集，包括电池寿命计算器、功率计算器等</p>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-brand-icon">⚡</div>
+            <span>电力监测知识库</span>
         </a>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">首页</a>
+            <a href="rfid.html" class="nav-link">RFID测温</a>
+            <a href="monitor.html" class="nav-link">在线监测</a>
+            <a href="graph.html" class="nav-link">知识图谱</a>
+            <a href="ai-learning.html" class="nav-link">AI学习</a>
+        </div>
+        
+        <div class="nav-actions">
+            <div class="search-box" id="searchTrigger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="搜索知识库..." readonly>
+            </div>
+        </div>
+    </nav>
 
-        <a href="docs/monitoring-system.html" class="card">
-            <div class="card-icon">📊</div>
-            <h3>监测系统</h3>
-            <p>在线监测系统架构、传感器选型、数据采集与传输技术</p>
-        </a>
+    <!-- 主内容 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">
+                    <span>⚡</span>
+                    <span>浙江悦和科技有限公司</span>
+                </div>
+                
+                <h1 class="hero-title">电力系统在线监测技术知识库</h1>
+                
+                <p class="hero-subtitle">
+                    汇集电力设备监测、故障诊断、数据分析等技术资料，<br>
+                    RFID无源无线测温与电力在线监测双技术驱动，助力智能电网建设
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">12</div>
+                        <div class="hero-stat-label">技术模块</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">200+</div>
+                        <div class="hero-stat-label">知识点</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">50+</div>
+                        <div class="hero-stat-label">应用案例</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">24/7</div>
+                        <div class="hero-stat-label">AI助手</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <a href="docs/fault-diagnosis.html" class="card">
-            <div class="card-icon">🔍</div>
-            <h3>故障诊断</h3>
-            <p>电力设备故障诊断方法、特征提取、智能诊断算法</p>
-        </a>
+        <!-- 双板块区域 -->
+        <section class="dual-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">核心技术领域</h2>
+                    <p class="section-subtitle">两大技术方向，覆盖电力监测全场景</p>
+                </div>
+                
+                <div class="dual-grid">
+                    <!-- RFID板块 -->
+                    <div class="category-card rfid">
+                        <div class="category-header">
+                            <div class="category-icon">📡</div>
+                            <div class="category-info">
+                                <h3>RFID无源无线测温</h3>
+                                <p>核心技术业务，无源无线实时精准监测</p>
+                            </div>
+                        </div>
+                        
+                        <div class="category-tags">
+                            <span class="tag">无源</span>
+                            <span class="tag">无线</span>
+                            <span class="tag">实时</span>
+                            <span class="tag">精准</span>
+                            <span class="tag">免维护</span>
+                        </div>
+                        
+                        <div class="module-list">
+                            <div class="module-item" onclick="location.href='rfid.html#principle'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                    <path d="M2 17l10 5 10-5"></path>
+                                    <path d="M2 12l10 5 10-5"></path>
+                                </svg>
+                                <span>技术原理</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='rfid.html#products'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    <path d="M3 9h18"></path>
+                                </svg>
+                                <span>产品体系</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='rfid.html#scenarios'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 6v6l4 2"></path>
+                                </svg>
+                                <span>应用场景</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='rfid.html#implementation'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                                <span>实施方案</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='rfid.html#faq'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                                <span>常见问题</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='rfid.html#cases'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>案例分享</span>
+                            </div>
+                        </div>
+                        
+                        <a href="rfid.html" class="category-btn">
+                            <span>进入RFID知识库</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- 监测板块 -->
+                    <div class="category-card monitor">
+                        <div class="category-header">
+                            <div class="category-icon">🔌</div>
+                            <div class="category-info">
+                                <h3>电力在线监测</h3>
+                                <p>智能诊断预警，保障电力系统安全运行</p>
+                            </div>
+                        </div>
+                        
+                        <div class="category-tags">
+                            <span class="tag">监测</span>
+                            <span class="tag">诊断</span>
+                            <span class="tag">分析</span>
+                            <span class="tag">预警</span>
+                            <span class="tag">智能</span>
+                        </div>
+                        
+                        <div class="module-list">
+                            <div class="module-item" onclick="location.href='monitor.html#system'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                                <span>监测系统</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='monitor.html#diagnosis'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                </svg>
+                                <span>故障诊断</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='monitor.html#analysis'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="m19 9-5 5-4-4-3 3"></path>
+                                </svg>
+                                <span>数据分析</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='monitor.html#communication'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                                    <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                                </svg>
+                                <span>通信技术</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='monitor.html#standards'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>标准规范</span>
+                            </div>
+                            <div class="module-item" onclick="location.href='monitor.html#tools'">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                </svg>
+                                <span>工具资源</span>
+                            </div>
+                        </div>
+                        
+                        <a href="monitor.html" class="category-btn">
+                            <span>进入监测知识库</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <a href="docs/data-analysis.html" class="card">
-            <div class="card-icon">📈</div>
-            <h3>数据分析</h3>
-            <p>大数据分析、机器学习在电力监测中的应用</p>
-        </a>
+        <!-- 功能网格区 -->
+        <section class="tools-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">实用工具</h2>
+                    <p class="section-subtitle">专业工具助力高效工作</p>
+                </div>
 
-        <a href="docs/communication.html" class="card">
-            <div class="card-icon">📡</div>
-            <h3>通信技术</h3>
-            <p>电力通信协议、物联网技术、5G在电力系统中的应用</p>
-        </a>
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="location.href='graph.html'">
+                        <div class="tool-icon">🗺️</div>
+                        <h4>知识图谱</h4>
+                        <p>可视化探索知识网络，发现技术关联</p>
+                    </div>
 
-        <a href="docs/standards.html" class="card">
-            <div class="card-icon">📋</div>
-            <h3>标准规范</h3>
-            <p>电力行业相关标准、技术规范、检测规程</p>
-        </a>
+                    <div class="tool-card" onclick="location.href='calculator.html'">
+                        <div class="tool-icon">🧮</div>
+                        <h4>参数计算</h4>
+                        <p>RFID读取距离、温度精度、载流量计算</p>
+                    </div>
+
+                    <div class="tool-card" onclick="location.href='selector.html'">
+                        <div class="tool-icon">📋</div>
+                        <h4>设备选型</h4>
+                        <p>智能推荐传感器型号和系统配置</p>
+                    </div>
+
+                    <div class="tool-card" onclick="location.href='diagnosis.html'">
+                        <div class="tool-icon">🔬</div>
+                        <h4>故障诊断</h4>
+                        <p>引导式故障排查，快速定位问题</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI知识区 -->
+        <section class="tools-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">AI知识</h2>
+                    <p class="section-subtitle">AI调研报告与学习资源，助力智能化转型</p>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="location.href='ai-research.html'">
+                        <div class="tool-icon">📊</div>
+                        <h4>AI调研报告</h4>
+                        <p>AI生成的行业调研、市场分析和趋势预测报告</p>
+                    </div>
+
+                    <div class="tool-card" onclick="location.href='ai-learning.html'">
+                        <div class="tool-icon">🤖</div>
+                        <h4>AI学习</h4>
+                        <p>精选AI学习资源、工具推荐和实战教程</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>© 2026 电力在线监测知识库</p>
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>⚡</span>
+                    <span>电力在线监测知识库</span>
+                </div>
+                <div class="footer-copyright">
+                    © 2026 浙江悦和科技有限公司 版权所有
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <!-- AI助手 -->
+    <div class="ai-assistant" onclick="location.href='chat.html'">
+        <button class="ai-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="22"></line>
+                <line x1="8" y1="22" x2="16" y2="22"></line>
+            </svg>
+            <span>AI助手</span>
+        </button>
+    </div>
+
+    <!-- 搜索弹窗 -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="搜索知识库..." autofocus>
+                <div class="search-close" onclick="closeSearch()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="search-results" id="searchResults"></div>
+            
+            <div class="search-tags">
+                <div class="search-tags-title">热门搜索</div>
+                <div class="search-tags-list">
+                    <span class="search-tag" onclick="searchByTag('RFID原理')">RFID原理</span>
+                    <span class="search-tag" onclick="searchByTag('温度传感器')">温度传感器</span>
+                    <span class="search-tag" onclick="searchByTag('故障诊断')">故障诊断</span>
+                    <span class="search-tag" onclick="searchByTag('开关柜')">开关柜</span>
+                    <span class="search-tag" onclick="searchByTag('变压器')">变压器</span>
+                    <span class="search-tag" onclick="searchByTag('载流量计算')">载流量计算</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/knowledge-data.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        // 搜索弹窗控制
+        const searchTrigger = document.getElementById('searchTrigger');
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        
+        searchTrigger.addEventListener('click', () => {
+            searchModal.classList.add('active');
+            searchInput.focus();
+        });
+        
+        function closeSearch() {
+            searchModal.classList.remove('active');
+        }
+        
+        // ESC关闭搜索
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSearch();
+            }
+        });
+        
+        // 点击背景关闭
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) {
+                closeSearch();
+            }
+        });
+        
+        // 搜索输入
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch();
+            }, 300);
+        });
+        
+        // 标签搜索
+        function searchByTag(tag) {
+            searchInput.value = tag;
+            performSearch();
+        }
+    </script>
 </body>
 </html>

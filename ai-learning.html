@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI学习 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: "PingFang SC", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        .main {
+            padding-top: 120px;
+            min-height: calc(100vh - 200px);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        .category-tab {
+            padding: 10px 24px;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .category-tab:hover, .category-tab.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--brand-primary);
+            color: var(--text-primary);
+        }
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            padding-bottom: 60px;
+        }
+        .resource-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--brand-primary);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+        }
+        .resource-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .resource-info {
+            flex: 1;
+        }
+        .resource-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .resource-desc {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .resource-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .resource-tag {
+            padding: 4px 10px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--brand-primary);
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .section-block {
+            margin-bottom: 40px;
+        }
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .ai-float:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">⚡</div>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
+            <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
+            <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
+            <div class="nav-item active">AI学习</div>
+        </nav>
+        <div class="avatar">我</div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h1>🤖 AI学习资源</h1>
+                <p>精选AI学习资源、工具推荐和实战教程，助力智能化转型</p>
+            </div>
+
+            <!-- AI工具推荐 -->
+            <div class="section-block">
+                <h2 class="section-title">🔥 AI工具推荐</h2>
+                <div class="resources-grid">
+                    <div class="resource-card" onclick="window.open('https://tongyi.aliyun.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🤖</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">通义千问</h3>
+                                <p class="resource-desc">阿里云推出的大语言模型，支持多轮对话、内容创作、代码编写</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">阿里云</span>
+                            <span class="resource-tag">免费</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://yuanbao.tencent.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">💬</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">元宝</h3>
+                                <p class="resource-desc">腾讯推出的AI助手，基于混元大模型，支持对话、写作、代码生成等功能</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">对话生成</span>
+                            <span class="resource-tag">腾讯</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://kimi.moonshot.cn', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🌙</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">Kimi</h3>
+                                <p class="resource-desc">月之暗面推出的AI助手，擅长长文本阅读和分析，支持200万字上下文</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">长文本</span>
+                            <span class="resource-tag">免费</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://chat.deepseek.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🔵</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">DeepSeek</h3>
+                                <p class="resource-desc">深度求索推出的AI助手，代码能力强大，开源模型DeepSeek-Coder</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">代码</span>
+                            <span class="resource-tag">开源</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://zhipuai.cn', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">✨</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">智谱清言</h3>
+                                <p class="resource-desc">智谱AI推出的对话助手，基于ChatGLM模型，支持多轮对话</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">清华</span>
+                            <span class="resource-tag">GLM</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://www.doubao.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">⚡</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">豆包</h3>
+                                <p class="resource-desc">字节跳动推出的AI助手，支持对话、写作、图片生成等多种功能</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">国产AI</span>
+                            <span class="resource-tag">字节跳动</span>
+                            <span class="resource-tag">免费</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI学习平台 -->
+            <div class="section-block">
+                <h2 class="section-title">📚 AI学习平台</h2>
+                <div class="resources-grid">
+                    <div class="resource-card" onclick="window.open('https://www.baidu.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🎓</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">百度AI Studio</h3>
+                                <p class="resource-desc">百度飞桨的在线学习平台，提供免费的AI课程和GPU算力</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">百度</span>
+                            <span class="resource-tag">飞桨</span>
+                            <span class="resource-tag">免费GPU</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://aistudio.baidu.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🔥</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">飞桨AI Studio</h3>
+                                <p class="resource-desc">百度官方深度学习平台，课程、竞赛、算力全免费</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">深度学习</span>
+                            <span class="resource-tag">PaddlePaddle</span>
+                            <span class="resource-tag">免费</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://modelScope.cn', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📦</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">ModelScope</h3>
+                                <p class="resource-desc">阿里达摩院推出的模型社区，汇聚大量开源模型和预训练数据</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">开源模型</span>
+                            <span class="resource-tag">阿里</span>
+                            <span class="resource-tag">数据集</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://openmined.org', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🔒</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">OpenMMLab</h3>
+                                <p class="resource-desc">商汤科技开源的计算机视觉算法库，涵盖目标检测、语义分割等</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">计算机视觉</span>
+                            <span class="resource-tag">商汤</span>
+                            <span class="resource-tag">开源</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://space.bilibili.com/35162213/video', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📺</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">李宏毅机器学习</h3>
+                                <p class="resource-desc">台湾大学李宏毅老师的机器学习课程，B站热门AI学习视频</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">机器学习</span>
+                            <span class="resource-tag">中文教程</span>
+                            <span class="resource-tag">视频课程</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://www.youtube.com/c/joshgordon', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🎥</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">TensorFlow官方教程</h3>
+                                <p class="resource-desc">Google官方TensorFlow教程视频，由工程师讲解，适合入门</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">TensorFlow</span>
+                            <span class="resource-tag">Google</span>
+                            <span class="resource-tag">官方教程</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prompt工程 -->
+            <div class="section-block">
+                <h2 class="section-title">💡 Prompt工程指南</h2>
+                <div class="resources-grid">
+                    <div class="resource-card" onclick="window.open('https://www.promptingguide.ai/zh', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📖</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">Prompt编写指南</h3>
+                                <p class="resource-desc">学习如何编写有效的Prompt，提升AI输出质量（中文版）</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">Prompt技巧</span>
+                            <span class="resource-tag">中文</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://chat.openai.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📝</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">文心一言Prompt中心</h3>
+                                <p class="resource-desc">百度官方Prompt使用指南和模板</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">Prompt模板</span>
+                            <span class="resource-tag">百度</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://www.coze.cn/docs/best_practices', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">⚙️</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">扣子Prompt最佳实践</h3>
+                                <p class="resource-desc">字节跳动官方Bot开发Prompt技巧</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">Bot开发</span>
+                            <span class="resource-tag">字节跳动</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI行业资讯 -->
+            <div class="section-block">
+                <h2 class="section-title">📰 AI行业资讯</h2>
+                <div class="resources-grid">
+                    <div class="resource-card" onclick="window.open('https://www.aigc.cn', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🆕</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">AIGC中文网</h3>
+                                <p class="resource-desc">AI生成内容资讯平台，追踪AI最新动态和技术进展</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">AI资讯</span>
+                            <span class="resource-tag">AIGC</span>
+                            <span class="resource-tag">中文</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://36kr.com/information/AI', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📰</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">36Kr AI</h3>
+                                <p class="resource-desc">36氪AI赛道深度报道，了解AI创业投资动态</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">AI资讯</span>
+                            <span class="resource-tag">创业</span>
+                            <span class="resource-tag">投资</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://www.leiphone.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🖥️</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">雷峰网</h3>
+                                <p class="resource-desc">AI和科技领域深度报道，聚焦AI技术和产业应用</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">AI资讯</span>
+                            <span class="resource-tag">科技媒体</span>
+                            <span class="resource-tag">中文</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://mp.weixin.qq.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">📱</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">AI科技媒体公众号</h3>
+                                <p class="resource-desc">微信公众号搜索"AI科技"获取最新资讯和深度文章</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">微信公众号</span>
+                            <span class="resource-tag">AI资讯</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://www.jiqizhixin.com', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🧠</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">机器之心</h3>
+                                <p class="resource-desc">专业的人工智能科技媒体，提供技术解读和行业分析</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">AI媒体</span>
+                            <span class="resource-tag">技术解读</span>
+                            <span class="resource-tag">中文</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" onclick="window.open('https://ai.codefather.cn', '_blank')">
+                        <div class="resource-header">
+                            <div class="resource-icon">🔔</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">鱼皮AI</h3>
+                                <p class="resource-desc">编程鱼创办的AI导航网站，聚合各类AI工具和学习资源</p>
+                            </div>
+                        </div>
+                        <div class="resource-tags">
+                            <span class="resource-tag">AI导航</span>
+                            <span class="resource-tag">编程</span>
+                            <span class="resource-tag">资源聚合</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p class="powered-by">Power By HLH</p>
+    </footer>
+
+    <div class="ai-float" onclick="window.location.href='chat.html'">
+        <span>💬</span>
+        <span>AI 助手</span>
+    </div>
+</body>
+</html>

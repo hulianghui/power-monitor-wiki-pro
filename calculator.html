@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参数计算器 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --brand-primary: #6366f1;
+            --brand-secondary: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+        body {
+            font-family: "PingFang SC", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        .main {
+            padding-top: 120px;
+            min-height: calc(100vh - 200px);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            padding-bottom: 60px;
+        }
+        .calc-card {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+        }
+        .calc-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(10, 14, 26, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+        }
+        .result-box .result-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .result-box .result-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">⚡</div>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
+            <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
+            <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
+        </nav>
+        <div class="avatar">我</div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h1>🧮 参数计算器</h1>
+                <p>RFID 和电力监测专业参数计算工具</p>
+            </div>
+            
+            <div class="calculator-grid">
+                <div class="calc-card">
+                    <h3>📡 RFID 读取距离计算</h3>
+                    <div class="form-group">
+                        <label>输出功率 (dBm)</label>
+                        <input type="number" id="power" value="33" min="10" max="36">
+                    </div>
+                    <div class="form-group">
+                        <label>天线增益 (dBi)</label>
+                        <input type="number" id="antennaGain" value="6" min="0" max="15">
+                    </div>
+                    <div class="form-group">
+                        <label>标签灵敏度 (dBm)</label>
+                        <input type="number" id="tagSensitivity" value="-20" min="-30" max="-10">
+                    </div>
+                    <div class="form-group">
+                        <label>频率 (MHz)</label>
+                        <select id="frequency">
+                            <option value="860">860 MHz</option>
+                            <option value="915" selected>915 MHz</option>
+                            <option value="2400">2400 MHz</option>
+                        </select>
+                    </div>
+                    <button class="calc-btn" onclick="calculateRfidDistance()">计算</button>
+                    <div class="result-box">
+                        <div class="result-label">估算读取距离</div>
+                        <div class="result-value" id="rfidResult">-</div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3>🌡️ 温度精度计算</h3>
+                    <div class="form-group">
+                        <label>传感器类型</label>
+                        <select id="sensorType">
+                            <option value="pt100">PT100</option>
+                            <option value="ntc">NTC</option>
+                            <option value="digital">数字温度芯片</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>环境温度 (°C)</label>
+                        <input type="number" id="envTemp" value="25" min="-40" max="85">
+                    </div>
+                    <div class="form-group">
+                        <label>测量温度 (°C)</label>
+                        <input type="number" id="measureTemp" value="80" min="-50" max="300">
+                    </div>
+                    <button class="calc-btn" onclick="calculateTempAccuracy()">计算</button>
+                    <div class="result-box">
+                        <div class="result-label">预计精度</div>
+                        <div class="result-value" id="tempResult">-</div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3>📶 信号衰减计算</h3>
+                    <div class="form-group">
+                        <label>传输距离 (m)</label>
+                        <input type="number" id="distance" value="100" min="1" max="1000">
+                    </div>
+                    <div class="form-group">
+                        <label>频率 (MHz)</label>
+                        <select id="freq2">
+                            <option value="860">860 MHz</option>
+                            <option value="915" selected>915 MHz</option>
+                            <option value="2400">2400 MHz</option>
+                        </select>
+                    </div>
+                    <button class="calc-btn" onclick="calculateSignalLoss()">计算</button>
+                    <div class="result-box">
+                        <div class="result-label">路径损耗</div>
+                        <div class="result-value" id="signalResult">-</div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3>⚡ 载流量计算</h3>
+                    <div class="form-group">
+                        <label>电缆截面积 (mm²)</label>
+                        <input type="number" id="cableSize" value="240" min="10" max="1000">
+                    </div>
+                    <div class="form-group">
+                        <label>敷设方式</label>
+                        <select id="installMethod">
+                            <option value="air">空气中敷设</option>
+                            <option value="tray">电缆桥架</option>
+                            <option value="direct">直埋</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>环境温度 (°C)</label>
+                        <input type="number" id="envTemp2" value="30" min="20" max="50">
+                    </div>
+                    <button class="calc-btn" onclick="calculateCurrent()">计算</button>
+                    <div class="result-box">
+                        <div class="result-label">安全载流量</div>
+                        <div class="result-value" id="currentResult">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p class="powered-by">Power By HLH</p>
+    </footer>
+
+    <div class="ai-float" onclick="window.location.href='chat.html'">
+        <span>💬</span>
+        <span>AI 助手</span>
+    </div>
+
+    <script>
+        function calculateRfidDistance() {
+            const power = parseFloat(document.getElementById('power').value);
+            const gain = parseFloat(document.getElementById('antennaGain').value);
+            const sensitivity = parseFloat(document.getElementById('tagSensitivity').value);
+            const freq = parseFloat(document.getElementById('frequency').value);
+            
+            // 简化计算：读取距离 = 10^((发射功率 + 天线增益 - 标签灵敏度 - 自由空间损耗) / 20)
+            // 自由空间损耗 = 32.44 + 20*log10(d) + 20*log10(f)
+            // 假设读取距离 1m 时的损耗为基准
+            const loss1m = 32.44 + 20 * Math.log10(1) + 20 * Math.log10(freq);
+            const EIRP = power + gain; // 等效全向辐射功率
+            const maxLoss = EIRP - sensitivity;
+            const distance = Math.pow(10, (maxLoss - loss1m) / 20);
+            
+            document.getElementById('rfidResult').textContent = distance.toFixed(2) + ' m';
+        }
+
+        function calculateTempAccuracy() {
+            const sensorType = document.getElementById('sensorType').value;
+            const envTemp = parseFloat(document.getElementById('envTemp').value);
+            const measureTemp = parseFloat(document.getElementById('measureTemp').value);
+            
+            let accuracy = '±0.5°C';
+            if (sensorType === 'pt100') {
+                accuracy = '±0.1°C';
+            } else if (sensorType === 'ntc') {
+                accuracy = '±0.5°C';
+            } else {
+                accuracy = '±0.5°C';
+            }
+            
+            document.getElementById('tempResult').textContent = accuracy;
+        }
+
+        function calculateSignalLoss() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const freq = parseFloat(document.getElementById('freq2').value);
+            
+            // 自由空间损耗公式
+            const loss = 32.44 + 20 * Math.log10(distance) + 20 * Math.log10(freq);
+            
+            document.getElementById('signalResult').textContent = loss.toFixed(2) + ' dB';
+        }
+
+        function calculateCurrent() {
+            const cableSize = parseFloat(document.getElementById('cableSize').value);
+            const method = document.getElementById('installMethod').value;
+            const envTemp = parseFloat(document.getElementById('envTemp2').value);
+            
+            // 简化计算：基础载流量 * 温度系数 * 敷设系数
+            let baseCurrent = cableSize * 2.5; // 简化估算
+            let methodFactor = 1;
+            if (method === 'tray') methodFactor = 0.9;
+            if (method === 'direct') methodFactor = 0.8;
+            
+            let tempFactor = 1 - (envTemp - 30) * 0.004;
+            
+            const current = baseCurrent * methodFactor * tempFactor;
+            
+            document.getElementById('currentResult').textContent = current.toFixed(0) + ' A';
+        }
+    </script>
+</body>
+</html>

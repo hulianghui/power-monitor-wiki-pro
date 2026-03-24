@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故障诊断树 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --brand-primary: #6366f1;
+            --brand-secondary: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+        body {
+            font-family: "PingFang SC", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        .main {
+            padding-top: 120px;
+            min-height: calc(100vh - 200px);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        .diagnosis-container {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        .diagnosis-path {
+            margin-bottom: 32px;
+        }
+        .path-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .path-steps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .path-step {
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .path-arrow {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        .question-card {
+            background: rgba(10, 14, 26, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .question-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .question-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .question-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-btn {
+            padding: 16px 20px;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+        .option-btn .option-icon {
+            font-size: 20px;
+        }
+        .result-card {
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .result-card.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .result-card.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .result-card.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .result-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .result-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .result-card.danger .result-title {
+            color: var(--danger);
+        }
+        .result-card.warning .result-title {
+            color: var(--warning);
+        }
+        .result-card.success .result-title {
+            color: var(--success);
+        }
+        .result-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .result-suggestion {
+            background: rgba(10, 14, 26, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+        }
+        .result-suggestion h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .result-suggestion ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .result-suggestion li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .result-suggestion li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--brand-primary);
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            border-color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            padding: 16px 24px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">⚡</div>
+            <span style="color: var(--text-primary); font-size: 16px; font-weight: 600;">电力在线监测知识库</span>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">首页</div>
+            <div class="nav-item" onclick="window.location.href='rfid.html'">RFID 测温</div>
+            <div class="nav-item" onclick="window.location.href='monitor.html'">在线监测</div>
+            <div class="nav-item" onclick="window.location.href='tools.html'">工具</div>
+        </nav>
+        <div class="avatar">我</div>
+    </div>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h1>🩺 故障诊断树</h1>
+                <p>引导式故障排查，快速定位问题根源</p>
+            </div>
+            
+            <div class="diagnosis-container">
+                <div class="diagnosis-path" id="path">
+                    <div class="path-title">诊断路径</div>
+                    <div class="path-steps">
+                        <span class="path-step">开始诊断</span>
+                    </div>
+                </div>
+
+                <div class="question-card" id="question1">
+                    <div class="question-header">
+                        <div class="question-icon">❓</div>
+                        <div class="question-title">故障类型选择</div>
+                    </div>
+                    <div class="question-desc">请选择您遇到的故障类型</div>
+                    <div class="option-list">
+                        <button class="option-btn" onclick="selectFault('temp')">
+                            <span class="option-icon">🌡️</span>
+                            <span>温度异常 - 设备温度超过正常范围</span>
+                        </button>
+                        <button class="option-btn" onclick="selectFault('signal')">
+                            <span class="option-icon">📡</span>
+                            <span>信号异常 - 数据无法采集或传输中断</span>
+                        </button>
+                        <button class="option-btn" onclick="selectFault('accuracy')">
+                            <span class="option-icon">🎯</span>
+                            <span>精度异常 - 测量数据与实际偏差过大</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="diagnosisSteps"></div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="resetDiagnosis()">重新诊断</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库</p>
+        <p class="powered-by">Power By HLH</p>
+    </footer>
+
+    <div class="ai-float" onclick="window.location.href='chat.html'">
+        <span>💬</span>
+        <span>AI 助手</span>
+    </div>
+
+    <script>
+        let currentPath = ['开始诊断'];
+
+        function updatePath() {
+            const pathEl = document.getElementById('path');
+            let html = '<div class="path-title">诊断路径</div><div class="path-steps">';
+            currentPath.forEach((step, index) => {
+                if (index > 0) {
+                    html += '<span class="path-arrow">→</span>';
+                }
+                html += `<span class="path-step">${step}</span>`;
+            });
+            html += '</div>';
+            pathEl.innerHTML = html;
+        }
+
+        function selectFault(type) {
+            currentPath.push('故障类型：' + (type === 'temp' ? '温度异常' : type === 'signal' ? '信号异常' : '精度异常'));
+            updatePath();
+
+            const container = document.getElementById('diagnosisSteps');
+            
+            if (type === 'temp') {
+                container.innerHTML = `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div class="question-icon">🌡️</div>
+                            <div class="question-title">温度异常详细情况</div>
+                        </div>
+                        <div class="question-desc">温度异常的具体表现是什么？</div>
+                        <div class="option-list">
+                            <button class="option-btn" onclick="showResult('temp_single', '单点温度异常', 'warning')">
+                                <span class="option-icon">1️⃣</span>
+                                <span>单点温度异常 - 仅某个测温点温度偏高</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('temp_multi', '多点温度同时升高', 'danger')">
+                                <span class="option-icon">🔺</span>
+                                <span>多点温度同时升高 - 多个测温点温度异常</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('temp_gradual', '温度缓慢上升', 'success')">
+                                <span class="option-icon">📈</span>
+                                <span>温度缓慢上升 - 温度逐渐升高但未超限</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('temp_rate', '温升速率过快', 'danger')">
+                                <span class="option-icon">⚡</span>
+                                <span>温升速率过快 - 短时间内温度急剧上升</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'signal') {
+                container.innerHTML = `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div class="question-icon">📡</div>
+                            <div class="question-title">信号异常详细情况</div>
+                        </div>
+                        <div class="question-desc">信号异常的具体表现是什么？</div>
+                        <div class="option-list">
+                            <button class="option-btn" onclick="showResult('signal_lost', '信号丢失', 'danger')">
+                                <span class="option-icon">❌</span>
+                                <span>信号丢失 - 完全无法读取标签数据</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('signal_weak', '信号弱', 'warning')">
+                                <span class="option-icon">📶</span>
+                                <span>信号弱 - 读取成功率低于 95%</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('signal_jump', '数据跳变', 'warning')">
+                                <span class="option-icon">〰️</span>
+                                <span>数据跳变 - 温度数据不稳定，波动大</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'accuracy') {
+                container.innerHTML = `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div class="question-icon">🎯</div>
+                            <div class="question-title">精度异常详细情况</div>
+                        </div>
+                        <div class="question-desc">精度异常的具体表现是什么？</div>
+                        <div class="option-list">
+                            <button class="option-btn" onclick="showResult('accuracy_bias', '数据偏差大', 'warning')">
+                                <span class="option-icon">📊</span>
+                                <span>数据偏差大 - 与标准温度计偏差超过 2°C</span>
+                            </button>
+                            <button class="option-btn" onclick="showResult('accuracy_drift', '数据漂移', 'warning')">
+                                <span class="option-icon">↗️</span>
+                                <span>数据漂移 - 长时间测量精度逐渐下降</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function showResult(id, title, level) {
+            currentPath.push(title);
+            updatePath();
+
+            const container = document.getElementById('diagnosisSteps');
+            
+            const results = {
+                'temp_single': {
+                    icon: '⚠️',
+                    title: '可能原因：接触电阻增大',
+                    desc: '单点温度异常通常表示该测点接触电阻增大或传感器安装不当。',
+                    suggestions: [
+                        '检查该测温点设备运行状态',
+                        '检测触头或连接处接触电阻',
+                        '检查传感器安装是否牢固、接触是否良好',
+                        '测量环境温度，排除环境因素影响'
+                    ]
+                },
+                'temp_multi': {
+                    icon: '🚨',
+                    title: '可能原因：负荷增大或环境温度升高',
+                    desc: '多点温度同时升高通常与负荷电流增大或环境温度升高有关。',
+                    suggestions: [
+                        '查看负荷电流记录，确认负荷变化',
+                        '检查环境温度是否异常',
+                        '对比历史同期温度数据',
+                        '如持续超限，建议降低负荷或改善通风'
+                    ]
+                },
+                'temp_gradual': {
+                    icon: '✅',
+                    title: '初步判断：正常现象可能性大',
+                    desc: '温度缓慢上升但未超限，可能是负荷逐渐增加或季节性温度变化。',
+                    suggestions: [
+                        '继续监测温度趋势',
+                        '对比相同负荷下的历史温度',
+                        '检查设备负荷分配是否均衡',
+                        '建议每周记录温度数据'
+                    ]
+                },
+                'temp_rate': {
+                    icon: '🚨',
+                    title: '紧急情况：可能即将发生故障！',
+                    desc: '温升速率过快（>5°C/分钟）通常预示严重故障，必须立即处理！',
+                    suggestions: [
+                        '立即通知运维人员',
+                        '做好停电准备',
+                        '检查设备是否需要紧急停电',
+                        '排查是否有短路或接地故障'
+                    ]
+                },
+                'signal_lost': {
+                    icon: '🚨',
+                    title: '可能原因：标签损坏或读写器故障',
+                    desc: '信号完全丢失，可能是标签损坏、读写器故障或天线问题。',
+                    suggestions: [
+                        '用手持读写器测试该标签',
+                        '检查标签是否脱落或损坏',
+                        '检查读写器指示灯状态',
+                        '检查天线连接是否正常',
+                        '尝试重启读写器'
+                    ]
+                },
+                'signal_weak': {
+                    icon: '⚠️',
+                    title: '可能原因：信号干扰或距离过远',
+                    desc: '信号弱可能是金属遮挡、电磁干扰或读写距离超出范围。',
+                    suggestions: [
+                        '检查标签与天线之间是否有金属遮挡',
+                        '确认读写距离是否在允许范围内',
+                        '检查附近是否有新的干扰源',
+                        '调整天线角度或位置',
+                        '如持续信号弱，考虑更换标签位置'
+                    ]
+                },
+                'signal_jump': {
+                    icon: '⚠️',
+                    title: '可能原因：接触不良或电磁干扰',
+                    desc: '数据跳变通常是接触不良或强电磁干扰造成的。',
+                    suggestions: [
+                        '检查传感器与测点接触是否良好',
+                        '检查读写器天线是否松动',
+                        '查看附近是否有新增干扰设备',
+                        '尝试重新校准传感器',
+                        '如问题持续，可能需要更换传感器'
+                    ]
+                },
+                'accuracy_bias': {
+                    icon: '⚠️',
+                    title: '可能原因：传感器老化或校准偏差',
+                    desc: '数据偏差大可能是传感器精度下降或未正确校准。',
+                    suggestions: [
+                        '用标准温度计现场比对',
+                        '重新校准传感器',
+                        '检查传感器使用时长',
+                        '考虑更换高精度传感器',
+                        '如批量偏差，可能需要整体校准'
+                    ]
+                },
+                'accuracy_drift': {
+                    icon: '⚠️',
+                    title: '可能原因：传感器老化',
+                    desc: '数据漂移通常是传感器性能逐渐退化造成的。',
+                    suggestions: [
+                        '对比历史数据，确认漂移趋势',
+                        '检查传感器使用时长',
+                        '考虑更换传感器',
+                        '建立定期校准机制',
+                        '记录更换后的基线数据'
+                    ]
+                }
+            };
+
+            const result = results[id];
+            const levelClass = level === 'danger' ? 'danger' : level === 'warning' ? 'warning' : 'success';
+
+            container.innerHTML = `
+                <div class="result-card ${levelClass}">
+                    <div class="result-icon">${result.icon}</div>
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-desc">${result.desc}</div>
+                    <div class="result-suggestion">
+                        <h4>处理建议：</h4>
+                        <ul>
+                            ${result.suggestions.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetDiagnosis() {
+            currentPath = ['开始诊断'];
+            updatePath();
+            document.getElementById('diagnosisSteps').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

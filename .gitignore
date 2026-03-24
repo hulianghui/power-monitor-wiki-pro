@@ -1,22 +1,25 @@
-# Dependencies
+# 依赖
 node_modules/
-
-# Build output
-dist/
-build/
+package-lock.json
 
 # IDE
-.idea/
 .vscode/
+.idea/
+*.swp
+*.swo
 
-# OS
+# 系统文件
 .DS_Store
 Thumbs.db
 
-# Logs
+# 日志
 *.log
-npm-debug.log*
 
-# Environment
-.env
-.env.local
+# 备份
+*.bak
+*.backup
+backup/
+
+# 临时文件
+tmp/
+temp/

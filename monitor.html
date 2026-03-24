@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电力在线监测 - 电力在线监测知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-glow">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-brand-icon">⚡</div>
+            <span>电力监测知识库</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="rfid.html" class="nav-link">RFID测温</a>
+            <a href="monitor.html" class="nav-link active">在线监测</a>
+            <a href="graph.html" class="nav-link">知识图谱</a>
+        </div>
+        <div class="nav-actions">
+            <div class="search-box" id="searchTrigger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="搜索知识库..." readonly>
+            </div>
+        </div>
+    </nav>
+
+    <div class="library-layout">
+        <aside class="library-sidebar monitor">
+            <div class="sidebar-search">
+                <div class="sidebar-search-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" class="sidebar-search-input" placeholder="搜索内容..." id="sidebarSearchInput">
+                </div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title" onclick="toggleSection(this)">
+                        <span>📊 监测系统</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item active" data-section="transformer-monitor">
+                            <span class="sidebar-item-icon">🔌</span>
+                            <span class="sidebar-item-text">变压器监测</span>
+                        </li>
+                        <li class="sidebar-item" data-section="gis-monitor">
+                            <span class="sidebar-item-icon">⚡</span>
+                            <span class="sidebar-item-text">GIS监测</span>
+                        </li>
+                        <li class="sidebar-item" data-section="cable-monitor">
+                            <span class="sidebar-item-icon">🔗</span>
+                            <span class="sidebar-item-text">电缆监测</span>
+                        </li>
+                        <li class="sidebar-item" data-section="arrester-monitor">
+                            <span class="sidebar-item-icon">🛡️</span>
+                            <span class="sidebar-item-text">避雷器监测</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title" onclick="toggleSection(this)">
+                        <span>🔍 故障诊断</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-section="pd-diagnosis">
+                            <span class="sidebar-item-icon">⚡</span>
+                            <span class="sidebar-item-text">局部放电诊断</span>
+                        </li>
+                        <li class="sidebar-item" data-section="overheat-diagnosis">
+                            <span class="sidebar-item-icon">🌡️</span>
+                            <span class="sidebar-item-text">过热故障诊断</span>
+                        </li>
+                        <li class="sidebar-item" data-section="insulation-diagnosis">
+                            <span class="sidebar-item-icon">🔒</span>
+                            <span class="sidebar-item-text">绝缘故障诊断</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title" onclick="toggleSection(this)">
+                        <span>📈 数据分析</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-section="trend-analysis">
+                            <span class="sidebar-item-icon">📉</span>
+                            <span class="sidebar-item-text">趋势分析</span>
+                        </li>
+                        <li class="sidebar-item" data-section="spectrum-analysis">
+                            <span class="sidebar-item-icon">📊</span>
+                            <span class="sidebar-item-text">频谱分析</span>
+                        </li>
+                        <li class="sidebar-item" data-section="pattern-analysis">
+                            <span class="sidebar-item-icon">🎯</span>
+                            <span class="sidebar-item-text">图谱分析</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title" onclick="toggleSection(this)">
+                        <span>📡 通信技术</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-section="iec61850">
+                            <span class="sidebar-item-icon">🔌</span>
+                            <span class="sidebar-item-text">IEC 61850</span>
+                        </li>
+                        <li class="sidebar-item" data-section="modbus">
+                            <span class="sidebar-item-icon">📝</span>
+                            <span class="sidebar-item-text">Modbus</span>
+                        </li>
+                        <li class="sidebar-item" data-section="wireless">
+                            <span class="sidebar-item-icon">📶</span>
+                            <span class="sidebar-item-text">无线通信</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title" onclick="toggleSection(this)">
+                        <span>📚 标准规范</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-section="national-standards">
+                            <span class="sidebar-item-icon">🏛️</span>
+                            <span class="sidebar-item-text">国家标准</span>
+                        </li>
+                        <li class="sidebar-item" data-section="industry-standards">
+                            <span class="sidebar-item-icon">📋</span>
+                            <span class="sidebar-item-text">行业标准</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <main class="library-content">
+            <div class="content-main">
+            <div class="content-detail" id="content-default">
+                <div class="content-header">
+                    <h1>📊 电力在线监测技术</h1>
+                    <p>基于先进传感技术和通信技术的电力设备在线监测解决方案，实时掌握设备健康状态</p>
+                </div>
+
+                <div class="content-block">
+                    <h2 class="block-title">
+                        <span class="block-title-icon">⚡</span>
+                        核心能力
+                    </h2>
+                    <div class="feature-grid">
+                        <div class="feature-item monitor">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-content">
+                                <h4>实时监测</h4>
+                                <p>24/7全天候监测，秒级响应，异常及时告警</p>
+                            </div>
+                        </div>
+                        <div class="feature-item monitor">
+                            <div class="feature-icon">🔍</div>
+                            <div class="feature-content">
+                                <h4>智能诊断</h4>
+                                <p>基于AI的故障诊断，自动识别故障类型</p>
+                            </div>
+                        </div>
+                        <div class="feature-item monitor">
+                            <div class="feature-icon">📈</div>
+                            <div class="feature-content">
+                                <h4>数据分析</h4>
+                                <p>历史数据存储，趋势预测分析</p>
+                            </div>
+                        </div>
+                        <div class="feature-item monitor">
+                            <div class="feature-icon">🔗</div>
+                            <div class="feature-content">
+                                <h4>标准通信</h4>
+                                <p>IEC 61850/Modbus等标准协议支持</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h2 class="block-title">
+                        <span class="block-title-icon">🗂️</span>
+                        内容导航
+                    </h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor" onclick="navigateTo('transformer-monitor')">
+                            <div class="content-card-icon">📊</div>
+                            <h3>监测系统</h3>
+                            <p>变压器、GIS、电缆、避雷器等设备监测方案</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">4个系统</span>
+                            </div>
+                        </div>
+                        <div class="content-card monitor" onclick="navigateTo('pd-diagnosis')">
+                            <div class="content-card-icon">🔍</div>
+                            <h3>故障诊断</h3>
+                            <p>局部放电、过热、绝缘故障诊断方法</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">3个方法</span>
+                            </div>
+                        </div>
+                        <div class="content-card monitor" onclick="navigateTo('trend-analysis')">
+                            <div class="content-card-icon">📈</div>
+                            <h3>数据分析</h3>
+                            <p>趋势分析、频谱分析、图谱分析方法</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">3个分析</span>
+                            </div>
+                        </div>
+                        <div class="content-card monitor" onclick="navigateTo('iec61850')">
+                            <div class="content-card-icon">📡</div>
+                            <h3>通信技术</h3>
+                            <p>IEC 61850、Modbus、无线通信技术</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">3个协议</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 变压器监测 -->
+            <div class="content-detail" id="content-transformer-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>🔌 变压器监测系统</h1>
+                    <p>监测变压器运行状态，预防过载和绝缘老化</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测必要性</h2>
+                    <p>变压器是电力系统的核心设备，其运行状态直接影响电网安全。变压器故障往往造成大面积停电，经济损失巨大。统计数据显示，提前发现变压器隐患可以避免80%以上的严重故障。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测参数</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>参数类型</th>
+                                <th>监测内容</th>
+                                <th>重要性</th>
+                                <th>传感器</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>温度</strong></td>
+                                <td>绕组温度、油温、铁芯温度</td>
+                                <td>★★★★★</td>
+                                <td>RFID/油温传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>负荷</strong></td>
+                                <td>负载电流、负载率</td>
+                                <td>★★★★☆</td>
+                                <td>CT+变送器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>油位</strong></td>
+                                <td>油枕油位、套管油位</td>
+                                <td>★★★☆☆</td>
+                                <td>液位传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>振动</strong></td>
+                                <td>振动频率、振幅</td>
+                                <td>★★☆☆☆</td>
+                                <td>加速度传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>油压</strong></td>
+                                <td>油箱压力、压力继电器</td>
+                                <td>★★★☆☆</td>
+                                <td>压力传感器</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测方法</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌡️</div>
+                            <h3>油温监测</h3>
+                            <p>采用RFID测温或红外热成像方式，实现变压器油温的在线连续监测。RFID适用于在线连续监测，红外适用于巡检时的补充检测。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>负载监测</h3>
+                            <p>通过CT电流互感器采集负荷电流数据，计算负载率，为变压器运行状态评估提供依据。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">💨</div>
+                            <h3>油色谱分析(DGA)</h3>
+                            <p>监测油中溶解气体含量及增长速率，是判断变压器内部故障的重要手段。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📡</div>
+                            <h3>局部放电监测</h3>
+                            <p>采用UHF或超声波方法检测绝缘局部放电，是发现绝缘劣化的早期预警手段。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>温度限制标准（油浸式变压器）</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>绝缘等级</th>
+                                <th>额定温升</th>
+                                <th>最高热点温度</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A级绝缘</td>
+                                <td>65K</td>
+                                <td>105°C</td>
+                                <td>纸浸渍矿物油</td>
+                            </tr>
+                            <tr>
+                                <td>B级绝缘</td>
+                                <td>80K</td>
+                                <td>130°C</td>
+                                <td>纸浸渍合成油</td>
+                            </tr>
+                            <tr>
+                                <td>F级绝缘</td>
+                                <td>100K</td>
+                                <td>150°C</td>
+                                <td>NOMEX纸</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>告警阈值设置</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>告警类型</th>
+                                <th>阈值</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>绕组温度告警</td>
+                                <td>>105°C</td>
+                                <td>降低负载</td>
+                            </tr>
+                            <tr>
+                                <td>顶层油温告警</td>
+                                <td>>85°C</td>
+                                <td>检查冷却系统</td>
+                            </tr>
+                            <tr>
+                                <td>温升速率告警</td>
+                                <td>>5°C/小时</td>
+                                <td>紧急检查</td>
+                            </tr>
+                            <tr>
+                                <td>三相温差告警</td>
+                                <td>>15K</td>
+                                <td>立即停电检查</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GIS监测 -->
+            <div class="content-detail" id="content-gis-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>⚡ GIS监测系统</h1>
+                    <p>气体绝缘开关设备状态监测</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目</h2>
+                    <ul>
+                        <li><strong>局部放电监测</strong>：UHF传感器检测</li>
+                        <li><strong>气体密度监测</strong>：SF6压力监测</li>
+                        <li><strong>温度监测</strong>：导体温度、壳体温度</li>
+                        <li><strong>水分监测</strong>：露点温度监测</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 电缆监测 -->
+            <div class="content-detail" id="content-cable-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>🔗 电缆监测系统</h1>
+                    <p>电力电缆运行状态监测</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目</h2>
+                    <ul>
+                        <li><strong>温度监测</strong>：光纤测温DTS</li>
+                        <li><strong>局部放电监测</strong>：高频电流传感器</li>
+                        <li><strong>护层电流监测</strong>：接地电流检测</li>
+                        <li><strong>载流量监测</strong>：动态增容计算</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 避雷器监测 -->
+            <div class="content-detail" id="content-arrester-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>🛡️ 避雷器监测系统</h1>
+                    <p>金属氧化物避雷器在线监测</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目</h2>
+                    <ul>
+                        <li><strong>全电流监测</strong>：阻性电流、容性电流</li>
+                        <li><strong>动作次数统计</strong>：雷击动作记录</li>
+                        <li><strong>能耗监测</strong>：泄漏电流累积</li>
+                        <li><strong>温升监测</strong>：外壳温度</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 局部放电诊断 -->
+            <div class="content-detail" id="content-pd-diagnosis" style="display: none;">
+                <div class="content-header">
+                    <h1>⚡ 局部放电诊断</h1>
+                    <p>通过监测局部放电特征判断绝缘状态</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电原理</h2>
+                    <p>局部放电（Partial Discharge，PD）是绝缘材料局部区域的放电现象，不会立即形成贯穿性通道，但会逐步劣化绝缘。局部放电是电力设备绝缘劣化的主要征兆之一。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>放电类型详解</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">💥</div>
+                            <h3>内部放电</h3>
+                            <p>绝缘内部气隙或杂质引起，脉冲幅值较小，放电相位集中在电压绝对值较高区域。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>表面放电</h3>
+                            <p>绝缘表面污秽或潮湿引起，放电脉冲幅值中等，相位分布较宽。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>尖端放电</h3>
+                            <p>导体尖端电场集中引起，放电脉冲幅值大，放电频率高。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔴</div>
+                            <h3>悬浮放电</h3>
+                            <p>悬浮电位体引起，放电脉冲幅值大且不规则，常伴有周期性特征。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断方法对比</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>方法</th>
+                                <th>原理</th>
+                                <th>灵敏度</th>
+                                <th>适用设备</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>UHF法</strong></td>
+                                <td>检测UHF电磁波</td>
+                                <td>高</td>
+                                <td>GIS、变压器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>超声波法</strong></td>
+                                <td>检测超声信号</td>
+                                <td>低</td>
+                                <td>GIS、开关柜</td>
+                            </tr>
+                            <tr>
+                                <td><strong>脉冲电流法</strong></td>
+                                <td>检测接地电流</td>
+                                <td>中等</td>
+                                <td>电缆、变压器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>光测法</strong></td>
+                                <td>检测光信号</td>
+                                <td>高</td>
+                                <td>实验室</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测参数</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>单位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>放电量</td>
+                                <td>单次放电的电荷量</td>
+                                <td>pC（皮库仑）</td>
+                            </tr>
+                            <tr>
+                                <td>放电频率</td>
+                                <td>单位时间内的放电次数</td>
+                                <td>N/s（次/秒）</td>
+                            </tr>
+                            <tr>
+                                <td>PRPD图谱</td>
+                                <td>相位分辨放电图案</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>PRPS图谱</td>
+                                <td>相位分辨时域图案</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断标准</h2>
+                    <p>依据IEC 60271、GB/T 7354等标准，放电量等级划分：</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>等级</th>
+                                <th>放电量范围</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>正常</td>
+                                <td>＜100pC</td>
+                                <td>正常运行</td>
+                            </tr>
+                            <tr>
+                                <td>注意</td>
+                                <td>100-1000pC</td>
+                                <td>加强监测频率</td>
+                            </tr>
+                            <tr>
+                                <td>异常</td>
+                                <td>1000-10000pC</td>
+                                <td>尽快安排检修</td>
+                            </tr>
+                            <tr>
+                                <td>严重</td>
+                                <td>＞10000pC</td>
+                                <td>立即停电检查</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 过热故障诊断 -->
+            <div class="content-detail" id="content-overheat-diagnosis" style="display: none;">
+                <div class="content-header">
+                    <h1>🌡️ 过热故障诊断</h1>
+                    <p>通过温度特征识别设备过热问题</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断方法</h2>
+                    <ul>
+                        <li><strong>温度阈值告警</strong>：设定告警阈值</li>
+                        <li><strong>温升速率告警</strong>：温升过快告警</li>
+                        <li><strong>相对温差分析</strong>：三相横向对比</li>
+                        <li><strong>热像图分析</strong>：红外热成像</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 绝缘故障诊断 -->
+            <div class="content-detail" id="content-insulation-diagnosis" style="display: none;">
+                <div class="content-header">
+                    <h1>�绝缘 绝缘故障诊断</h1>
+                    <p>绝缘劣化评估和寿命预测</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断方法</h2>
+                    <ul>
+                        <li><strong>介质损耗因数</strong>：tanδ监测</li>
+                        <li><strong>电容值变化</strong>：绝缘电容监测</li>
+                        <li><strong>绝缘电阻</strong>：在线绝缘监测</li>
+                        <li><strong>局部放电谱图</strong>：图谱分析</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 趋势分析 -->
+            <div class="content-detail" id="content-trend-analysis" style="display: none;">
+                <div class="content-header">
+                    <h1>📉 趋势分析</h1>
+                    <p>基于历史数据的趋势预测</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>分析方法</h2>
+                    <ul>
+                        <li><strong>温度趋势曲线</strong>：历史温度变化</li>
+                        <li><strong>负荷关联分析</strong>：负荷与温度关系</li>
+                        <li><strong>同比/环比分析</strong>：同期对比分析</li>
+                        <li><strong>异常预警</strong>：趋势异常检测</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 频谱分析 -->
+            <div class="content-detail" id="content-spectrum-analysis" style="display: none;">
+                <div class="content-header">
+                    <h1>📊 频谱分析</h1>
+                    <p>信号频域特征分析</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>分析方法</h2>
+                    <ul>
+                        <li><strong>FFT频谱分析</strong>：快速傅里叶变换</li>
+                        <li><strong>小波变换分析</strong>：时频分析</li>
+                        <li><strong>时频联合分析</strong>：联合时频分析</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 图谱分析 -->
+            <div class="content-detail" id="content-pattern-analysis" style="display: none;">
+                <div class="content-header">
+                    <h1>🎯 图谱分析</h1>
+                    <p>放电图谱模式识别</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>图谱类型</h2>
+                    <ul>
+                        <li><strong>PRPD图谱</strong>：相位-放电量-放电次数</li>
+                        <li><strong>PRPS图谱</strong>：相位-放电量-工频周期</li>
+                        <li><strong>三维图谱</strong>：立体显示</li>
+                        <li><strong>统计特征提取</strong>：特征参数计算</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- IEC61850 -->
+            <div class="content-detail" id="content-iec61850" style="display: none;">
+                <div class="content-header">
+                    <h1>🔌 IEC 61850</h1>
+                    <p>变电站通信网络和系统标准</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>标准概述</h2>
+                    <p>IEC 61850是电力系统自动化领域的通信标准，实现了变电站设备之间的互操作性，是智能变电站的核心通信标准。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>核心特点</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📦</div>
+                            <h3>信息模型</h3>
+                            <p>标准化的设备对象模型（Data Object），统一的数据结构和命名规范</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>通信服务</h3>
+                            <p>ACSI抽象通信服务接口，独立于具体通信协议</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📝</div>
+                            <h3>配置语言</h3>
+                            <p>SCL系统配置描述语言，标准化配置文件</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🤝</div>
+                            <h3>互操作性</h3>
+                            <p>不同厂商设备互联互通，降低集成成本</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>核心协议</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>协议</th>
+                                <th>全称</th>
+                                <th>用途</th>
+                                <th>传输方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MMS</strong></td>
+                                <td>制造报文规范</td>
+                                <td>变量访问、文件传输、控制</td>
+                                <td>TCP/IP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GOOSE</strong></td>
+                                <td>通用对象面向变电站事件</td>
+                                <td>跳闸、告警、闭锁等快速事件</td>
+                                <td>以太网（直接映射）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SV</strong></td>
+                                <td>采样值</td>
+                                <td>电流电压采样值传输</td>
+                                <td>以太网（直接映射）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SCL</strong></td>
+                                <td>系统配置语言</td>
+                                <td>设备配置、IED Capability文件</td>
+                                <td>XML文件</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>服务类型</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>服务</th>
+                                <th>说明</th>
+                                <th>应用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>报告服务</td>
+                                <td>数据变化上送、品质上送</td>
+                                <td>监测数据上送</td>
+                            </tr>
+                            <tr>
+                                <td>日志服务</td>
+                                <td>历史数据存储、查询</td>
+                                <td>历史记录</td>
+                            </tr>
+                            <tr>
+                                <td>控制服务</td>
+                                <td>远程控制操作</td>
+                                <td>开关控制</td>
+                            </tr>
+                            <tr>
+                                <td>文件服务</td>
+                                <td>配置文件传输</td>
+                                <td>配置管理</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modbus -->
+            <div class="content-detail" id="content-modbus" style="display: none;">
+                <div class="content-header">
+                    <h1>📝 Modbus</h1>
+                    <p>通用工业通信协议</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>协议概述</h2>
+                    <p>Modbus是工业领域广泛使用的通信协议，由Modicon公司于1979年开发。由于其简单易实现、开放免费的特点，已成为工业通信的标准协议之一。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>协议类型对比</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>说明</th>
+                                <th>物理层</th>
+                                <th>应用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Modbus RTU</strong></td>
+                                <td>二进制格式，传输效率高</td>
+                                <td>RS-232/RS-485</td>
+                                <td>串口通信，小规模系统</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modbus ASCII</strong></td>
+                                <td>ASCII格式，可读性好</td>
+                                <td>RS-232/RS-485</td>
+                                <td>调试阶段，易于调试</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modbus TCP</strong></td>
+                                <td>以太网传输，扩展性强</td>
+                                <td>以太网</td>
+                                <td>网络化，大规模系统</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>数据格式</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>字段</th>
+                                <th>长度</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>地址码</td>
+                                <td>1字节</td>
+                                <td>从机地址（1-247），0为广播地址</td>
+                            </tr>
+                            <tr>
+                                <td>功能码</td>
+                                <td>1字节</td>
+                                <td>读/写操作类型</td>
+                            </tr>
+                            <tr>
+                                <td>数据区</td>
+                                <td>N字节</td>
+                                <td>具体数据内容</td>
+                            </tr>
+                            <tr>
+                                <td>CRC/LRC</td>
+                                <td>2/1字节</td>
+                                <td>错误校验</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>常用功能码</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>功能码</th>
+                                <th>名称</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01</td>
+                                <td>读线圈状态</td>
+                                <td>读取单个或多个输出状态</td>
+                            </tr>
+                            <tr>
+                                <td>02</td>
+                                <td>读离散输入</td>
+                                <td>读取输入状态</td>
+                            </tr>
+                            <tr>
+                                <td>03</td>
+                                <td>读保持寄存器</td>
+                                <td>读取一个或多个保持寄存器</td>
+                            </tr>
+                            <tr>
+                                <td>04</td>
+                                <td>读输入寄存器</td>
+                                <td>读取输入寄存器</td>
+                            </tr>
+                            <tr>
+                                <td>05</td>
+                                <td>写单个线圈</td>
+                                <td>写入单个输出状态</td>
+                            </tr>
+                            <tr>
+                                <td>06</td>
+                                <td>写单个寄存器</td>
+                                <td>写入单个保持寄存器</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>写多个寄存器</td>
+                                <td>写入多个保持寄存器</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 无线通信 -->
+            <div class="content-detail" id="content-wireless" style="display: none;">
+                <div class="content-header">
+                    <h1>📶 无线通信</h1>
+                    <p>无线传感器网络技术</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>通信技术</h2>
+                    <ul>
+                        <li><strong>LoRaWAN</strong>：远距离低功耗</li>
+                        <li><strong>NB-IoT</strong>：窄带物联网</li>
+                        <li><strong>Wi-Fi</strong>：局域网覆盖</li>
+                        <li><strong>4G/5G</strong>：移动网络</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 国家标准 -->
+            <div class="content-detail" id="content-national-standards" style="display: none;">
+                <div class="content-header">
+                    <h1>🏛️ 国家标准</h1>
+                    <p>电力设备监测相关国家标准</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>标准列表</h2>
+                    <ul>
+                        <li>GB/T 11022 - 高压开关设备和控制设备</li>
+                        <li>GB/T 1094 - 电力变压器</li>
+                        <li>GB/T 7354 - 局部放电测量</li>
+                        <li>GB/T 10233 - 变压器油中溶解气体分析</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 行业标准 -->
+            <div class="content-detail" id="content-industry-standards" style="display: none;">
+                <div class="content-header">
+                    <h1>📋 行业标准</h1>
+                    <p>电力行业监测相关标准</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>标准列表</h2>
+                    <ul>
+                        <li>DL/T 722 - 变压器油中溶解气体分析和判断导则</li>
+                        <li>DL/T 255 - 变压器油温度测量装置</li>
+                        <li>DL/T 1432 - 变压器用绕组温湿度仪</li>
+                    </ul>
+                </div>
+            </div>
+            </div>
+            
+            <!-- 右侧目录 -->
+            <aside class="library-toc" id="libraryToc">
+                <div class="toc-title">本章目录</div>
+                <ul class="toc-list" id="tocList"></ul>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>⚡</span>
+                    <span>电力在线监测知识库</span>
+                </div>
+                <div class="footer-copyright">
+                    © 2026 浙江悦和科技有限公司 版权所有
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="ai-assistant" onclick="location.href='chat.html'">
+        <button class="ai-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="22"></line>
+                <line x1="8" y1="22" x2="16" y2="22"></line>
+            </svg>
+            <span>AI助手</span>
+        </button>
+    </div>
+
+    <div class="search-modal" id="searchModal">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="搜索知识库..." autofocus>
+                <div class="search-close" onclick="closeSearch()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+            <div class="search-tags">
+                <div class="search-tags-title">热门搜索</div>
+                <div class="search-tags-list">
+                    <span class="search-tag" onclick="searchByTag('局部放电')">局部放电</span>
+                    <span class="search-tag" onclick="searchByTag('变压器监测')">变压器监测</span>
+                    <span class="search-tag" onclick="searchByTag('IEC61850')">IEC61850</span>
+                    <span class="search-tag" onclick="searchByTag('故障诊断')">故障诊断</span>
+                    <span class="search-tag" onclick="searchByTag('DGA分析')">DGA分析</span>
+                    <span class="search-tag" onclick="searchByTag('载流量计算')">载流量计算</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/knowledge-data.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const contents = document.querySelectorAll('.content-detail');
+
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.dataset.section;
+                navigateTo(section);
+            });
+        });
+
+        function navigateTo(section) {
+            sidebarItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.section === section);
+            });
+
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            const targetContent = document.getElementById(`content-${section}`);
+            if (targetContent) {
+                targetContent.style.display = 'block';
+                updateTocHighlight(section);
+                targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function generateToc(section) {
+            const tocList = document.getElementById('tocList');
+            if (!tocList) return;
+            
+            tocList.innerHTML = '';
+            
+            const targetContent = document.getElementById(`content-${section}`);
+            if (!targetContent) return;
+            
+            const h2Elements = targetContent.querySelectorAll('h2');
+            
+            if (h2Elements.length === 0) {
+                tocList.innerHTML = '<li class="toc-item"><span class="toc-link" style="color: var(--text-tertiary); cursor: default;">暂无标题</span></li>';
+                return;
+            }
+            
+            h2Elements.forEach((h2, index) => {
+                const text = h2.textContent.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '').trim();
+                if (!h2.id) {
+                    h2.id = `heading-${section}-${index}`;
+                }
+                
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                li.innerHTML = `<a href="javascript:void(0)" class="toc-link level-2" data-target="#${h2.id}">${h2.textContent}</a>`;
+                li.querySelector('a').addEventListener('click', () => {
+                    h2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+                    li.querySelector('a').classList.add('active');
+                });
+                tocList.appendChild(li);
+            });
+        }
+
+        function updateTocHighlight(activeSection) {
+            generateToc(activeSection);
+        }
+
+        function toggleSection(title) {
+            const section = title.closest('.sidebar-section');
+            section.classList.toggle('collapsed');
+        }
+
+        const sidebarSearchInput = document.getElementById('sidebarSearchInput');
+        if (sidebarSearchInput) {
+            sidebarSearchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (!query) {
+                    document.querySelectorAll('.sidebar-item').forEach(item => {
+                        item.style.display = '';
+                    });
+                    document.querySelectorAll('.sidebar-section').forEach(section => {
+                        section.style.display = '';
+                    });
+                    return;
+                }
+                
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    const text = item.querySelector('.sidebar-item-text').textContent.toLowerCase();
+                    item.style.display = text.includes(query) ? '' : 'none';
+                });
+                
+                document.querySelectorAll('.sidebar-section').forEach(section => {
+                    const visibleItems = section.querySelectorAll('.sidebar-item[style=""], .sidebar-item:not([style])');
+                    const hasVisible = Array.from(visibleItems).some(item => item.style.display !== 'none');
+                    if (!hasVisible) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = '';
+                    }
+                });
+            });
+        }
+
+        const searchTrigger = document.getElementById('searchTrigger');
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+
+        searchTrigger.addEventListener('click', () => {
+            searchModal.classList.add('active');
+            searchInput.focus();
+        });
+
+        function closeSearch() {
+            searchModal.classList.remove('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSearch();
+        });
+
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) closeSearch();
+        });
+
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch();
+            }, 300);
+        });
+
+        function searchByTag(tag) {
+            searchInput.value = tag;
+            performSearch();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateToc('dga');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电力在线监测知识库 - 浙江悦和科技有限公司</title>
+    <style>
+        :root {
+            /* 深色科技主题 */
+            --bg-dark: #0a0e1a;
+            --bg-card: #111827;
+            --bg-card-hover: #1f2937;
+            --bg-gradient: linear-gradient(135deg, #0a0e1a 0%, #1e1b4b 50%, #0f172a 100%);
+            
+            /* 品牌色 - 科技蓝紫 */
+            --brand-primary: #6366f1;
+            --brand-secondary: #8b5cf6;
+            --brand-accent: #06b6d4;
+            --brand-glow: rgba(99, 102, 241, 0.3);
+            
+            /* RFID 专属色 - 霓虹紫 */
+            --rfid-primary: #a855f7;
+            --rfid-secondary: #ec4899;
+            --rfid-glow: rgba(168, 85, 247, 0.4);
+            
+            /* 监测专属色 - 赛博青 */
+            --monitor-primary: #06b6d4;
+            --monitor-secondary: #3b82f6;
+            --monitor-glow: rgba(6, 182, 212, 0.4);
+            
+            /* 文字 */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+            
+            /* 边框 */
+            --border: rgba(148, 163, 184, 0.1);
+            --border-glow: rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "PingFang SC", "SF Pro SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 背景光效 */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-glow::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--rfid-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* 顶部导航 - 玻璃态 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 20px var(--brand-glow);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .nav-item.active {
+            color: var(--brand-primary);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border-glow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            width: 280px;
+            height: 44px;
+            background: rgba(17, 24, 39, 0.6);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 10px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 20px var(--brand-glow);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--brand-glow);
+        }
+
+        /* 主内容区 */
+        .main {
+            padding-top: 72px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero 区域 - 科技感 */
+        .hero {
+            padding: 100px 40px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 30px;
+            font-size: 13px;
+            color: var(--brand-primary);
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--text-primary) 0%, var(--brand-secondary) 50%, var(--rfid-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* 双板块区域 - 科技感网格 */
+        .tech-section {
+            padding: 60px 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--monitor-primary);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* 网格布局 */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        /* 科技卡片 */
+        .tech-card {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(31, 41, 55, 0.6) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-accent);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--card-glow);
+        }
+
+        .tech-card:hover::before {
+            opacity: 1;
+        }
+
+        .tech-card-header {
+            padding: 40px;
+            background: var(--card-header-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-card-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .tech-card-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--card-icon-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px var(--card-glow);
+        }
+
+        .tech-card-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .tech-card-header p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .tech-card-body {
+            padding: 32px;
+        }
+
+        .tech-modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .tech-module {
+            background: rgba(148, 163, 184, 0.05);
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .tech-module:hover {
+            background: rgba(148, 163, 184, 0.08);
+            border-color: var(--card-accent);
+            transform: translateY(-2px);
+        }
+
+        .tech-module.active {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: var(--rfid-primary);
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+        }
+
+        .tech-module-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--card-icon-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 10px;
+        }
+
+        .tech-module h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tech-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--card-btn-bg);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .tech-btn:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 8px 24px var(--card-glow);
+        }
+
+        /* RFID 卡片专属 */
+        .tech-card.rfid {
+            --card-accent: var(--rfid-primary);
+            --card-glow: var(--rfid-glow);
+            --card-header-bg: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%);
+            --card-icon-bg: linear-gradient(135deg, var(--rfid-primary), var(--rfid-secondary));
+            --card-btn-bg: linear-gradient(135deg, var(--rfid-primary), var(--rfid-secondary));
+        }
+
+        /* 监测卡片专属 */
+        .tech-card.monitor {
+            --card-accent: var(--monitor-primary);
+            --card-glow: var(--monitor-glow);
+            --card-header-bg: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+            --card-icon-bg: linear-gradient(135deg, var(--monitor-primary), var(--monitor-secondary));
+            --card-btn-bg: linear-gradient(135deg, var(--monitor-primary), var(--monitor-secondary));
+        }
+
+        /* 功能网格区 */
+        .features-section {
+            padding: 60px 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(31, 41, 55, 0.8);
+            border-color: var(--brand-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 24px var(--brand-glow);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* AI 悬浮按钮 */
+        .ai-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50px;
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px var(--brand-glow);
+            z-index: 999;
+        }
+
+        .ai-float:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 48px var(--brand-glow);
+        }
+
+        .ai-float-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .ai-float-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: rgba(10, 14, 26, 0.8);
+            border-top: 1px solid var(--border);
+            padding: 60px 40px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .footer-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        /* 页面容器 */
+        .page {
+            display: none;
+            min-height: calc(100vh - 72px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 知识图谱页面 */
+        .graph-page {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .graph-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .graph-page-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            padding: 12px 24px;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: var(--brand-primary);
+            color: var(--text-primary);
+        }
+
+        .graph-canvas-large {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            height: calc(100vh - 200px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* AI 聊天页面 */
+        .chat-page {
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            height: calc(100vh - 72px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .chat-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .chat-container {
+            flex: 1;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 16px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .chat-message.ai .chat-avatar {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+        }
+
+        .chat-message.user .chat-avatar {
+            background: var(--bg-card-hover);
+        }
+
+        .chat-bubble {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 18px 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            border: 1px solid var(--border);
+        }
+
+        .chat-message.user .chat-bubble {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border: none;
+        }
+
+        .chat-input-area {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            height: 52px;
+            background: rgba(17, 24, 39, 0.6);
+            border-radius: 26px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .chat-send {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px var(--brand-glow);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            .search-box {
+                width: 180px;
+            }
+            .hero {
+                padding: 60px 20px 40px;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .tech-section, .features-section {
+                padding: 40px 20px;
+            }
+            .tech-modules {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .ai-float-text {
+                display: none;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景光效 -->
+    <div class="bg-glow"></div>
+
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="logo" onclick="showPage('home')">
+            <div class="logo-icon">⚡</div>
+        </div>
+        <nav class="header-nav">
+            <div class="nav-item active" onclick="showPage('home')">首页</div>
+            <div class="nav-item" onclick="showPage('home')">RFID 测温</div>
+            <div class="nav-item" onclick="showPage('home')">在线监测</div>
+            <div class="nav-item" onclick="showPage('graph')">知识图谱</div>
+        </nav>
+        <div class="header-right">
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" placeholder="搜索技术文档、问题...">
+            </div>
+            <div class="avatar">我</div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main">
+        <!-- 首页 -->
+        <div id="page-home" class="page active">
+            <!-- Hero 区域 -->
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">浙江悦和科技有限公司</div>
+                    <h1 class="hero-title">电力系统在线监测技术知识库</h1>
+                    <p class="hero-subtitle">汇集电力设备监测、故障诊断、数据分析等技术资料，RFID 无源无线测温与电力在线监测双技术驱动，助力智能电网建设</p>
+                </div>
+            </div>
+
+            <!-- 双板块区域 -->
+            <div class="tech-section">
+                <div class="section-header">
+                    <div class="section-label">核心技术领域</div>
+                    <h2 class="section-title">两大技术方向</h2>
+                    <p class="section-desc">RFID 无源无线测温与电力在线监测，全面覆盖电力设备监测需求</p>
+                </div>
+
+                <div class="tech-grid">
+                    <!-- RFID 板块 -->
+                    <div class="tech-card rfid" id="rfid-card">
+                        <div class="tech-card-header">
+                            <div class="tech-card-icon">📡</div>
+                            <h2>RFID 无源无线测温</h2>
+                            <p>无源 · 无线 · 实时 · 精准 · 免维护</p>
+                        </div>
+                        <div class="tech-card-body">
+                            <div class="tech-modules">
+                                <div class="tech-module" onclick="toggleRfidModule('principle')">
+                                    <div class="tech-module-icon">📡</div>
+                                    <h4>技术原理</h4>
+                                </div>
+                                <div class="tech-module" onclick="toggleRfidModule('products')">
+                                    <div class="tech-module-icon">🏷️</div>
+                                    <h4>产品体系</h4>
+                                </div>
+                                <div class="tech-module" onclick="toggleRfidModule('applications')">
+                                    <div class="tech-module-icon">🎯</div>
+                                    <h4>应用场景</h4>
+                                </div>
+                                <div class="tech-module" onclick="toggleRfidModule('implementation')">
+                                    <div class="tech-module-icon">📋</div>
+                                    <h4>实施方案</h4>
+                                </div>
+                                <div class="tech-module" onclick="toggleRfidModule('faq')">
+                                    <div class="tech-module-icon">❓</div>
+                                    <h4>常见问题</h4>
+                                </div>
+                                <div class="tech-module" onclick="toggleRfidModule('cases')">
+                                    <div class="tech-module-icon">📖</div>
+                                    <h4>案例分享</h4>
+                                </div>
+                            </div>
+                            <a class="tech-btn" href="rfid.html">进入 RFID 知识库 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 在线监测板块 -->
+                    <div class="tech-card monitor">
+                        <div class="tech-card-header">
+                            <div class="tech-card-icon">🔌</div>
+                            <h2>电力在线监测</h2>
+                            <p>监测 · 诊断 · 分析 · 预警 · 智能</p>
+                        </div>
+                        <div class="tech-card-body">
+                            <div class="tech-modules">
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">📊</div>
+                                    <h4>监测系统</h4>
+                                </div>
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">🔍</div>
+                                    <h4>故障诊断</h4>
+                                </div>
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">📈</div>
+                                    <h4>数据分析</h4>
+                                </div>
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">📡</div>
+                                    <h4>通信技术</h4>
+                                </div>
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">📚</div>
+                                    <h4>标准规范</h4>
+                                </div>
+                                <div class="tech-module">
+                                    <div class="tech-module-icon">🛠️</div>
+                                    <h4>工具资源</h4>
+                                </div>
+                            </div>
+                            <a class="tech-btn">进入监测知识库 →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能网格区 -->
+            <div class="features-section">
+                <div class="section-header">
+                    <div class="section-label">功能模块</div>
+                    <h2 class="section-title">更多工具与资源</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card" onclick="showPage('graph')">
+                        <div class="feature-icon">🗺️</div>
+                        <h3>知识图谱</h3>
+                        <p>可视化探索知识网络</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧮</div>
+                        <h3>参数计算</h3>
+                        <p>功率、能耗、电流计算</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔬</div>
+                        <h3>故障模拟</h3>
+                        <p>模拟故障场景分析</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>设备选型</h3>
+                        <p>智能推荐设备型号</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 知识图谱页面 -->
+        <div id="page-graph" class="page">
+            <div class="graph-page">
+                <div class="graph-page-header">
+                    <h2>🗺️ 知识图谱</h2>
+                    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+                </div>
+                <div class="graph-canvas-large">
+                    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="font-size: 64px; margin-bottom: 24px;">🗺️</div>
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">知识图谱可视化</h3>
+                        <p style="color: var(--text-secondary);">点击节点探索知识关联，发现知识网络</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI 聊伴页面 -->
+        <div id="page-chat" class="page">
+            <div class="chat-page">
+                <div class="chat-header">
+                    <h2>💬 AI 智能助手</h2>
+                    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message ai">
+                            <div class="chat-avatar">🤖</div>
+                            <div class="chat-bubble">
+                                👋 你好！我是悦和科技 AI 智能助手，专注于 RFID 无源无线测温和电力在线监测领域。有什么问题或需要帮助，随时问我~
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="输入你想问的问题..." onkeypress="handleChatEnter(event)">
+                        </div>
+                        <button class="chat-send" onclick="sendMessage()">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI 悬浮按钮 -->
+    <div class="ai-float" onclick="showPage('chat')">
+        <div class="ai-float-icon">💬</div>
+        <div class="ai-float-text">AI 助手</div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">⚡</div>
+                <div class="footer-logo-text">浙江悦和科技有限公司</div>
+            </div>
+            <p>© 2026 浙江悦和科技有限公司 | 电力在线监测知识库 | 让设备监测更智能</p>
+            <p style="margin-top: 8px; font-size: 12px; color: var(--text-tertiary);">Power By HLH</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page-' + pageName).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (pageName === 'home') {
+                document.querySelector('.nav-item').classList.add('active');
+            }
+        }
+
+        function handleChatEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chatMessages');
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.innerHTML = `
+                <div class="chat-avatar">👤</div>
+                <div class="chat-bubble">${message}</div>
+            `;
+            messagesContainer.appendChild(userMsg);
+            input.value = '';
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-message ai';
+                aiMsg.innerHTML = `
+                    <div class="chat-avatar">🤖</div>
+                    <div class="chat-bubble">
+                        收到你的问题："<strong>${message}</strong>"<br><br>
+                        这是一个很好的问题！RFID 无源测温技术和电力在线监测领域确实有很多值得深入探讨的内容。<br><br>
+                        你可以：
+                        <ul style="margin-top: 12px; padding-left: 20px;">
+                            <li>查看我们的知识库获取详细资料</li>
+                            <li>继续追问具体问题</li>
+                            <li>了解相关技术原理和应用案例</li>
+                        </ul>
+                    </div>
+                `;
+                messagesContainer.appendChild(aiMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 800);
+
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
