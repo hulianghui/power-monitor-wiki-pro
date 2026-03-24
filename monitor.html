@@ -32,8 +32,36 @@
                 </svg>
                 <input type="text" placeholder="搜索知识库..." readonly>
             </div>
+            <!-- 汉堡菜单按钮 -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </nav>
+
+    <!-- 移动端导航遮罩 -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- 移动端导航菜单 -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <span class="mobile-nav-title">⚡ 在线监测知识库</span>
+            <button class="mobile-nav-close" id="mobileNavClose" aria-label="关闭">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link">🏠 首页</a>
+            <a href="rfid.html" class="mobile-nav-link">📡 RFID测温</a>
+            <a href="monitor.html" class="mobile-nav-link active">🔌 在线监测</a>
+            <a href="graph.html" class="mobile-nav-link">🗺️ 知识图谱</a>
+        </nav>
+    </div>
 
     <div class="library-layout">
         <aside class="library-sidebar monitor">
@@ -1506,6 +1534,43 @@
         document.addEventListener('DOMContentLoaded', () => {
             generateToc('dga');
         });
+
+        // ===== 移动端导航菜单 =====
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+        const navOverlay = document.getElementById('navOverlay');
+
+        function openMobileNav() {
+            if (mobileNav && navOverlay) {
+                mobileNav.classList.add('active');
+                navOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeMobileNav() {
+            if (mobileNav && navOverlay) {
+                mobileNav.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMobileNav);
+        if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav);
+        if (navOverlay) navOverlay.addEventListener('click', closeMobileNav);
+
+        // 移动端搜索触发
+        const mobileNavTrigger = document.getElementById('searchTrigger');
+        if (mobileNavTrigger) {
+            mobileNavTrigger.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    searchModal.classList.add('active');
+                    searchInput.focus();
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -1791,3 +1791,274 @@ a {
     background: rgba(168, 85, 247, 0.1);
     border-left-color: var(--rfid-primary);
 }
+
+/* ========================================
+   移动端导航 - 汉堡菜单
+   ======================================== */
+
+/* 汉堡按钮 */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* 移动端导航遮罩 */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* 移动端导航菜单 */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100%;
+    background: var(--bg-card);
+    z-index: 999;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+}
+
+.mobile-nav.active {
+    right: 0;
+}
+
+.mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-nav-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.mobile-nav-close {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: background 0.2s;
+}
+
+.mobile-nav-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 4px;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--brand-primary);
+}
+
+/* ========================================
+   移动端响应式 - 导航 & 侧边栏 & 目录
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* 显示汉堡按钮 */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* 隐藏桌面端搜索框（移动端导航菜单里有） */
+    .nav-actions .search-box {
+        display: none;
+    }
+
+    /* 侧边栏改为可折叠 */
+    .library-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .library-layout {
+        flex-direction: column;
+    }
+
+    .library-content {
+        padding: 20px 16px;
+        width: 100%;
+    }
+
+    /* 右侧目录栏默认隐藏，移动端不需要 */
+    .library-toc {
+        display: none;
+    }
+
+    /* 内容卡片网格改为单列 */
+    .content-cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 功能网格改为单列 */
+    .feature-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 数据表格横向滚动 */
+    .data-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table th,
+    .data-table td {
+        white-space: nowrap;
+    }
+
+    /* 搜索容器全宽 */
+    .search-container {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    /* 页面头部内容全宽 */
+    .content-header h1 {
+        font-size: 22px !important;
+    }
+
+    .content-header p {
+        font-size: 13px;
+    }
+
+    /* detail-section 调整 */
+    .detail-section {
+        padding: 16px;
+    }
+
+    .detail-section h2 {
+        font-size: 16px;
+    }
+
+    /* 标签页导航横向滚动 */
+    .sidebar-nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+
+    .sidebar-section {
+        flex-shrink: 0;
+    }
+
+    /* 移动端底部留白 */
+    .library-content {
+        padding-bottom: 40px;
+    }
+
+    /* AI 助手按钮位置调整 */
+    .ai-assistant {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0 12px;
+    }
+
+    .nav-brand span {
+        font-size: 14px;
+    }
+
+    .content-header h1 {
+        font-size: 20px !important;
+    }
+
+    .detail-section {
+        padding: 12px;
+    }
+
+    .detail-section h2 {
+        font-size: 15px;
+    }
+
+    .data-table {
+        font-size: 12px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 8px 10px;
+    }
+}
