@@ -72,6 +72,10 @@
                             <span class="sidebar-item-icon">🛡️</span>
                             <span class="sidebar-item-text">避雷器监测</span>
                         </li>
+                        <li class="sidebar-item" data-section="switchgear-monitor">
+                            <span class="sidebar-item-icon">🔲</span>
+                            <span class="sidebar-item-text">开关柜监测</span>
+                        </li>
                     </ul>
                 </div>
 
@@ -457,6 +461,303 @@
                         <li><strong>能耗监测</strong>：泄漏电流累积</li>
                         <li><strong>温升监测</strong>：外壳温度</li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- 开关柜监测 -->
+            <div class="content-detail" id="content-switchgear-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>🔲 开关柜监测系统</h1>
+                    <p>10kV/35kV 金属封闭开关设备状态监测，电力系统最核心的配电设备</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测必要性</h2>
+                    <p>开关柜是电力系统数量最多、分布最广的配电设备。统计数据显示，10kV 开关柜故障中，过热类故障占比约 <strong>35%</strong>，开关柜火灾事故中 <strong>80%</strong> 以上由触头过热引起。从发热到烧毁，一般经历 3-6 个月的发展期，在线监测可实现早期预警。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测参数总览</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>监测类型</th>
+                                <th>监测内容</th>
+                                <th>重要性</th>
+                                <th>传感器</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>温度监测</strong></td>
+                                <td>触头/母线/电缆接头温度</td>
+                                <td>★★★★★</td>
+                                <td>RFID/红外/热电偶</td>
+                            </tr>
+                            <tr>
+                                <td><strong>局放监测</strong></td>
+                                <td>超声波/UHF/暂态地电压</td>
+                                <td>★★★★★</td>
+                                <td>超声波探头/UHF传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>振动监测</strong></td>
+                                <td>机械特性/分合闸冲击</td>
+                                <td>★★★☆☆</td>
+                                <td>加速度传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>机械特性</strong></td>
+                                <td>分合闸时间/速度/同期性</td>
+                                <td>★★★☆☆</td>
+                                <td>行程传感器/角度传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>环境监测</strong></td>
+                                <td>柜内温湿度/SF6气体/水浸</td>
+                                <td>★★☆☆☆</td>
+                                <td>温湿度传感器/气体传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>负荷监测</strong></td>
+                                <td>一次电流、有功功率</td>
+                                <td>★★★☆☆</td>
+                                <td>CT+变送器</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>温度监测</h2>
+                    <p>温度是开关柜最核心的监测参数，直接反映设备健康状态。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔩</div>
+                            <h3>触头温度</h3>
+                            <p>断路器动静触头、隔离开关触头、母线连接处，是开关柜最关键的测温位置。推荐 RFID 无源无线测温，<strong>无需停电安装</strong>，免维护。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>母线温度</h3>
+                            <p>主母线、分支母线的表面温度监测，推荐螺母式或贴片式 RFID 传感器，涂导热硅脂安装。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔗</div>
+                            <h3>电缆接头</h3>
+                            <p>电缆终端头、中间接头温度，推荐抱箍式传感器，可带电安装，安装时间仅 5-10 分钟/点。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>告警阈值</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>等级</th>
+                                <th>温度范围</th>
+                                <th>颜色</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>正常</td>
+                                <td>≤70°C</td>
+                                <td style="color:#3FB950">● 绿色</td>
+                                <td>正常运行</td>
+                            </tr>
+                            <tr>
+                                <td>注意</td>
+                                <td>70-85°C</td>
+                                <td style="color:#58A6FF">● 蓝色</td>
+                                <td>加强监测频率，缩短采集间隔</td>
+                            </tr>
+                            <tr>
+                                <td>警告</td>
+                                <td>85-100°C</td>
+                                <td style="color:#D29922">● 黄色</td>
+                                <td>尽快安排检修，做好停电准备</td>
+                            </tr>
+                            <tr>
+                                <td>危险</td>
+                                <td>>100°C</td>
+                                <td style="color:#F85149">● 红色</td>
+                                <td>立即申请停电，故障处理</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测</h2>
+                    <p>振动监测是开关柜状态评估的重要手段，能发现机械松动、部件磨损等隐患。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚙️</div>
+                            <h3>铁芯振动</h3>
+                            <p>监测开关柜铁芯振动信号，特征频率为 100Hz（工频）及 200Hz、300Hz 倍频，异常振动指示铁芯松动或饱和。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔩</div>
+                            <h3>螺栓松动</h3>
+                            <p>螺栓连接处振动特征明显，松动后振动幅值增大、频率成分复杂。可通过振动加速度 RMS 值判断。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📳</div>
+                            <h3>谐振检测</h3>
+                            <p>检测柜体是否发生谐振，谐振会导致柜体异常振动，加速绝缘件老化。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动传感器选型</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>原理</th>
+                                <th>频响范围</th>
+                                <th>适用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>压电式加速度计</strong></td>
+                                <td>压电效应</td>
+                                <td>0.5Hz-5kHz</td>
+                                <td>通用振动监测</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IEPE 加速度计</strong></td>
+                                <td>压电+信号调理</td>
+                                <td>0.3Hz-10kHz</td>
+                                <td>高精度监测</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MEMS 加速度计</strong></td>
+                                <td>电容变化</td>
+                                <td>0-500Hz</td>
+                                <td>低频振动、成本敏感场景</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电监测</h2>
+                    <p>局部放电是开关柜绝缘劣化的早期信号，多种技术手段可实现非接触式检测。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📡</div>
+                            <h3>超声波法</h3>
+                            <p>检测 20kHz-100kHz 频段的超声信号，非接触式，适合带电巡检。便携式局放仪或在线监测均可实现。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📶</div>
+                            <h3>UHF 法</h3>
+                            <p>检测 300MHz-3GHz 超高频电磁波，灵敏度高，适合 GIS 柜及大型开关柜。可穿透金属外壳，开柜安装 UHF 传感器。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>暂态地电压（TEV）</h3>
+                            <p>检测暂态电压脉冲，非接触式安装在柜体外壳表面，安装方便，适合 10kV 开关柜批量部署。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局放诊断等级</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>等级</th>
+                                <th>放电量</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>正常</td>
+                                <td>&lt;100pC</td>
+                                <td>正常运行</td>
+                            </tr>
+                            <tr>
+                                <td>注意</td>
+                                <td>100-1000pC</td>
+                                <td>加强监测，3 个月内复测</td>
+                            </tr>
+                            <tr>
+                                <td>警告</td>
+                                <td>1000-5000pC</td>
+                                <td>1 个月内安排检修</td>
+                            </tr>
+                            <tr>
+                                <td>危险</td>
+                                <td>&gt;5000pC</td>
+                                <td>立即停电检查</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>机械特性监测</h2>
+                    <p>开关柜机械特性的在线监测，评估断路器操作机构的健康状态。</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>合格范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>分闸时间</td>
+                                <td>合闸状态到分闸完成的时间</td>
+                                <td>厂家规定值 ±5ms</td>
+                            </tr>
+                            <tr>
+                                <td>合闸时间</td>
+                                <td>分闸状态到合闸完成的时间</td>
+                                <td>厂家规定值 ±5ms</td>
+                            </tr>
+                            <tr>
+                                <td>分合闸速度</td>
+                                <td>触头运动平均速度</td>
+                                <td>厂家规定值 ±0.2m/s</td>
+                            </tr>
+                            <tr>
+                                <td>同期性</td>
+                                <td>三相分合闸时间差</td>
+                                <td>≤5ms（三相间）</td>
+                            </tr>
+                            <tr>
+                                <td>行程特性</td>
+                                <td>触头运动行程曲线</td>
+                                <td>与标准曲线对比</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔥</div>
+                            <h3>触头过热烧毁</h3>
+                            <p>某 10kV 开关柜运行 8 年未检修，C 相触头温度持续上升至 120°C，3 个月内从 85°C 升至 120°C，温升速率 >10°C/月。系统预警后停电检查，发现弹簧疲劳导致接触电阻增大，及时更换避免事故。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>绝缘放电击穿</h3>
+                            <p>某 35kV 开关柜局放监测发现局部放电量从 500pC 快速增长至 3000pC，TEV 信号持续增强。停电检查发现静触头附近有沿面放电痕迹，绝缘套管需更换。避免了相间短路事故。</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
