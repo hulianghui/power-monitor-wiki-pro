@@ -3,6 +3,87 @@
    基于PRD V1.0-Final设计规范
    ======================================== */
 
+/* CSS Reset - 统一浏览器默认样式 */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Flexbox 兼容性别名 */
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+/* Grid 兼容性别名 */
+.grid {
+    display: -ms-grid;
+    display: grid;
+}
+
+/* 响应式显示控制 */
+.hide-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+    .hide-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .hide-desktop {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
 /* CSS Variables - 设计令牌 */
 :root {
     /* 背景色 */
@@ -1120,6 +1201,10 @@ a {
     display: flex;
     min-height: calc(100vh - 72px);
     margin-top: 72px;
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 /* 左侧导航 */
@@ -1590,6 +1675,8 @@ a {
 /* 内容详情页 */
 .content-detail {
     max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .detail-section {
@@ -2061,4 +2148,1082 @@ a {
     .data-table td {
         padding: 8px 10px;
     }
+}
+
+/* 公式框样式 */
+.formula-box {
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.formula-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.formula-item:last-child {
+    margin-bottom: 0;
+}
+
+.formula-item code {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--brand-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.formula-item span {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* 案例研究样式 */
+.case-study {
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 16px 0;
+}
+
+.case-header {
+    background: rgba(99, 102, 241, 0.1);
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.case-title {
+    color: var(--brand-primary);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.case-content {
+    padding: 16px;
+}
+
+.case-content p {
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+.case-content p:last-child {
+    margin-bottom: 0;
+}
+
+.case-content ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.case-content li {
+    margin-bottom: 6px;
+}
+
+/* 流程图样式 */
+.process-flow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 16px;
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 12px;
+    margin: 16px 0;
+}
+
+.process-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.process-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.process-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.process-arrow {
+    color: var(--brand-primary);
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+/* 详情部分标题样式 */
+.detail-section h3 {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin: 20px 0 12px 0;
+    font-weight: 600;
+}
+
+/* 可视化图表容器 */
+.chart-container {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+}
+
+.chart-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.chart-canvas {
+    width: 100%;
+    height: 200px;
+    background: rgba(10, 14, 26, 0.8);
+    border-radius: 8px;
+}
+
+.chart-canvas-3d {
+    width: 100%;
+    height: 300px;
+    background: rgba(10, 14, 26, 0.8);
+    border-radius: 8px;
+}
+
+/* 频谱图样式 */
+.spectrum-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* 趋势图控制按钮 */
+.chart-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.chart-btn {
+    padding: 6px 16px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 20px;
+    color: var(--brand-primary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.chart-btn:hover,
+.chart-btn.active {
+    background: rgba(99, 102, 241, 0.3);
+}
+
+.chart-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* PRPD图谱样式 */
+.prpd-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.prpd-view {
+    background: rgba(10, 14, 26, 0.8);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.prpd-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.prpd-canvas {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+}
+
+/* 三维图谱容器 */
+.d3d-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* 波形显示 */
+.waveform-container {
+    background: rgba(10, 14, 26, 0.8);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.waveform-canvas {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+}
+
+/* 交互提示 */
+.chart-tooltip {
+    position: absolute;
+    background: rgba(99, 102, 241, 0.95);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+}
+
+/* 图表动画 */
+@keyframes chartFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-animate {
+    animation: chartFadeIn 0.5s ease-out;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .prpd-container,
+    .d3d-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-canvas {
+        height: 150px;
+    }
+    
+    .chart-canvas-3d {
+        height: 200px;
+    }
+}
+
+/* ========================================
+   产品中心样式
+   ======================================== */
+
+.product-category-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-card);
+    border-radius: 12px;
+}
+
+.product-tab {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.product-tab:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--brand-primary);
+}
+
+.product-tab.active {
+    background: var(--brand-primary);
+    color: white;
+}
+
+.product-filter-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.product-filter-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.product-search-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.product-count {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-left: auto;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.product-card {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--brand-primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.product-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.product-card-icon {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+.product-card-status {
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.product-card-status.mass-production {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.product-card-status.sample {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.product-card-status.rd {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+}
+
+.product-card-category {
+    font-size: 0.7rem;
+    color: var(--brand-primary);
+    margin-bottom: 0.25rem;
+}
+
+.product-card-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.product-card-model {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-family: monospace;
+    margin-bottom: 0.75rem;
+}
+
+.product-card-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-card-spec {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-spec-label {
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+}
+
+.product-card-spec-value {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+.product-card-apps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.product-card-app {
+    padding: 0.15rem 0.4rem;
+    background: var(--bg-dark);
+    border-radius: 4px;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+}
+
+.product-empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-tertiary);
+}
+
+/* 通俗理解区块 - 醒目样式 */
+.通俗理解 {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    border-left: 4px solid var(--brand-primary);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.通俗理解 strong {
+    color: var(--brand-primary);
+}
+
+/* 表格中高亮绿色 */
+.highlight-green {
+    background: rgba(34, 197, 94, 0.15) !important;
+    color: #22c55e !important;
+    font-weight: 600;
+}
+
+/* 产品卡片网格 - 产品体系 */
+.product-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.product-card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.product-card.expanded {
+    border-color: var(--brand-primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.product-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-card-icon {
+    font-size: 2rem;
+    opacity: 0.9;
+}
+
+.product-card-title {
+    flex: 1;
+}
+
+.product-card-title h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+}
+
+.product-model {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-family: 'Courier New', monospace;
+}
+
+.product-status {
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.product-status.status-hot {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.product-status.status-new {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.product-card-summary {
+    margin-bottom: 0.75rem;
+}
+
+.product-specs-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-specs-row:last-child {
+    border-bottom: none;
+}
+
+.spec-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.spec-value {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.product-card-expand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.expand-hint {
+    font-size: 0.75rem;
+    color: var(--brand-primary);
+}
+
+.expand-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--text-tertiary);
+    transition: transform 0.3s;
+}
+
+.product-card.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+.product-card-details {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.detail-table {
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.detail-table tr {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+}
+
+.detail-table td:first-child {
+    color: var(--text-secondary);
+}
+
+.detail-table td:last-child {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* 技术参数网格 */
+.tech-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.tech-spec-item {
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tech-spec-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tech-spec-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.tech-spec-value {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* 选型卡片 */
+.selector-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.selector-card {
+    display: flex;
+    gap: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.3s;
+}
+
+.selector-card:hover {
+    border-color: var(--brand-primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.selector-icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.selector-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+}
+
+.selector-content p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 状态标签 */
+.status-tag {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.status-tag.status-hot {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.status-tag.status-new {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+/* FAQ样式 */
+.faq-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.faq-nav-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.faq-nav-item:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.faq-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.faq-item h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.faq-answer {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.faq-answer p {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.faq-answer p:last-child {
+    margin-bottom: 0;
+}
+
+.faq-answer ul {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+}
+
+.faq-answer li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.faq-answer strong {
+    color: var(--brand-primary);
+}
+
+/* RFID流程图可视化 */
+.rfid-flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.1));
+    border-radius: 16px;
+    flex-wrap: wrap;
+}
+
+.flow-step {
+    flex: 1;
+    min-width: 140px;
+    max-width: 180px;
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.flow-step:hover {
+    transform: translateY(-4px);
+    border-color: var(--brand-primary);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.flow-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.flow-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+    margin-bottom: 0.5rem;
+}
+
+.flow-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.flow-arrow {
+    font-size: 1.5rem;
+    color: var(--brand-primary);
+    padding: 0 0.5rem;
+}
+
+/* 系统架构可视化 */
+.system-arch {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.arch-layer {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.arch-layer:last-child {
+    margin-bottom: 0;
+}
+
+.arch-label {
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+}
+
+.arch-box {
+    flex: 1;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.arch-component {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.75rem 1rem;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
+
+.arch-component:hover {
+    background: rgba(99, 102, 241, 0.25);
+    transform: scale(1.02);
+}
+
+.arch-component.rfid-reader {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.arch-component.rfid-antenna {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.arch-component.rfid-tag {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.arch-component span {
+    margin-right: 0.25rem;
+}
+
+.arch-connector {
+    width: 60px;
+    position: relative;
+}
+
+.arch-connector::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--brand-primary), transparent);
+    transform: translateX(-50%);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .rfid-flow-diagram {
+        flex-direction: column;
+    }
+    .flow-arrow {
+        transform: rotate(90deg);
+        padding: 0.5rem 0;
+    }
+    .arch-layer {
+        flex-direction: column;
+    }
+    .arch-label {
+        writing-mode: horizontal-tb;
+        width: 100%;
+        padding: 0.5rem;
+    }
+    .arch-connector {
+        width: 100%;
+        height: 20px;
+    }
+    .arch-connector::before {
+        left: 50%;
+        top: 0;
+        width: 2px;
+        height: 100%;
+    }
+}
+
+/* 频段可视化对比 */
+.freq-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.freq-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.freq-label {
+    width: 45px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.freq-range {
+    height: 28px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.freq-range:hover {
+    transform: scaleX(1.05);
+    transform-origin: left;
+}
+
+.freq-dist {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    min-width: 60px;
+}
+
+.freq-dist.highlight {
+    color: var(--brand-primary);
+    font-weight: 600;
 }

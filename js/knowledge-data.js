@@ -1,6 +1,5 @@
-{
-  "knowledgeBase": {
-    "rfid": {
+window.knowledgeBase = {
+  "rfid": {
       "modules": [
         {
           "id": "principle",
@@ -212,7 +211,7 @@
         }
       ]
     },
-    "monitor": {
+  "monitor": {
       "modules": [
         {
           "id": "system",
@@ -407,8 +406,7 @@
           ]
         }
       ]
-    }
-  },
+    },
   "tags": [
     {"name": "RFID", "count": 15},
     {"name": "温度监测", "count": 12},
@@ -426,6 +424,4 @@
     {"name": "标准规范", "count": 4},
     {"name": "抗干扰", "count": 3}
   ]
-}
-</content>
-</invoke>
+};

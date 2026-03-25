@@ -104,6 +104,10 @@
                             <span class="sidebar-item-icon">🔲</span>
                             <span class="sidebar-item-text">开关柜监测</span>
                         </li>
+                        <li class="sidebar-item" data-section="vibration-monitor">
+                            <span class="sidebar-item-icon">📳</span>
+                            <span class="sidebar-item-text">振动监测</span>
+                        </li>
                     </ul>
                 </div>
 
@@ -149,6 +153,10 @@
                         <li class="sidebar-item" data-section="pattern-analysis">
                             <span class="sidebar-item-icon">🎯</span>
                             <span class="sidebar-item-text">图谱分析</span>
+                        </li>
+                        <li class="sidebar-item" data-section="mechanical-diagnosis">
+                            <span class="sidebar-item-icon">🔧</span>
+                            <span class="sidebar-item-text">机械故障诊断</span>
                         </li>
                     </ul>
                 </div>
@@ -436,23 +444,379 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="detail-section monitor">
+                    <h2>油色谱分析 (DGA)</h2>
+                    <p>油浸式变压器绝缘油中溶解气体分析(DGA)是判断变压器内部故障的重要手段。当变压器内部发生过热或放电故障时，会产生多种特征气体，溶解在绝缘油中。</p>
+
+                    <h3>特征气体与故障类型</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>故障类型</th>
+                                <th>主要特征气体</th>
+                                <th>次要气体</th>
+                                <th>故障特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>油过热</strong></td>
+                                <td>CH₄、C₂H₄</td>
+                                <td>C₂H₆</td>
+                                <td>甲烷、乙烯为主，110°C开始生成</td>
+                            </tr>
+                            <tr>
+                                <td><strong>纸过热</strong></td>
+                                <td>CO、CO₂</td>
+                                <td>CH₄、C₂H₄</td>
+                                <td>CO、CO₂大幅增加，纤维分解</td>
+                            </tr>
+                            <tr>
+                                <td><strong>油纸过热</strong></td>
+                                <td>CO、CO₂、C₂H₄</td>
+                                <td>CH₄、C₂H₆</td>
+                                <td>油和纸同时过热</td>
+                            </tr>
+                            <tr>
+                                <td><strong>火花放电</strong></td>
+                                <td>C₂H₂、H₂</td>
+                                <td>CH₄、C₂H₄</td>
+                                <td>乙炔为主要特征，低能量放电</td>
+                            </tr>
+                            <tr>
+                                <td><strong>电弧放电</strong></td>
+                                <td>C₂H₂、H₂</td>
+                                <td>CH₄、C₂H₄、C₂H₆</td>
+                                <td>高能量放电，乙炔含量高</td>
+                            </tr>
+                            <tr>
+                                <td><strong>局部放电</strong></td>
+                                <td>H₂、CH₄</td>
+                                <td>C₂H₂(微量)</td>
+                                <td>氢气为主，低能量PD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>故障诊断标准 (DL/T 722)</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>气体</th>
+                                <th>注意值 (μL/L)</th>
+                                <th>产气速率注意值</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>总烃</td>
+                                <td>150</td>
+                                <td>10 μL/L/月</td>
+                                <td>C₁+C₂总和</td>
+                            </tr>
+                            <tr>
+                                <td>乙炔 (C₂H₂)</td>
+                                <td>5</td>
+                                <td>1 μL/L/月</td>
+                                <td>运行时≤5μL/L</td>
+                            </tr>
+                            <tr>
+                                <td>氢气 (H₂)</td>
+                                <td>150</td>
+                                <td>10 μL/L/月</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>一氧化碳 (CO)</td>
+                                <td>350</td>
+                                <td>50 μL/L/月</td>
+                                <td>开放式变压器</td>
+                            </tr>
+                            <tr>
+                                <td>二氧化碳 (CO₂)</td>
+                                <td>2500</td>
+                                <td>100 μL/L/月</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>三比值法 (IEC 60599)</h3>
+                    <p>根据特征气体含量的比值关系，判断故障类型：</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">1</div>
+                            <h3>编码规则</h3>
+                            <p>根据C₂H₂/C₂H₄、CH₄/H₂、C₂H₄/C₂H₆的比值大小，参照标准表格进行编码</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">2</div>
+                            <h3>故障判定</h3>
+                            <p>根据编码组合，查表确定故障类型：过热、放电、低能放电等</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">3</div>
+                            <h3>辅助判断</h3>
+                            <p>结合气体增长率、绝对值、产气速率综合判断</p>
+                        </div>
+                    </div>
+
+                    <h3>DGA分析流程</h3>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">🧪</div>
+                            <div class="process-text">取油样</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📊</div>
+                            <div class="process-text">气相色谱分析</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔢</div>
+                            <div class="process-text">计算比值</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📋</div>
+                            <div class="process-text">查表诊断</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">✅</div>
+                            <div class="process-text">结论建议</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：110kV主变过热故障早期预警</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某变电站110kV主变，31.5MVA，1998年投运</p>
+                            <p><strong>监测情况：</strong>DGA在线监测发现油中总烃持续增长，6个月内从80μL/L增长至450μL/L</p>
+                            <p><strong>气体分析：</strong>主要成分为CH₄和C₂H₄，CO含量正常，三比值法编码为0-2-2，判断为中温过热(300-700°C)</p>
+                            <p><strong>停电检修：</strong>吊罩检查发现铁芯多点接地，局部有烧灼痕迹</p>
+                            <p><strong>处理结果：</strong>消除铁芯接地故障点，滤油处理后恢复运行，避免了铁芯烧毁事故</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- GIS监测 -->
             <div class="content-detail" id="content-gis-monitor" style="display: none;">
                 <div class="content-header">
                     <h1>⚡ GIS监测系统</h1>
-                    <p>气体绝缘开关设备状态监测</p>
+                    <p>气体绝缘开关设备（Gas Insulated Switchgear）状态监测，确保高压电网安全运行</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>监测项目</h2>
-                    <ul>
-                        <li><strong>局部放电监测</strong>：UHF传感器检测</li>
-                        <li><strong>气体密度监测</strong>：SF6压力监测</li>
-                        <li><strong>温度监测</strong>：导体温度、壳体温度</li>
-                        <li><strong>水分监测</strong>：露点温度监测</li>
-                    </ul>
+                    <h2>GIS简介</h2>
+                    <p>GIS是一种将高压电气设备（断路器、隔离开关、接地开关、母线、互感器等）全部封闭在金属外壳中，并充以SF₆气体作为绝缘介质的开关设备。相比传统敞开式设备，GIS具有占地面积小、可靠性高、维护工作量少等优点，广泛应用于变电站、发电厂、城市配电等场景。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>GIS结构与组成</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>断路器 (CB)</h3>
+                            <p>开断和关合电路用，是GIS的核心设备。配有操作机构和弧触头，负责切除故障电流。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚙️</div>
+                            <h3>隔离开关 (DS)</h3>
+                            <p>用于隔离电路，形成明显断开点。不具备分合负载电流能力，必须与断路器配合。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏸️</div>
+                            <h3>接地开关 (ES)</h3>
+                            <p>将线路接地，确保检修安全。可分为工作接地和保护接地两类。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔗</div>
+                            <h3>母线 (Busbar)</h3>
+                            <p>汇集和分配电能的三相导体，是GIS的主干通道。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>电流互感器 (CT)</h3>
+                            <p>将大电流变换为标准二次电流，供测量和保护使用。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌡️</div>
+                            <h3>电压互感器 (VT)</h3>
+                            <p>将高电压变换为标准二次电压，供测量和保护使用。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目详解</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>监测类型</th>
+                                <th>监测内容</th>
+                                <th>技术手段</th>
+                                <th>重要性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>局部放电监测</strong></td>
+                                <td>检测绝缘内部放电现象</td>
+                                <td>UHF传感器、超声波传感器</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>气体密度监测</strong></td>
+                                <td>SF₆气体压力、密度</td>
+                                <td>密度继电器、压力传感器</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>温度监测</strong></td>
+                                <td>导体温度、壳体温度</td>
+                                <td>红外热像、光纤测温</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>水分监测</strong></td>
+                                <td>SF₆气体微水含量</td>
+                                <td>露点仪、阻容式微水传感器</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>气体分解物</strong></td>
+                                <td>SO₂、HF、H₂S等分解产物</td>
+                                <td>气体分解物在线监测</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>机构动作特性</strong></td>
+                                <td>分合闸时间、速度、同期性</td>
+                                <td>行程传感器、角度传感器</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电监测 (UHF法)</h2>
+                    <p>GIS局部放电监测首选UHF法，利用超高频传感器（300MHz-3GHz）检测放电产生的电磁波信号。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📡</div>
+                            <h3>内置式UHF传感器</h3>
+                            <p>预埋在GIS外壳上，灵敏度最高，可检测到1pC级别的放电。适合新装设备。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>外置式UHF传感器</h3>
+                            <p>通过盆式绝缘子缝隙检测，适用于已投运GIS的改造。灵敏度略低。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📻</div>
+                            <h3>天线式传感器</h3>
+                            <p>通过GIS外壳缝隙辐射的电磁波检测，非接触式，适合带电巡检。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>SF₆气体监测标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>额定压力 (20°C)</th>
+                                <th>补气压力</th>
+                                <th>报警压力</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>一般GIS</td>
+                                <td>0.4 - 0.5 MPa</td>
+                                <td>0.35 - 0.4 MPa</td>
+                                <td>0.3 MPa</td>
+                            </tr>
+                            <tr>
+                                <td>高压GIS (220kV+)</td>
+                                <td>0.5 - 0.6 MPa</td>
+                                <td>0.45 - 0.5 MPa</td>
+                                <td>0.4 MPa</td>
+                            </tr>
+                            <tr>
+                                <td>特高压GIS (500kV+)</td>
+                                <td>0.6 - 0.7 MPa</td>
+                                <td>0.55 - 0.6 MPa</td>
+                                <td>0.5 MPa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="tip" style="margin-top: 12px;">⚠️ SF₆气体压力与环境温度相关，温度每升高10°C，压力约增加0.03-0.05MPa，需进行温度补偿。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>水分监测要求</h2>
+                    <p>SF₆气体中的水分会影响绝缘性能，当温度降低时，水分可能在绝缘件表面凝露，导致沿面放电。</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>使用场景</th>
+                                <th>微水含量要求</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>新气要求</td>
+                                <td>&lt; 5 ppm(v)</td>
+                                <td>IEC 60376标准</td>
+                            </tr>
+                            <tr>
+                                <td>运行中</td>
+                                <td>&lt; 150 ppm(v)</td>
+                                <td>DL/T 596-1996</td>
+                            </tr>
+                            <tr>
+                                <td>警惕值</td>
+                                <td>150 - 300 ppm(v)</td>
+                                <td>加强监测，必要时处理</td>
+                            </tr>
+                            <tr>
+                                <td>危险值</td>
+                                <td>&gt; 300 ppm(v)</td>
+                                <td>立即处理，避免凝露</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：GIS内部放电故障检测</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某500kV变电站GIS，运行年限12年</p>
+                            <p><strong>监测情况：</strong>UHF局放在线监测系统发现A相局部放电信号持续增长，3个月内从500pC增长至5000pC</p>
+                            <p><strong>频谱特征：</strong>放电相位集中在电压绝对值较高区域，放电频率较为规律</p>
+                            <p><strong>定位分析：</strong>通过多传感器时差定位，确定故障位置在断路器与隔离开关之间的盆式绝缘子附近</p>
+                            <p><strong>停电检修：</strong>解体检查发现盆式绝缘子内壁有沿面放电痕迹，绝缘子材质有杂质分层</p>
+                            <p><strong>处理结果：</strong>更换故障绝缘子，避免了相间短路事故</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -460,17 +824,272 @@
             <div class="content-detail" id="content-cable-monitor" style="display: none;">
                 <div class="content-header">
                     <h1>🔗 电缆监测系统</h1>
-                    <p>电力电缆运行状态监测</p>
+                    <p>电力电缆运行状态监测，保障电网传输安全，实现电缆故障的早期预警</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>监测项目</h2>
-                    <ul>
-                        <li><strong>温度监测</strong>：光纤测温DTS</li>
-                        <li><strong>局部放电监测</strong>：高频电流传感器</li>
-                        <li><strong>护层电流监测</strong>：接地电流检测</li>
-                        <li><strong>载流量监测</strong>：动态增容计算</li>
-                    </ul>
+                    <h2>电缆分类与结构</h2>
+                    <p>电力电缆是电力系统中的重要传输介质，主要用于电能传输和分配。根据电压等级和结构不同，可分为以下几类：</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🏠</div>
+                            <h3>低压电缆 (0.6/1kV)</h3>
+                            <p>用于建筑物配电、工业配电等场合。结构相对简单，主要采用PVC或XLPE绝缘。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🏢</div>
+                            <h3>中压电缆 (6-35kV)</h3>
+                            <p>用于城市配电网络、工业供电等。交联聚乙烯(XLPE)绝缘为主。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>高压电缆 (110kV+)</h3>
+                            <p>用于长距离输电、城市主干网。需要严格的制造和安装工艺。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔬</div>
+                            <h3>超高压电缆 (220kV+)</h3>
+                            <p>用于大型电站送出、跨江跨河等场合。技术要求最高。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>电缆结构组成</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>结构层</th>
+                                <th>材料</th>
+                                <th>作用</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>导体</strong></td>
+                                <td>铜或铝</td>
+                                <td>传导电流，常用紧压圆形或扇形导体</td>
+                            </tr>
+                            <tr>
+                                <td><strong>导体屏蔽</strong></td>
+                                <td>半导电材料</td>
+                                <td>均匀电场分布</td>
+                            </tr>
+                            <tr>
+                                <td><strong>绝缘层</strong></td>
+                                <td>XLPE/PVC/橡胶</td>
+                                <td>电气隔离，承受电压</td>
+                            </tr>
+                            <tr>
+                                <td><strong>绝缘屏蔽</strong></td>
+                                <td>半导电材料</td>
+                                <td>均匀电场，保护绝缘</td>
+                            </tr>
+                            <tr>
+                                <td><strong>金属屏蔽</strong></td>
+                                <td>铜带/铜丝</td>
+                                <td>接地，均衡电容电流</td>
+                            </tr>
+                            <tr>
+                                <td><strong>护套</strong></td>
+                                <td>PVC/PE/铝合金</td>
+                                <td>机械保护，防潮防腐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>铠装</strong></td>
+                                <td>钢带/钢丝</td>
+                                <td>机械保护，用于直埋或水下</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目详解</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>监测类型</th>
+                                <th>监测内容</th>
+                                <th>技术手段</th>
+                                <th>重要性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>温度监测</strong></td>
+                                <td>导体温度、表面温度</td>
+                                <td>光纤DTS/荧光光纤测温</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>局部放电监测</strong></td>
+                                <td>绝缘局部放电检测</td>
+                                <td>高频电流传感器 (HFCT)</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>护层电流</strong></td>
+                                <td>金属护层环流</td>
+                                <td>护层电流互感器</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>载流量</strong></td>
+                                <td>动态载流量计算</td>
+                                <td>温度+负荷联合计算</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>分布式振动</strong></td>
+                                <td>外力破坏监测</td>
+                                <td>光纤振动传感 (DVS)</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>光纤分布式测温 (DTS)</h2>
+                    <p>分布式温度传感器(DTS)利用光纤作为传感和传输介质，可连续测量整根电缆的温度分布，是电缆温度监测的首选技术。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">💡</div>
+                            <h3>测温原理</h3>
+                            <p>基于拉曼散射效应，激光脉冲在光纤中传播时产生背向拉曼散射，通过分析散射光的时间延迟和强度变化计算温度和位置。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📏</div>
+                            <h3>技术参数</h3>
+                            <p>空间分辨率：1-3m | 测温精度：±1°C | 最大监测距离：30km</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">✅</div>
+                            <h3>优势特点</h3>
+                            <p>连续分布式测量、抗电磁干扰、本质安全、安装方式灵活</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>电缆载流量计算</h2>
+                    <p>电缆载流量是指电缆在给定条件下允许通过的最大电流。影响因素包括：导体截面积、材料、环境温度、敷设方式等。</p>
+
+                    <h3>载流量修正系数</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>影响因素</th>
+                                <th>修正系数</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>环境温度</td>
+                                <td>0.87 (40°C空气中)</td>
+                                <td>温度越高，载流量越低</td>
+                            </tr>
+                            <tr>
+                                <td>土壤热阻</td>
+                                <td>0.75-1.0</td>
+                                <td>沙土优于粘土</td>
+                            </tr>
+                            <tr>
+                                <td>多根并列</td>
+                                <td>0.8-0.9</td>
+                                <td>相互散热影响</td>
+                            </tr>
+                            <tr>
+                                <td>穿管敷设</td>
+                                <td>0.8-0.9</td>
+                                <td>通风散热变差</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>典型载流量参考 (铜芯XLPE绝缘)</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>截面积 (mm²)</th>
+                                <th>空气中 (A)</th>
+                                <th>直埋 (A)</th>
+                                <th>管道中 (A)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>70</td>
+                                <td>265</td>
+                                <td>220</td>
+                                <td>200</td>
+                            </tr>
+                            <tr>
+                                <td>120</td>
+                                <td>370</td>
+                                <td>300</td>
+                                <td>270</td>
+                            </tr>
+                            <tr>
+                                <td>185</td>
+                                <td>480</td>
+                                <td>380</td>
+                                <td>340</td>
+                            </tr>
+                            <tr>
+                                <td>240</td>
+                                <td>565</td>
+                                <td>440</td>
+                                <td>395</td>
+                            </tr>
+                            <tr>
+                                <td>300</td>
+                                <td>650</td>
+                                <td>500</td>
+                                <td>450</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电监测 (高频电流法)</h2>
+                    <p>电缆局部放电监测主要采用高频电流传感器(HFCT)检测接地线中的脉冲电流信号。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📡</div>
+                            <h3>HFCT传感器</h3>
+                            <p>高频罗果夫斯基线圈，带宽100kHz-30MHz，夹在电缆接地线上使用。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔍</div>
+                            <h3>检测频段</h3>
+                            <p>典型检测频段 300kHz - 20MHz，避免低频工频干扰。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>检测灵敏度</h3>
+                            <p>可检测到 5-10 pC 级别的局部放电，适合在线监测。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：35kV电缆中间接头故障检测</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某城市电网35kV XLPE电缆，长度8km，1998年投运</p>
+                            <p><strong>监测情况：</strong>局放在线监测发现电缆中间接头处局部放电量持续增长，从50pC增长至800pC</p>
+                            <p><strong>定位分析：</strong>时域反射法(TDR)结合局放定位，确定故障位置在第4个中间接头</p>
+                            <p><strong>停电检修：</strong>解剖检查发现接头应力锥处有水树枝老化，导体压接不良</p>
+                            <p><strong>处理结果：</strong>更换故障接头，并采用带防水骨架的新接头，对全线中间接头进行更换</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -478,17 +1097,160 @@
             <div class="content-detail" id="content-arrester-monitor" style="display: none;">
                 <div class="content-header">
                     <h1>🛡️ 避雷器监测系统</h1>
-                    <p>金属氧化物避雷器在线监测</p>
+                    <p>金属氧化物避雷器(MOA)在线监测，监测设备免受雷电和操作过电压损害</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>监测项目</h2>
-                    <ul>
-                        <li><strong>全电流监测</strong>：阻性电流、容性电流</li>
-                        <li><strong>动作次数统计</strong>：雷击动作记录</li>
-                        <li><strong>能耗监测</strong>：泄漏电流累积</li>
-                        <li><strong>温升监测</strong>：外壳温度</li>
-                    </ul>
+                    <h2>避雷器简介</h2>
+                    <p>金属氧化物避雷器(Metal Oxide Arrester, MOA)是电力系统重要的过电压保护设备，通过氧化锌非线性电阻片（ZnO阀片）吸收雷击和操作过电压能量，保护电气设备免受损害。与传统碳化硅避雷器相比，MOA具有保护特性好、无间隙、通流容量大等优点。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>避雷器结构</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>ZnO电阻片</h3>
+                            <p>核心工作元件，由氧化锌为主要成分，添加Bi₂O₃、Sb₂O₃等金属氧化物烧结而成，具有优异的非线性伏安特性。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>串联间隙</h3>
+                            <p>无间隙MOA直接依靠ZnO电阻片工作；部分间隙MOA有串联或并联间隙。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🏠</div>
+                            <h3>绝缘外套</h3>
+                            <p>通常采用硅橡胶复合外套或瓷套，提供机械保护和电气绝缘。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏺️</div>
+                            <h3>均压环</h3>
+                            <p>改善电压分布，降低端部电场集中，提高整只避雷器的耐压水平。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测项目详解</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>监测类型</th>
+                                <th>监测内容</th>
+                                <th>技术手段</th>
+                                <th>重要性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>全电流监测</strong></td>
+                                <td>阻性电流、容性电流</td>
+                                <td>泄漏电流在线监测仪</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>动作次数</strong></td>
+                                <td>雷击动作记录</td>
+                                <td>动作计数器</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>能耗监测</strong></td>
+                                <td>泄漏电流累积</td>
+                                <td>能耗积分计算</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>温升监测</strong></td>
+                                <td>外壳温度</td>
+                                <td>红外热像/温度传感器</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>相间差</strong></td>
+                                <td>三相电流差异</td>
+                                <td>三相电流比较</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>阻性电流监测原理</h2>
+                    <p>避雷器的漏电流由容性电流和阻性电流两部分组成。正常运行时，容性电流远大于阻性电流；当阀片老化或受潮时，阻性电流显著增加，因此监测阻性电流是判断避雷器健康状态的关键。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>全电流Ix</h3>
+                            <p>避雷器总泄漏电流，包含容性电流Ic和阻性电流Ir</p>
+                            <div style="background: rgba(99,102,241,0.1); border-radius: 8px; padding: 12px; margin-top: 8px;">
+                                <code>Ix = Ic + Ir</code>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>容性电流Ic</h3>
+                            <p>与电压相位差90°，基本不变化，反映避雷器电容特性</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>阻性电流Ir</h3>
+                            <p>与电压同相位，随阀片状况变化，是反映老化的关键参数</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>监测判断标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>状态</th>
+                                <th>全电流 (μA)</th>
+                                <th>阻性电流 (μA)</th>
+                                <th>功率损耗 (W)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#3FB950"><strong>正常</strong></td>
+                                <td>&lt; 600</td>
+                                <td>&lt; 100</td>
+                                <td>&lt; 50</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#D29922"><strong>注意</strong></td>
+                                <td>600 - 1000</td>
+                                <td>100 - 300</td>
+                                <td>50 - 150</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#F85149"><strong>异常</strong></td>
+                                <td>&gt; 1000</td>
+                                <td>&gt; 300</td>
+                                <td>&gt; 150</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="tip" style="margin-top: 12px;">⚠️ 当三相之间阻性电流差值超过50%时，应进行检查。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：220kV避雷器阀片老化检测</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某220kV变电站220kV侧MOA，运行年限15年</p>
+                            <p><strong>监测情况：</strong>在线监测发现A相阻性电流从85μA增长至320μA，增长277%，而B、C相基本不变</p>
+                            <p><strong>数据分析：</strong>A相全电流增加，但三相容性电流基本一致，说明问题出在A相氧化锌阀片</p>
+                            <p><strong>停电检修：</strong>解体检查发现A相底部2片阀片受潮严重，有放电痕迹，密封不良</p>
+                            <p><strong>处理结果：</strong>更换A相避雷器整相，并对全站其他避雷器进行专项检查</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -789,6 +1551,399 @@
                 </div>
             </div>
 
+            <!-- 振动监测 -->
+            <div class="content-detail" id="content-vibration-monitor" style="display: none;">
+                <div class="content-header">
+                    <h1>📳 振动监测技术</h1>
+                    <p>基于振动信号分析的设备健康监测技术，广泛应用于旋转机械、变压器、开关柜等设备的故障诊断</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测基础</h2>
+                    <p>振动是物体运动的一种形式，当物体受到外力作用时，会在其平衡位置附近作往复运动。振动监测通过采集和分析设备振动信号，判断设备运行状态，是设备健康管理的重要手段。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动三要素</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📏</div>
+                            <h3>振幅 (Displacement)</h3>
+                            <p>振动时物体离开平衡位置的最大距离，反映振动强度。单位：mm、μm</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">位移</span>
+                                <span class="content-card-tag">峰值</span>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>速度 (Velocity)</h3>
+                            <p>振动位移的时间变化率，对疲劳损伤敏感。单位：mm/s、cm/s</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">速度</span>
+                                <span class="content-card-tag">RMS</span>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🚀</div>
+                            <h3>加速度 (Acceleration)</h3>
+                            <p>振动速度的时间变化率，对冲击和高频振动敏感。单位：m/s²、g</p>
+                            <div class="content-card-tags">
+                                <span class="content-card-tag">加速度</span>
+                                <span class="content-card-tag">冲击</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动传感器类型</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>原理</th>
+                                <th>频响范围</th>
+                                <th>灵敏度</th>
+                                <th>适用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>压电式加速度计</strong></td>
+                                <td>压电效应</td>
+                                <td>0.5Hz - 5kHz</td>
+                                <td>高</td>
+                                <td>通用振动监测</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IEPE加速度计</strong></td>
+                                <td>压电+信号调理集成电路</td>
+                                <td>0.3Hz - 10kHz</td>
+                                <td>高</td>
+                                <td>高精度监测、工业现场</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MEMS加速度计</strong></td>
+                                <td>电容变化</td>
+                                <td>0 - 500Hz</td>
+                                <td>中</td>
+                                <td>低频振动、成本敏感场景</td>
+                            </tr>
+                            <tr>
+                                <td><strong>电涡流位移传感器</strong></td>
+                                <td>电涡流效应</td>
+                                <td>0 - 10kHz</td>
+                                <td>高</td>
+                                <td>轴位移、相对振动测量</td>
+                            </tr>
+                            <tr>
+                                <td><strong>速度传感器</strong></td>
+                                <td>电磁感应</td>
+                                <td>10 - 1000Hz</td>
+                                <td>中</td>
+                                <td>旋转机械监测</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测参数</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>计算公式</th>
+                                <th>应用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>峰值 (Peak)</strong></td>
+                                <td>振动信号的最大值</td>
+                                <td>x<sub>peak</sub> = max|x(t)|</td>
+                                <td>冲击故障检测</td>
+                            </tr>
+                            <tr>
+                                <td><strong>峰峰值 (Peak-Peak)</strong></td>
+                                <td>振动信号最大值与最小值之差</td>
+                                <td>x<sub>p-p</sub> = x<sub>max</sub> - x<sub>min</sub></td>
+                                <td>位移测量</td>
+                            </tr>
+                            <tr>
+                                <td><strong>平均值 (Mean)</strong></td>
+                                <td>振动信号的算术平均</td>
+                                <td>x<sub>mean</sub> = (1/n)∑x<sub>i</sub></td>
+                                <td>偏置信号分析</td>
+                            </tr>
+                            <tr>
+                                <td><strong>有效值 (RMS)</strong></td>
+                                <td>振动能量的等效值</td>
+                                <td>x<sub>RMS</sub> = √(1/n∑x<sub>i</sub>²)</td>
+                                <td>疲劳损伤评估</td>
+                            </tr>
+                            <tr>
+                                <td><strong>振动烈度</strong></td>
+                                <td>速度RMS值的国际标准</td>
+                                <td>mm/s RMS</td>
+                                <td>ISO 10816机械振动评价</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>旋转机械故障特征频率</h2>
+                    <p>旋转机械的故障类型与振动频率密切相关，通过频谱分析可以定位故障原因。</p>
+
+                    <h3>滚动轴承故障频率计算</h3>
+                    <div class="formula-box">
+                        <div class="formula-item">
+                            <code>BPFO = (n/2) × (1 - d/D × cosθ) × RPM / 60</code>
+                            <span>外圈故障频率</span>
+                        </div>
+                        <div class="formula-item">
+                            <code>BPFI = (n/2) × (1 + d/D × cosθ) × RPM / 60</code>
+                            <span>内圈故障频率</span>
+                        </div>
+                        <div class="formula-item">
+                            <code>BSF = (D/d) × (1 - (d/D)² × cos²θ) × RPM / 60</code>
+                            <span>滚动体故障频率</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 13px;">
+                        <strong>参数说明：</strong>n=滚动体数量 | d=滚动体直径 | D=节径 | θ=接触角 | RPM=转/分
+                    </p>
+
+                    <h3>齿轮故障特征</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>故障类型</th>
+                                <th>特征频率</th>
+                                <th>频谱特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>齿轮啮合频率</td>
+                                <td>GMF = 齿数 × RPM / 60</td>
+                                <td>啮合频率及其谐波</td>
+                            </tr>
+                            <tr>
+                                <td>齿轮偏心</td>
+                                <td>GMF ± 轴旋转频率</td>
+                                <td>边带频率</td>
+                            </tr>
+                            <tr>
+                                <td>齿轮磨损</td>
+                                <td>GMF及其谐波幅值增大</td>
+                                <td>高频噪声增加</td>
+                            </tr>
+                            <tr>
+                                <td>齿轮断齿</td>
+                                <td>GMF脉冲冲击</td>
+                                <td>冲击成分明显</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测标准 (ISO 10816)</h2>
+                    <p>ISO 10816是评价机器振动状态的国际标准，根据振动速度 RMS 值划分区域。</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>区域</th>
+                                <th>RMS范围 (mm/s)</th>
+                                <th>说明</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#3FB950"><strong>A</strong></td>
+                                <td>0 - 0.28</td>
+                                <td>新交付设备</td>
+                                <td>优良，可长期运行</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#58A6FF"><strong>B</strong></td>
+                                <td>0.28 - 0.71</td>
+                                <td>振动正常</td>
+                                <td>合格，可长期运行</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#D29922"><strong>C</strong></td>
+                                <td>0.71 - 1.8</td>
+                                <td>振动报警</td>
+                                <td>加强监测，限期检修</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#F85149"><strong>D</strong></td>
+                                <td>> 1.8</td>
+                                <td>振动危险</td>
+                                <td>立即停机检查</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测在工业领域的应用</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>旋转机械</h3>
+                            <p>电机、压缩机、泵、风机等旋转设备的轴承、齿轮、轴系监测</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 轴承磨损/损坏检测</li>
+                                <li>• 不平衡、不对中诊断</li>
+                                <li>• 共振频率识别</li>
+                                <li>• 预知维修计划制定</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>变压器铁芯</h3>
+                            <p>监测变压器铁芯振动，反映铁芯压紧程度和绕组松动状态</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率 100Hz、200Hz</li>
+                                <li>• 铁芯松动判断</li>
+                                <li>• 绕组变形检测</li>
+                                <li>• 负载相关性分析</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔩</div>
+                            <h3>开关柜</h3>
+                            <p>监测开关柜内部机械松动、部件磨损等隐患</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 螺栓松动检测</li>
+                                <li>• 铁芯共振分析</li>
+                                <li>• 机构动作特性</li>
+                                <li>• 接触不良诊断</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚙️</div>
+                            <h3>管道与结构</h3>
+                            <p>管道振动监测，识别共振、磨损、支撑松动等问题</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 管道共振检测</li>
+                                <li>• 支撑结构健康</li>
+                                <li>• 阀门振动分析</li>
+                                <li>• 减振效果评估</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动信号分析方法</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📈</div>
+                            <h3>时域分析</h3>
+                            <p>基于时间序列的分析方法，提取振动的统计特征</p>
+                            <div style="background: rgba(99,102,241,0.1); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                                <strong>常用指标：</strong>
+                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+                                    RMS、峰值、峰值因子、峭度、偏度、波峰因数
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>频域分析 (FFT)</h3>
+                            <p>快速傅里叶变换，将时域信号转换为频域，识别频率成分</p>
+                            <div style="background: rgba(99,102,241,0.1); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                                <strong>应用：</strong>
+                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+                                    故障特征频率提取、谐波分析、调制分析
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌊</div>
+                            <h3>包络分析 (Envelope)</h3>
+                            <p>提取高频冲击信号的包络，适用于轴承、齿轮故障检测</p>
+                            <div style="background: rgba(99,102,241,0.1); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                                <strong>优势：</strong>
+                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+                                    分离低频调制与高频载波，放大冲击特征
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏱️</div>
+                            <h3>时频分析 (Wavelet)</h3>
+                            <p>小波变换，同时分析信号的时间和频率特征</p>
+                            <div style="background: rgba(99,102,241,0.1); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                                <strong>适用：</strong>
+                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">
+                                    非平稳信号、瞬态冲击、故障定位
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：电机轴承故障诊断</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某工厂35kV高压电机，额定功率2000kW，运行转速1490 RPM</p>
+                            <p><strong>故障现象：</strong>振动值从0.8mm/s突然上升至3.2mm/s，电机轴承端温度升高15°C</p>
+                            <p><strong>频谱分析：</strong></p>
+                            <ul>
+                                <li>轴承外圈故障频率 BPFO = 87.3Hz，能量增加40dB</li>
+                                <li>高频包络谱显示 4.2kHz 附近有明显峰值</li>
+                                <li>时域波形可见周期性冲击成分</li>
+                            </ul>
+                            <p><strong>诊断结论：</strong>轴承外圈滚道出现剥落损伤</p>
+                            <p><strong>处理结果：</strong>紧急停机更换轴承，避免了轴断裂事故</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动监测系统组成</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">📳</div>
+                            <div class="process-text">传感器</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📻</div>
+                            <div class="process-text">信号调理</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">💻</div>
+                            <div class="process-text">数据采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📊</div>
+                            <div class="process-text">信号处理</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔍</div>
+                            <div class="process-text">故障诊断</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 局部放电诊断 -->
             <div class="content-detail" id="content-pd-diagnosis" style="display: none;">
                 <div class="content-header">
@@ -937,59 +2092,754 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="detail-section monitor">
+                    <h2>PRPD图谱详解</h2>
+                    <p>PRPD（Phase Resolved Partial Discharge）图谱是最常用的局部放电分析图形，以工频电压相位为横轴，放电量为纵轴，累积显示多个工频周期的放电分布。</p>
+                    
+                    <h3>图谱构成要素</h3>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📐</div>
+                            <h3>横轴 (X)</h3>
+                            <p>工频电压相位角 0°-360°，分为正半周(0°-180°)和负半周(180°-360°)</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📏</div>
+                            <h3>纵轴 (Y)</h3>
+                            <p>放电量大小，从0到最大放电量，用于判断放电强度</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🎨</div>
+                            <h3>颜色/灰度</h3>
+                            <p>表示放电次数的多少，颜色越深或灰度越高表示该位置放电越频繁</p>
+                        </div>
+                    </div>
+
+                    <h3>典型PRPD图谱特征</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>放电类型</th>
+                                <th>正半周相位</th>
+                                <th>负半周相位</th>
+                                <th>放电形态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>内部气隙放电</strong></td>
+                                <td>30°-90°</td>
+                                <td>210°-270°</td>
+                                <td>对称"人字形"，相位较窄</td>
+                            </tr>
+                            <tr>
+                                <td><strong>表面放电</strong></td>
+                                <td>0°-90°</td>
+                                <td>180°-270°</td>
+                                <td>相位较宽，拖尾明显</td>
+                            </tr>
+                            <tr>
+                                <td><strong>尖端放电</strong></td>
+                                <td>0°-90°</td>
+                                <td>180°-270°</td>
+                                <td>放电幅值大，集中在电压峰值附近</td>
+                            </tr>
+                            <tr>
+                                <td><strong>悬浮放电</strong></td>
+                                <td>不固定</td>
+                                <td>不固定</td>
+                                <td>呈"月牙形"或"分散状"，幅值大</td>
+                            </tr>
+                            <tr>
+                                <td><strong>电晕放电</strong></td>
+                                <td>60°-90°</td>
+                                <td>240°-270°</td>
+                                <td>尖刺状，放电幅值很大</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>PRPS图谱详解</h2>
+                    <p>PRPS（Phase Resolved Pulse Sequence）图谱以时间为第三维，显示连续多个工频周期的放电脉冲序列，更适合观察放电的发展变化。</p>
+                    
+                    <h3>图谱构成要素</h3>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📐</div>
+                            <h3>横轴 (X)</h3>
+                            <p>工频电压相位角 0°-360°</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📏</div>
+                            <h3>纵轴 (Y)</h3>
+                            <p>时间（工频周期序号），从下往上递增</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🎨</div>
+                            <h3>颜色/点大小</h3>
+                            <p>表示放电量大小，便于观察放电的时间演化</p>
+                        </div>
+                    </div>
+
+                    <h3>PRPS图谱应用</h3>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin: 16px 0;">
+                        <li>• 观察放电的周期性特征</li>
+                        <li>• 发现间歇性放电现象</li>
+                        <li>• 跟踪放电发展趋势</li>
+                        <li>• 识别放电相位漂移</li>
+                    </ul>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>放电图谱识别要点</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">👁️</div>
+                            <h3>观察相位分布</h3>
+                            <p>放电主要集中在正半周还是负半周？相位范围宽还是窄？</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>分析幅值分布</h3>
+                            <p>放电量大小是否一致？最大最小比值？分布是否集中？</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>比较正负半周</h3>
+                            <p>正负半周放电是否对称？不对称程度如何？</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📈</div>
+                            <h3>跟踪变化趋势</h3>
+                            <p>放电量是否在增长？相位是否在漂移？频率是否在增加？</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：35kV开关柜内部放电故障诊断</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某35kV开关柜，1999年投运，配备局放在线监测</p>
+                            <p><strong>监测情况：</strong>PRPD图谱显示正负半周出现不对称放电，放电量从500pC增长至3000pC</p>
+                            <p><strong>图谱分析：</strong>放电主要分布在0°-90°和180°-270°相位，放电幅值呈"八字形"分布，判断为绝缘内部气隙放电</p>
+                            <p><strong>停电检修：</strong>检查发现母线侧支持绝缘子内部有裂纹，局部有放电痕迹</p>
+                            <p><strong>处理结果：</strong>更换故障绝缘子，局放消失，恢复正常运行</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 过热故障诊断 -->
             <div class="content-detail" id="content-overheat-diagnosis" style="display: none;">
                 <div class="content-header">
                     <h1>🌡️ 过热故障诊断</h1>
-                    <p>通过温度特征识别设备过热问题</p>
+                    <p>通过温度特征识别设备过热问题，实现故障早期预警和精确定位</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>诊断方法</h2>
-                    <ul>
-                        <li><strong>温度阈值告警</strong>：设定告警阈值</li>
-                        <li><strong>温升速率告警</strong>：温升过快告警</li>
-                        <li><strong>相对温差分析</strong>：三相横向对比</li>
-                        <li><strong>热像图分析</strong>：红外热成像</li>
-                    </ul>
+                    <h2>过热故障类型</h2>
+                    <p>设备过热是电力系统最常见的故障现象之一，根据发热原因和部位不同，可分为以下类型：</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔌</div>
+                            <h3>接触不良过热</h3>
+                            <p>导体连接处接触电阻增大，产生局部过热。常见于开关设备触头、母线连接处、电缆接头等。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 温度特征：热点温度与环境温差大</li>
+                                <li>• 发展特点：逐渐恶化，有温升前兆</li>
+                                <li>• 典型案例：开关柜动静触头发热</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>负荷超标过热</h3>
+                            <p>设备长时间超过额定负荷运行，导致温升超过设计限值。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 温度特征：与负荷电流正相关</li>
+                                <li>• 发展特点：跟随负荷变化</li>
+                                <li>• 典型案例：主变过载、线路超限</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🧲</div>
+                            <h3>铁磁损耗过热</h3>
+                            <p>铁芯在交变磁场作用下产生磁滞损耗和涡流损耗，导致铁芯温度升高。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 温度特征：100Hz、200Hz特征频率</li>
+                                <li>• 发展特点：与电压相关性高</li>
+                                <li>• 典型案例：变压器铁芯松动</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔩</div>
+                            <h3>结构松动过热</h3>
+                            <p>设备内部结构件松动、脱落，导致局部电磁力作用下振动摩擦发热。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 温度特征：伴有振动信号</li>
+                                <li>• 发展特点：突发性较强</li>
+                                <li>• 典型案例：开关柜内螺栓松动</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>过热诊断方法</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>诊断方法</th>
+                                <th>原理</th>
+                                <th>适用范围</th>
+                                <th>优缺点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>温度阈值法</strong></td>
+                                <td>设定温度告警阈值，超过即告警</td>
+                                <td>各类设备</td>
+                                <td>简单直接，但灵敏度低</td>
+                            </tr>
+                            <tr>
+                                <td><strong>温升速率法</strong></td>
+                                <td>监测温度变化速率，异常速率告警</td>
+                                <td>发热型故障</td>
+                                <td>可发现突发性发热</td>
+                            </tr>
+                            <tr>
+                                <td><strong>相对温差法</strong></td>
+                                <td>三相横向比较，发现异常相</td>
+                                <td>三相设备</td>
+                                <td>排除环境影响，灵敏度高</td>
+                            </tr>
+                            <tr>
+                                <td><strong>热成像分析</strong></td>
+                                <td>红外图像分析，定位热点</td>
+                                <td>巡检场景</td>
+                                <td>直观可视，但需人工判读</td>
+                            </tr>
+                            <tr>
+                                <td><strong>负荷-温度关联</strong></td>
+                                <td>建立负荷与温度关系模型</td>
+                                <td>变压器等</td>
+                                <td>可区分内外部发热</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>相对温差计算</h2>
+                    <p>相对温差法是判断设备发热程度的重要方法，可排除环境温度影响：</p>
+                    <div class="formula-box">
+                        <div class="formula-item">
+                            <code>δT = (T₁ - T₂) / (T₁ - T₀) × 100%</code>
+                            <span>相对温差 = (异常相温度 - 参考相温度) / (异常相温度 - 环境温度) × 100%</span>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>相对温差</th>
+                                <th>故障等级</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>&lt; 35%</td>
+                                <td style="color:#3FB950"><strong>正常</strong></td>
+                                <td>正常运行</td>
+                            </tr>
+                            <tr>
+                                <td>35% - 80%</td>
+                                <td style="color:#D29922"><strong>注意</strong></td>
+                                <td>加强监测，择机检修</td>
+                            </tr>
+                            <tr>
+                                <td>&gt; 80%</td>
+                                <td style="color:#F85149"><strong>严重</strong></td>
+                                <td>立即采取措施</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断流程</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">🌡️</div>
+                            <div class="process-text">温度采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📊</div>
+                            <div class="process-text">阈值判断</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔄</div>
+                            <div class="process-text">温差计算</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📈</div>
+                            <div class="process-text">趋势分析</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">✅</div>
+                            <div class="process-text">诊断结论</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：35kV开关柜触头发热故障</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某35kV开关柜，馈线间隔，运行年限10年</p>
+                            <p><strong>监测情况：</strong>RFID测温系统发现B相动触头温度持续上升，从45°C升至78°C，而A、C相稳定在38°C</p>
+                            <p><strong>分析计算：</strong>相对温差 = (78-38)/(78-25) × 100% = 75.5%，属于注意等级</p>
+                            <p><strong>停电检修：</strong>检查发现B相触头弹簧疲劳，接触电阻增大，触头表面有轻微烧蚀</p>
+                            <p><strong>处理结果：</strong>更换触头弹簧，打磨触头表面，恢复后温度降至40°C正常范围</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- 绝缘故障诊断 -->
             <div class="content-detail" id="content-insulation-diagnosis" style="display: none;">
                 <div class="content-header">
-                    <h1>�绝缘 绝缘故障诊断</h1>
-                    <p>绝缘劣化评估和寿命预测</p>
+                    <h1>🔒 绝缘故障诊断</h1>
+                    <p>绝缘劣化评估和寿命预测，保障设备安全运行</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>诊断方法</h2>
-                    <ul>
-                        <li><strong>介质损耗因数</strong>：tanδ监测</li>
-                        <li><strong>电容值变化</strong>：绝缘电容监测</li>
-                        <li><strong>绝缘电阻</strong>：在线绝缘监测</li>
-                        <li><strong>局部放电谱图</strong>：图谱分析</li>
-                    </ul>
+                    <h2>绝缘老化机理</h2>
+                    <p>电气设备绝缘在电、热、机械、化学等因素长期作用下，性能逐渐劣化，最终导致绝缘故障。了解绝缘老化机理是进行有效诊断的基础。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚡</div>
+                            <h3>电老化</h3>
+                            <p>局部放电、瞬时过电压等长期作用，导致绝缘材料分子结构破坏。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌡️</div>
+                            <h3>热老化</h3>
+                            <p>高温加速绝缘材料氧化、裂解，温度每升高10°C，寿命减半。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">💧</div>
+                            <h3>潮湿老化</h3>
+                            <p>水分侵入降低绝缘性能，导致介质损耗增加，易引发局部放电。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🧪</div>
+                            <h3>化学老化</h3>
+                            <p>酸性物质、氧化剂等化学因素腐蚀绝缘材料，导致性能下降。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>诊断参数与方法</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>诊断参数</th>
+                                <th>测试方法</th>
+                                <th>典型范围</th>
+                                <th>判断依据</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>介质损耗因数 tanδ</strong></td>
+                                <td>西林电桥法</td>
+                                <td>0.1% - 10%</td>
+                                <td>tanδ越大，绝缘越差</td>
+                            </tr>
+                            <tr>
+                                <td><strong>绝缘电阻 R</strong></td>
+                                <td>兆欧表法</td>
+                                <td>MΩ - GΩ</td>
+                                <td>电阻越高越好</td>
+                            </tr>
+                            <tr>
+                                <td><strong>吸收比 R60/R15</strong></td>
+                                <td>兆欧表法</td>
+                                <td>≥1.3 为良好</td>
+                                <td>低于1.3潮湿劣化</td>
+                            </tr>
+                            <tr>
+                                <td><strong>极化指数 PI</strong></td>
+                                <td>兆欧表法</td>
+                                <td>≥4 为优秀</td>
+                                <td>PI = R10min/R1min</td>
+                            </tr>
+                            <tr>
+                                <td><strong>电容变化率</strong></td>
+                                <td>电容电桥法</td>
+                                <td>变化&lt;5%</td>
+                                <td>变化大表示老化</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>介质损耗因数 (tanδ) 分析</h2>
+                    <p>介质损耗因数tanδ是反映绝缘介质能量损耗的重要参数，数值越小表示绝缘质量越好。</p>
+                    <div class="formula-box">
+                        <div class="formula-item">
+                            <code>P = U² × ω × C × tanδ</code>
+                            <span>介质损耗功率 P = 电压² × 角频率 × 电容 × tanδ</span>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>tanδ值</th>
+                                <th>绝缘状态</th>
+                                <th>处理建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>&lt; 0.5%</td>
+                                <td style="color:#3FB950"><strong>优秀</strong></td>
+                                <td>绝缘状态良好，可继续运行</td>
+                            </tr>
+                            <tr>
+                                <td>0.5% - 2%</td>
+                                <td style="color:#58A6FF"><strong>良好</strong></td>
+                                <td>正常范围内</td>
+                            </tr>
+                            <tr>
+                                <td>2% - 5%</td>
+                                <td style="color:#D29922"><strong>注意</strong></td>
+                                <td>加强监测，考虑检修</td>
+                            </tr>
+                            <tr>
+                                <td>&gt; 5%</td>
+                                <td style="color:#F85149"><strong>不合格</strong></td>
+                                <td>立即处理，避免事故</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>绝缘电阻测试</h2>
+                    <p>绝缘电阻测试是最常用的绝缘诊断方法，通过测量设备绝缘的直流电阻值判断绝缘状态。</p>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📏</div>
+                            <h3>测试原理</h3>
+                            <p>给被测绝缘加直流电压，测量泄漏电流，计算绝缘电阻值 R = U/I</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏱️</div>
+                            <h3>吸收比法</h3>
+                            <p>R60/R15：60秒与15秒绝缘电阻的比值，反映绝缘吸收潮气的程度</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📈</div>
+                            <h3>极化指数</h3>
+                            <p>R10min/R1min：10分钟与1分钟绝缘电阻的比值，更适合大型设备</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>在线监测方法</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>监测方法</th>
+                                <th>原理</th>
+                                <th>优点</th>
+                                <th>应用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>在线tanδ监测</strong></td>
+                                <td>在线测量电压电流相位差</td>
+                                <td>连续监测，无需停电</td>
+                                <td>变压器、互感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>局部放电监测</strong></td>
+                                <td>检测绝缘内部放电信号</td>
+                                <td>早期预警能力强</td>
+                                <td>各类高压设备</td>
+                            </tr>
+                            <tr>
+                                <td><strong>振动声学监测</strong></td>
+                                <td>检测放电产生的超声波</td>
+                                <td>抗干扰能力强</td>
+                                <td>GIS、变压器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>油中气体分析</strong></td>
+                                <td>分析绝缘油分解产物</td>
+                                <td>判断故障类型准确</td>
+                                <td>油浸式设备</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：110kV电流互感器绝缘老化诊断</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某变电站110kV电流互感器，1995年投运，油纸绝缘结构</p>
+                            <p><strong>监测情况：</strong>在线监测发现介质损耗因数tanδ从0.4%增长至2.8%，同时油中CO₂含量显著增加</p>
+                            <p><strong>分析判断：</strong>tanδ增长7倍，结合油色谱分析判断绝缘纸老化严重，存在整体绝缘下降趋势</p>
+                            <p><strong>停电检修：</strong>油化试验发现油色变深，绝缘纸聚合度(DP)测定值为350（正常应>700）</p>
+                            <p><strong>处理结果：</strong>更换新互感器，避免了内部短路事故</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- 趋势分析 -->
             <div class="content-detail" id="content-trend-analysis" style="display: none;">
                 <div class="content-header">
-                    <h1>📉 趋势分析</h1>
-                    <p>基于历史数据的趋势预测</p>
+                    <h1>📈 趋势分析</h1>
+                    <p>基于历史数据的趋势预测和异常检测，提前发现设备隐患</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>分析方法</h2>
-                    <ul>
-                        <li><strong>温度趋势曲线</strong>：历史温度变化</li>
-                        <li><strong>负荷关联分析</strong>：负荷与温度关系</li>
-                        <li><strong>同比/环比分析</strong>：同期对比分析</li>
-                        <li><strong>异常预警</strong>：趋势异常检测</li>
-                    </ul>
+                    <h2>趋势分析基础</h2>
+                    <p>趋势分析是通过对设备监测数据的历史变化规律进行分析，预测未来发展趋势，及时发现异常变化。趋势分析是设备状态评估和预知维修的核心技术。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>分析类型</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📉</div>
+                            <h3>绝对值趋势</h3>
+                            <p>直接观察监测参数随时间的变化，如温度、振动值等绝对数值的变化趋势。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>相对变化趋势</h3>
+                            <p>观察参数相对于基线或额定值的变化，如温升超过额定值的程度。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>变化速率趋势</h3>
+                            <p>观察参数变化的速度，如温度上升速率(°C/小时)、振动增长率(%/月)。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔗</div>
+                            <h3>关联分析</h3>
+                            <p>分析多个参数之间的关联关系，如负荷-温度关系、振动-转速关系。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>趋势分析方法</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>方法</th>
+                                <th>原理</th>
+                                <th>适用场景</th>
+                                <th>优点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>时间序列分析</strong></td>
+                                <td>基于历史数据建立预测模型</td>
+                                <td>温度、负荷预测</td>
+                                <td>可预测未来趋势</td>
+                            </tr>
+                            <tr>
+                                <td><strong>滑动平均法</strong></td>
+                                <td>计算一段时间的平均值平滑曲线</td>
+                                <td>消除随机波动</td>
+                                <td>简单易行</td>
+                            </tr>
+                            <tr>
+                                <td><strong>指数平滑法</strong></td>
+                                <td>近期数据赋予更大权重</td>
+                                <td>短期趋势预测</td>
+                                <td>响应灵敏</td>
+                            </tr>
+                            <tr>
+                                <td><strong>差分分析</strong></td>
+                                <td>计算相邻时刻的变化量</td>
+                                <td>异常检测</td>
+                                <td>灵敏度高</td>
+                            </tr>
+                            <tr>
+                                <td><strong>回归分析</strong></td>
+                                <td>建立参数间数学关系</td>
+                                <td>关联分析</td>
+                                <td>可量化关系</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>交互式温度趋势图</h2>
+                    <p>下图展示了变压器油温的30天趋势变化，可切换不同视图观察数据特征：</p>
+                    
+                    <div class="chart-controls">
+                        <button class="chart-btn active" onclick="switchTrendView('day')">日视图</button>
+                        <button class="chart-btn" onclick="switchTrendView('week')">周视图</button>
+                        <button class="chart-btn" onclick="switchTrendView('month')">月视图</button>
+                        <button class="chart-btn" onclick="switchTrendView('forecast')">预测视图</button>
+                    </div>
+                    
+                    <div class="chart-container chart-animate">
+                        <div class="chart-title">🔺 变压器油温趋势 (°C)</div>
+                        <canvas id="trendChart" class="chart-canvas"></canvas>
+                        <div class="spectrum-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #6366F1;"></div>
+                                <span>实际温度</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #10B981;"></div>
+                                <span>滑动平均</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #F59E0B;"></div>
+                                <span>告警阈值</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #EF4444; opacity: 0.5;"></div>
+                                <span>预测区间</span>
+                            </div>
+                        </div>
+                        <div class="chart-info">
+                            <span>📅 2026-03-01 至 2026-03-25</span>
+                            <span>⚠️ 2次告警</span>
+                        </div>
+                    </div>
+
+                    <div class="process-flow" style="margin-top: 20px;">
+                        <div class="process-step">
+                            <div class="process-icon">📥</div>
+                            <div class="process-text">数据采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🧹</div>
+                            <div class="process-text">数据清洗</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📈</div>
+                            <div class="process-text">趋势拟合</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔍</div>
+                            <div class="process-text">异常检测</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📋</div>
+                            <div class="process-text">预警输出</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>异常检测方法</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🎯</div>
+                            <h3>阈值判断</h3>
+                            <p>设定上下阈值，超过阈值即判定为异常。简单直接，但可能漏掉渐进性异常。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📐</div>
+                            <h3>3σ准则</h3>
+                            <p>数据落在μ±3σ范围内的概率为99.7%，超出视为异常。适合正态分布数据。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>趋势偏离检测</h3>
+                            <p>检测数据偏离历史趋势线的程度，超过设定阈值告警。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏰</div>
+                            <h3>速率变化检测</h3>
+                            <p>监测数据变化速率，速率突然增大视为异常预警。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>趋势分析流程</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">📥</div>
+                            <div class="process-text">数据采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🧹</div>
+                            <div class="process-text">数据清洗</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📈</div>
+                            <div class="process-text">趋势拟合</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔍</div>
+                            <div class="process-text">异常检测</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📋</div>
+                            <div class="process-text">预警输出</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型应用案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：变压器油温趋势分析预警</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某220kV主变，180MVA，长期重载运行</p>
+                            <p><strong>监测情况：</strong>通过趋势分析发现，在相同负荷条件下，油温比去年同期升高8°C，且温升速率呈上升趋势</p>
+                            <p><strong>分析结论：</strong>冷却器效率下降或内部散热条件恶化，可能存在绕组热点</p>
+                            <p><strong>处理结果：</strong>安排冷却器清洗和效率测试，发现冷却管路有堵塞，清洗后温升恢复正常</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -997,16 +2847,206 @@
             <div class="content-detail" id="content-spectrum-analysis" style="display: none;">
                 <div class="content-header">
                     <h1>📊 频谱分析</h1>
-                    <p>信号频域特征分析</p>
+                    <p>将信号从时域转换到频域，分析信号的频率成分，识别故障特征</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>分析方法</h2>
-                    <ul>
-                        <li><strong>FFT频谱分析</strong>：快速傅里叶变换</li>
-                        <li><strong>小波变换分析</strong>：时频分析</li>
-                        <li><strong>时频联合分析</strong>：联合时频分析</li>
-                    </ul>
+                    <h2>频谱分析基础</h2>
+                    <p>频谱分析是将复杂信号分解为不同频率成分的过程。旋转机械、振动信号的故障特征往往表现在特定频率上，通过频谱分析可以准确识别故障类型。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>主要分析方法</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔢</div>
+                            <h3>FFT频谱分析</h3>
+                            <p>快速傅里叶变换(FFT)将时域信号转换为频域信号，是最常用的频谱分析工具。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 计算效率高，适合实时分析</li>
+                                <li>• 可显示各频率成分的幅值</li>
+                                <li>• 适合平稳信号分析</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌊</div>
+                            <h3>小波变换</h3>
+                            <p>小波变换同时提供时间和频率信息，适合分析非平稳信号和瞬态信号。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 多尺度分析能力</li>
+                                <li>• 适合瞬态冲击分析</li>
+                                <li>• 可定位故障时间</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📐</div>
+                            <h3>包络分析</h3>
+                            <p>提取高频信号的包络，用于检测调制特征，特别适合轴承和齿轮故障诊断。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 对冲击故障敏感</li>
+                                <li>• 可分离调制与载波</li>
+                                <li>• 诊断轴承故障效果好</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⏱️</div>
+                            <h3>时频联合分析</h3>
+                            <p>同时显示信号的时间和频率信息，是分析非平稳信号的有力工具。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>•  Spectrogram时频图</li>
+                                <li>• 适合变转速分析</li>
+                                <li>• 信息最全面</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>交互式FFT频谱图</h2>
+                    <p>下图展示了电机振动信号的频谱分析，红色虚线标注了轴承外圈故障频率(87.3Hz)：</p>
+                    
+                    <div class="waveform-container">
+                        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">📉 时域波形 (振动加速度 mm/s²)</div>
+                        <canvas id="waveformCanvas" class="waveform-canvas"></canvas>
+                    </div>
+
+                    <div class="chart-container chart-animate">
+                        <div class="chart-title">📊 FFT频谱图 (振动速度 mm/s)</div>
+                        <canvas id="spectrumChart" class="chart-canvas"></canvas>
+                        <div class="spectrum-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #6366F1;"></div>
+                                <span>振动频谱</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #EF4444; opacity: 0.5;"></div>
+                                <span>BPFO故障频率</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #10B981;"></div>
+                                <span>2×RPM</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #F59E0B;"></div>
+                                <span>告警阈值</span>
+                            </div>
+                        </div>
+                        <div class="chart-info">
+                            <span>频率范围: 0 - 500 Hz</span>
+                            <span>分辨率: 1 Hz</span>
+                            <span>峰值: 4.2 mm/s @ 87.3 Hz</span>
+                        </div>
+                    </div>
+
+                    <div class="d3d-container">
+                        <div class="prpd-view">
+                            <div class="prpd-title">📈 包络谱 (轴承故障特征)</div>
+                            <canvas id="envelopeChart" class="prpd-canvas"></canvas>
+                        </div>
+                        <div class="prpd-view">
+                            <div class="prpd-title">🎵 时频谱图 (时频联合分析)</div>
+                            <canvas id="timeFreqChart" class="prpd-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障频率</h2>
+                    <p>旋转机械的故障类型与振动频率密切相关：</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>故障类型</th>
+                                <th>特征频率</th>
+                                <th>频谱特征</th>
+                                <th>诊断要点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>不平衡</strong></td>
+                                <td>1× RPM</td>
+                                <td>基频幅值大</td>
+                                <td>相位稳定，垂直方向幅值大</td>
+                            </tr>
+                            <tr>
+                                <td><strong>不对中</strong></td>
+                                <td>2× RPM</td>
+                                <td>2倍频幅值增大</td>
+                                <td>角度不对中以径向为主</td>
+                            </tr>
+                            <tr>
+                                <td><strong>轴承外圈故障</strong></td>
+                                <td>BPFO</td>
+                                <td>外圈故障频率</td>
+                                <td>固定频率，与转速精确相关</td>
+                            </tr>
+                            <tr>
+                                <td><strong>轴承内圈故障</strong></td>
+                                <td>BPFI</td>
+                                <td>内圈故障频率</td>
+                                <td>常伴调制边带</td>
+                            </tr>
+                            <tr>
+                                <td><strong>齿轮啮合</strong></td>
+                                <td>GMF</td>
+                                <td>啮合频率及其谐波</td>
+                                <td>齿轮箱特有</td>
+                            </tr>
+                            <tr>
+                                <td><strong>共振</strong></td>
+                                <td>固有频率</td>
+                                <td>固有频率被激发</td>
+                                <td>幅值突然增大</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>频谱分析流程</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">📳</div>
+                            <div class="process-text">振动采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔄</div>
+                            <div class="process-text">A/D采样</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📊</div>
+                            <div class="process-text">FFT变换</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔍</div>
+                            <div class="process-text">特征提取</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">✅</div>
+                            <div class="process-text">故障诊断</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：电机轴承故障频谱分析</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某10kV高压电机，功率2000kW，转速1490 RPM</p>
+                            <p><strong>监测情况：</strong>振动频谱中发现 87.3Hz 频率成分幅值明显增大，超出正常值40dB</p>
+                            <p><strong>频率计算：</strong>计算轴承故障频率 BPFO = (n/2)×(1-d/D×cosθ)×RPM/60 = 87.3Hz</p>
+                            <p><strong>诊断结论：</strong>频谱特征与轴承外圈故障频率一致，判断为轴承外圈滚道损伤</p>
+                            <p><strong>处理结果：</strong>更换轴承，避免了轴断裂事故</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1014,17 +3054,319 @@
             <div class="content-detail" id="content-pattern-analysis" style="display: none;">
                 <div class="content-header">
                     <h1>🎯 图谱分析</h1>
-                    <p>放电图谱模式识别</p>
+                    <p>放电图谱和波形模式识别，深度解析设备状态特征</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>图谱类型</h2>
-                    <ul>
-                        <li><strong>PRPD图谱</strong>：相位-放电量-放电次数</li>
-                        <li><strong>PRPS图谱</strong>：相位-放电量-工频周期</li>
-                        <li><strong>三维图谱</strong>：立体显示</li>
-                        <li><strong>统计特征提取</strong>：特征参数计算</li>
-                    </ul>
+                    <h2>图谱分析概述</h2>
+                    <p>图谱分析是通过图形化的方式展示监测数据，帮助技术人员直观识别设备状态和故障类型。在线监测领域主要涉及放电图谱、振动频谱、温度分布等类型。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电图谱</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>PRPD图谱</h3>
+                            <p>Phase Resolved Partial Discharge，相位分辨局部放电图谱。最常用的局放分析图形。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 横轴：工频相位 0°-360°</li>
+                                <li>• 纵轴：放电量大小</li>
+                                <li>• 用于放电类型识别</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌊</div>
+                            <h3>PRPS图谱</h3>
+                            <p>Phase Resolved Pulse Sequence，相位分辨脉冲序列。显示时间演化的放电模式。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 横轴：工频相位</li>
+                                <li>• 纵轴：时间（周期序号）</li>
+                                <li>• 用于趋势跟踪</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📈</div>
+                            <h3>Q-Φ-Ν图谱</h3>
+                            <p>放电量-相位-次数三维图谱，全方位展示放电特征。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 三维立体显示</li>
+                                <li>• 信息最完整</li>
+                                <li>• 用于深度分析</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📉</div>
+                            <h3>统计特征图谱</h3>
+                            <p>基于统计方法的特征参数图谱，用于自动识别和分类。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 偏度、峰度分析</li>
+                                <li>• 放电次数统计</li>
+                                <li>• 用于智能诊断</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>振动频谱图</h2>
+                    <p>振动信号经FFT变换后得到的频谱图，是旋转机械故障诊断的核心工具。</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>频谱类型</th>
+                                <th>应用场景</th>
+                                <th>显示内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>线性频谱</strong></td>
+                                <td>常规振动分析</td>
+                                <td>各频率成分幅值</td>
+                            </tr>
+                            <tr>
+                                <td><strong>功率谱密度</strong></td>
+                                <td>随机振动分析</td>
+                                <td>功率分布</td>
+                            </tr>
+                            <tr>
+                                <td><strong>阶次谱</strong></td>
+                                <td>变转速分析</td>
+                                <td>阶次成分</td>
+                            </tr>
+                            <tr>
+                                <td><strong>包络谱</strong></td>
+                                <td>轴承齿轮诊断</td>
+                                <td>调制特征</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>交互式PRPD/PRPS图谱展示</h2>
+                    <p>以下展示不同放电类型的PRPD图谱特征，点击切换查看各种放电模式：</p>
+                    
+                    <div class="chart-controls">
+                        <button class="chart-btn active" onclick="switchPDType('internal')">内部气隙</button>
+                        <button class="chart-btn" onclick="switchPDType('surface')">表面放电</button>
+                        <button class="chart-btn" onclick="switchPDType('corona')">电晕放电</button>
+                        <button class="chart-btn" onclick="switchPDType('float')">悬浮放电</button>
+                    </div>
+
+                    <div class="prpd-container">
+                        <div class="prpd-view">
+                            <div class="prpd-title">📊 PRPD图谱 - <span id="pdTypeName">内部气隙放电</span></div>
+                            <canvas id="prpdCanvas" class="prpd-canvas"></canvas>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; text-align: center;">
+                                横轴: 相位(0°-360°) | 纵轴: 放电量(pC)
+                            </div>
+                        </div>
+                        <div class="prpd-view">
+                            <div class="prpd-title">🌊 PRPS图谱</div>
+                            <canvas id="prpsCanvas" class="prpd-canvas"></canvas>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; text-align: center;">
+                                横轴: 相位(0°-360°) | 纵轴: 时间周期
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container" style="margin-top: 16px;">
+                        <div class="chart-title">📈 放电量分布直方图</div>
+                        <canvas id="pdHistogram" class="chart-canvas"></canvas>
+                        <div class="chart-info">
+                            <span>📊 统计: <span id="pdStats">N=1280, Qmean=25pC, Qmax=180pC</span></span>
+                            <span>🎯 放电类型: <span id="pdDiagnosis">内部气隙放电</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>温度分布图</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌡️</div>
+                            <h3>热力图</h3>
+                            <p>设备表面或内部的温度分布彩色图像，直观显示热点位置。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📊</div>
+                            <h3>趋势曲线</h3>
+                            <p>温度随时间变化的曲线，用于趋势分析和预警。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔄</div>
+                            <h3>温差分布</h3>
+                            <p>三相横向比较或历史同期比较，发现异常温差。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 机械故障诊断 -->
+            <div class="content-detail" id="content-mechanical-diagnosis" style="display: none;">
+                <div class="content-header">
+                    <h1>🔧 机械故障诊断</h1>
+                    <p>旋转机械常见故障类型、诊断方法和案例分析</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>常见机械故障类型</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚖️</div>
+                            <h3>不平衡</h3>
+                            <p>转子质量分布不均匀，导致振动幅值随转速增加。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率：1× RPM</li>
+                                <li>• 振动方向：径向为主</li>
+                                <li>• 相位特征：稳定</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">↔️</div>
+                            <h3>不对中</h3>
+                            <p>联轴器连接不正，导致轴向和径向振动增大。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率：2× RPM</li>
+                                <li>• 振动方向：轴向明显</li>
+                                <li>• 常伴有基频增大</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔩</div>
+                            <h3>松动</h3>
+                            <p>地脚螺栓、轴承座等松动，导致振动非线性增大。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率：0.5×、1×、2× RPM</li>
+                                <li>• 振动方向：垂直方向明显</li>
+                                <li>• 谐波成分丰富</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">⚙️</div>
+                            <h3>齿轮故障</h3>
+                            <p>齿面磨损、剥落、断齿等，导致振动频谱出现齿轮啮合频率。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率：GMF ± k×RPM</li>
+                                <li>• 边带特征：轴旋转调制</li>
+                                <li>• 磨损时噪声增大</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔴</div>
+                            <h3>轴承故障</h3>
+                            <p>滚动体、内圈、外圈故障，导致特定频率振动。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• BPFO/BPFI/BSF特征频率</li>
+                                <li>• 高频冲击成分</li>
+                                <li>• 包络谱诊断效果好</li>
+                            </ul>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🌊</div>
+                            <h3>共振</h3>
+                            <p>转速达到固有频率时振幅急剧增大。</p>
+                            <ul style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                                <li>• 特征频率：固有频率</li>
+                                <li>• 振幅随转速急剧变化</li>
+                                <li>• 通过锤击测试确定</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>故障诊断方法</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>诊断方法</th>
+                                <th>原理</th>
+                                <th>适用故障</th>
+                                <th>诊断效果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>时域分析</strong></td>
+                                <td>分析振动信号的统计特征</td>
+                                <td>不平衡、轴承损伤</td>
+                                <td>★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>频域分析</strong></td>
+                                <td>FFT变换识别频率成分</td>
+                                <td>各类故障</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>包络分析</strong></td>
+                                <td>提取高频冲击包络</td>
+                                <td>轴承、齿轮</td>
+                                <td>★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>相位分析</strong></td>
+                                <td>分析振动相位关系</td>
+                                <td>不平衡、不对中</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>阶次分析</strong></td>
+                                <td>跟踪阶次成分变化</td>
+                                <td>变转速机械</td>
+                                <td>★★★★☆</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>故障诊断流程</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-icon">📳</div>
+                            <div class="process-text">振动采集</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📊</div>
+                            <div class="process-text">信号处理</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">🔢</div>
+                            <div class="process-text">频谱分析</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">📋</div>
+                            <div class="process-text">特征比对</div>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-icon">✅</div>
+                            <div class="process-text">诊断结论</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型故障案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：大型汽轮发电机组振动故障诊断</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>设备信息：</strong>某电厂300MW汽轮发电机组，额定转速3000 RPM</p>
+                            <p><strong>监测情况：</strong>大修后启动时，轴振从30μm突然增大至120μm，伴有异常噪声</p>
+                            <p><strong>频谱分析：</strong>振动频谱以2×RPM（100Hz）为主，占总振动能量的70%以上，同时1×RPM分量也明显增大</p>
+                            <p><strong>诊断结论：</strong>综合判断为联轴器不对中+转子热弯曲复合故障</p>
+                            <p><strong>处理结果：</strong>重新调整联轴器对中，加励后振动恢复正常值45μm</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1277,18 +3619,168 @@
             <!-- 无线通信 -->
             <div class="content-detail" id="content-wireless" style="display: none;">
                 <div class="content-header">
-                    <h1>📶 无线通信</h1>
-                    <p>无线传感器网络技术</p>
+                    <h1>📶 无线通信技术</h1>
+                    <p>在线监测系统中的无线通信解决方案，实现设备数据的可靠传输</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>通信技术</h2>
-                    <ul>
-                        <li><strong>LoRaWAN</strong>：远距离低功耗</li>
-                        <li><strong>NB-IoT</strong>：窄带物联网</li>
-                        <li><strong>Wi-Fi</strong>：局域网覆盖</li>
-                        <li><strong>4G/5G</strong>：移动网络</li>
-                    </ul>
+                    <h2>无线通信技术概述</h2>
+                    <p>无线通信技术在在线监测领域应用广泛，特别适用于布线困难、分散部署、移动设备等场景。选择合适的无线技术需要综合考虑传输距离、功耗、可靠性、成本等因素。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>主要无线技术对比</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>技术</th>
+                                <th>频段</th>
+                                <th>传输距离</th>
+                                <th>功耗</th>
+                                <th>带宽</th>
+                                <th>适用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LoRaWAN</strong></td>
+                                <td>470-510MHz</td>
+                                <td>2-15km</td>
+                                <td>极低</td>
+                                <td>0.3-50kbps</td>
+                                <td>远距离、低功耗传感器</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NB-IoT</strong></td>
+                                <td>800-900MHz</td>
+                                <td>运营商覆盖</td>
+                                <td>低</td>
+                                <td>250kbps</td>
+                                <td>广覆盖、海量连接</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wi-Fi</strong></td>
+                                <td>2.4/5GHz</td>
+                                <td>50-100m</td>
+                                <td>高</td>
+                                <td>最高300Mbps</td>
+                                <td>高速数据传输</td>
+                            </tr>
+                            <tr>
+                                <td><strong>蓝牙BLE</strong></td>
+                                <td>2.4GHz</td>
+                                <td>10-100m</td>
+                                <td>极低</td>
+                                <td>2Mbps</td>
+                                <td>近距离、低功耗</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4G/5G</strong></td>
+                                <td>蜂窝频段</td>
+                                <td>运营商覆盖</td>
+                                <td>高</td>
+                                <td>100Mbps+</td>
+                                <td>视频、高带宽应用</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>LoRa/LoRaWAN技术</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📡</div>
+                            <h3>技术特点</h3>
+                            <p>LoRa采用扩频调制技术，具有超远距离传输、超低功耗、强抗干扰能力的优势。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🏗️</div>
+                            <h3>系统架构</h3>
+                            <p>终端节点 → 网关 → Network Server → Application Server，支持多网关并行接收。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔒</div>
+                            <h3>安全机制</h3>
+                            <p>支持AES-128加密，双向认证，保障数据安全。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>NB-IoT技术</h2>
+                    <div class="content-cards">
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">📶</div>
+                            <h3>覆盖优势</h3>
+                            <p>相比传统GSM，覆盖增强20dB，可穿透地下室、管道等密闭环境。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🔋</div>
+                            <h3>功耗特性</h3>
+                            <p>PSM省电模式，电池可用10年以上，适合不经常发送数据的场景。</p>
+                        </div>
+                        <div class="content-card monitor">
+                            <div class="content-card-icon">🏭</div>
+                            <h3>运营商支持</h3>
+                            <p>依托现有蜂窝网络，无需自建网关，电信/联通/移动均已商用。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>无线通信选型建议</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>场景</th>
+                                <th>推荐技术</th>
+                                <th>原因</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>变电站内监测</td>
+                                <td>Wi-Fi / 有线</td>
+                                <td>距离近、带宽需求高、可靠性要求高</td>
+                            </tr>
+                            <tr>
+                                <td>户外配电设备</td>
+                                <td>NB-IoT / LoRa</td>
+                                <td>分散部署、需穿透箱体</td>
+                            </tr>
+                            <tr>
+                                <td>电缆隧道</td>
+                                <td>LoRa / 光纤</td>
+                                <td>长距离、密闭环境</td>
+                            </tr>
+                            <tr>
+                                <td>移动设备监测</td>
+                                <td>4G/5G</td>
+                                <td>移动场景、无固定网络</td>
+                            </tr>
+                            <tr>
+                                <td>近距离点对点</td>
+                                <td>蓝牙BLE</td>
+                                <td>成本低、功耗极低</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>典型应用案例</h2>
+                    <div class="case-study">
+                        <div class="case-header">
+                            <span class="case-title">案例：NB-IoT在配电柜温度监测中的应用</span>
+                        </div>
+                        <div class="case-content">
+                            <p><strong>项目背景：</strong>某城市配电网3000个配电柜需要温度监测，分布广泛且分散</p>
+                            <p><strong>方案选择：</strong>采用NB-IoT无线测温方案，每柜3-6个RFID测温点</p>
+                            <p><strong>实施效果：</strong>数据上传成功率99.5%以上，电池寿命5年以上</p>
+                            <p><strong>运维成本：</strong>相比有线方案，节省布线成本60%，运维效率提升80%</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1296,17 +3788,107 @@
             <div class="content-detail" id="content-national-standards" style="display: none;">
                 <div class="content-header">
                     <h1>🏛️ 国家标准</h1>
-                    <p>电力设备监测相关国家标准</p>
+                    <p>在线监测相关国家标准汇编</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>标准列表</h2>
-                    <ul>
-                        <li>GB/T 11022 - 高压开关设备和控制设备</li>
-                        <li>GB/T 1094 - 电力变压器</li>
-                        <li>GB/T 7354 - 局部放电测量</li>
-                        <li>GB/T 10233 - 变压器油中溶解气体分析</li>
-                    </ul>
+                    <h2>标准体系概述</h2>
+                    <p>我国在线监测相关标准以GB/T系列国家标准为主，同时参考IEC国际标准，形成完整的标准体系。</p>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>变压器监测标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>主要内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GB/T 1094.7</strong></td>
+                                <td>电力变压器 第7部分：损耗</td>
+                                <td>变压器负载损耗、空载损耗计算</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 1094.3</strong></td>
+                                <td>电力变压器 第3部分：绝缘水平</td>
+                                <td>绝缘等级、耐压试验要求</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 10233</strong></td>
+                                <td>变压器油中溶解气体分析</td>
+                                <td>DGA试验方法、故障判断</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 7252</strong></td>
+                                <td>变压器油中溶解气体分析和判断导则</td>
+                                <td>油色谱分析判断方法</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>开关设备监测标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>主要内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GB/T 11022</strong></td>
+                                <td>高压开关设备和控制设备标准的共用技术要求</td>
+                                <td>通用技术条件、试验要求</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 3309</strong></td>
+                                <td>高压开关设备常温老化</td>
+                                <td>机械寿命试验方法</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 403</strong></td>
+                                <td>3.6kV~40.5kV高压真空断路器</td>
+                                <td>真空断路器技术条件</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>局部放电检测标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>主要内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GB/T 7354</strong></td>
+                                <td>局部放电测量</td>
+                                <td>PD测量方法、仪器要求</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IEC 60271</strong></td>
+                                <td>局部放电检测</td>
+                                <td>国际通用的PD检测标准</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 30431</strong></td>
+                                <td>局部放电检测仪</td>
+                                <td>检测仪器性能要求</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -1314,16 +3896,112 @@
             <div class="content-detail" id="content-industry-standards" style="display: none;">
                 <div class="content-header">
                     <h1>📋 行业标准</h1>
-                    <p>电力行业监测相关标准</p>
+                    <p>电力行业在线监测相关标准</p>
                 </div>
 
                 <div class="detail-section monitor">
-                    <h2>标准列表</h2>
-                    <ul>
-                        <li>DL/T 722 - 变压器油中溶解气体分析和判断导则</li>
-                        <li>DL/T 255 - 变压器油温度测量装置</li>
-                        <li>DL/T 1432 - 变压器用绕组温湿度仪</li>
-                    </ul>
+                    <h2>电力行业标准 (DL/T)</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>适用范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>DL/T 722</strong></td>
+                                <td>变压器油中溶解气体分析和判断导则</td>
+                                <td>变压器DGA诊断</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 255</strong></td>
+                                <td>变压器油温度测量装置</td>
+                                <td>油温监测装置</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 1432</strong></td>
+                                <td>变压器用绕组温湿度仪</td>
+                                <td>绕组温控装置</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 984</strong></td>
+                                <td>油浸式变压器绝缘老化评估导则</td>
+                                <td>变压器寿命评估</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 1054</strong></td>
+                                <td>高压电气设备绝缘技术监督规程</td>
+                                <td>绝缘监督要求</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 246</strong></td>
+                                <td>变电站设备巡检机器人</td>
+                                <td>智能巡检</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>通信协议标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>适用范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>DL/T 860</strong></td>
+                                <td>变电站通信网络和系统</td>
+                                <td>IEC 61850中文版</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DL/T 634</strong></td>
+                                <td>远动设备及系统</td>
+                                <td>调度通信</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GB/T 19582</strong></td>
+                                <td>基于Modbus协议的工业自动化网络规范</td>
+                                <td>Modbus应用</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="detail-section monitor">
+                    <h2>在线监测装置标准</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>标准号</th>
+                                <th>标准名称</th>
+                                <th>适用范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>DL/T 1432</strong></td>
+                                <td>变压器用在线监测装置</td>
+                                <td>变压器监测装置</td>
+                            </tr>
+                            <tr>
+                                <td><strong>JB/T 10660</strong></td>
+                                <td>GIS在线监测系统</td>
+                                <td>GIS监测装置</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Q/GDW 540</strong></td>
+                                <td>变电设备在线监测装置检验规范</td>
+                                <td>装置检验</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             </div>
@@ -1420,7 +4098,35 @@
                 targetContent.style.display = 'block';
                 updateTocHighlight(section);
                 targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // 延迟初始化图表，等待内容显示完成和CSS渲染
+                setTimeout(() => {
+                    initChartsForSection(section);
+                }, 300);
             }
+        }
+
+        function initChartsForSection(section) {
+            if (chartsInitialized[section]) {
+                return;
+            }
+            chartsInitialized[section] = true;
+            
+            // 额外延迟确保CSS渲染完成
+            setTimeout(() => {
+                if (section === 'trend-analysis') {
+                    drawTrendChart('day');
+                } else if (section === 'spectrum-analysis') {
+                    drawWaveform();
+                    drawSpectrum();
+                    drawEnvelope();
+                    drawTimeFreq();
+                } else if (section === 'pattern-analysis') {
+                    drawPRPD('internal');
+                    drawPRPS('internal');
+                    drawPDHistogram('internal');
+                }
+            }, 100);
         }
 
         function generateToc(section) {
@@ -1533,7 +4239,539 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             generateToc('dga');
+            initCharts();
         });
+
+        // ===== 图表可视化功能 =====
+        let trendChart, spectrumChart, waveformCanvas, envelopeChart, timeFreqChart;
+        let prpdCanvas, prpsCanvas, pdHistogram;
+        let chartsInitialized = {};
+
+        function initCharts() {
+            setTimeout(() => {
+                const activeSection = document.querySelector('.content-detail[style="display: block"]');
+                if (activeSection) {
+                    const sectionId = activeSection.id.replace('content-', '');
+                    initChartsForSection(sectionId);
+                }
+            }, 200);
+        }
+
+        // 趋势图绘制
+        function drawTrendChart(view) {
+            const canvas = document.getElementById('trendChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = { left: 50, right: 20, top: 20, bottom: 40 };
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+
+            let dataPoints = 30;
+            let baseTemp = 55;
+            if (view === 'week') { dataPoints = 7; baseTemp = 52; }
+            if (view === 'month') { dataPoints = 30; baseTemp = 58; }
+            if (view === 'forecast') { dataPoints = 40; baseTemp = 55; }
+
+            const data = [];
+            for (let i = 0; i < dataPoints; i++) {
+                let temp = baseTemp + (Math.random() - 0.5) * 8;
+                if (i > 25 && view === 'forecast') temp += (i - 25) * 0.3;
+                if (i === 12 || i === 18) temp += 10;
+                data.push(temp);
+            }
+
+            const avgData = data.map((_, i) => {
+                const start = Math.max(0, i - 2);
+                const end = Math.min(data.length, i + 3);
+                return data.slice(start, end).reduce((a, b) => a + b, 0) / (end - start);
+            });
+
+            const yMin = 40, yMax = 75;
+            const yScale = chartH / (yMax - yMin);
+            const xStep = chartW / (dataPoints - 1);
+
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.2)';
+            ctx.lineWidth = 1;
+            for (let y = 40; y <= 70; y += 10) {
+                const yPos = padding.top + (yMax - y) * yScale;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, yPos);
+                ctx.lineTo(w - padding.right, yPos);
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+                ctx.font = '11px PingFang SC';
+                ctx.fillText(y + '°C', 5, yPos + 4);
+            }
+
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#F59E0B';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            const alarmY = padding.top + (yMax - 70) * yScale;
+            ctx.moveTo(padding.left, alarmY);
+            ctx.lineTo(w - padding.right, alarmY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.strokeStyle = '#6366F1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            data.forEach((v, i) => {
+                const x = padding.left + i * xStep;
+                const y = padding.top + (yMax - v) * yScale;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            ctx.strokeStyle = '#10B981';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            avgData.forEach((v, i) => {
+                const x = padding.left + i * xStep;
+                const y = padding.top + (yMax - v) * yScale;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            if (view === 'forecast') {
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+                ctx.beginPath();
+                data.forEach((v, i) => {
+                    const x = padding.left + i * xStep;
+                    const y = padding.top + (yMax - v) * yScale;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.lineTo(padding.left + (dataPoints - 1) * xStep, h - padding.bottom);
+                ctx.lineTo(padding.left, h - padding.bottom);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+            ctx.font = '10px PingFang SC';
+            ctx.fillText('03-01', padding.left, h - 10);
+            ctx.fillText('03-25', w - padding.right - 30, h - 10);
+        }
+
+        function switchTrendView(view) {
+            document.querySelectorAll('.chart-controls .chart-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            drawTrendChart(view);
+        }
+
+        // 波形图绘制
+        function drawWaveform() {
+            const canvas = document.getElementById('waveformCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 150;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = 40;
+            const chartW = w - padding * 2;
+            const chartH = h - padding;
+
+            const freq = 50;
+            const samples = 256;
+            const data = [];
+            for (let i = 0; i < samples; i++) {
+                const t = i / samples;
+                let val = Math.sin(2 * Math.PI * freq * t) * 30;
+                val += Math.sin(2 * Math.PI * freq * 3 * t) * 5;
+                val += (Math.random() - 0.5) * 3;
+                if (i > 50 && i < 60) val += 25;
+                data.push(val);
+            }
+
+            const yMin = -50, yMax = 50;
+            const yScale = chartH / (yMax - yMin);
+
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+            ctx.lineWidth = 1;
+            for (let y = -40; y <= 40; y += 20) {
+                const yPos = padding + (yMax - y) * yScale;
+                ctx.beginPath();
+                ctx.moveTo(padding, yPos);
+                ctx.lineTo(w - padding, yPos);
+                ctx.stroke();
+            }
+
+            ctx.strokeStyle = '#6366F1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            data.forEach((v, i) => {
+                const x = padding + (i / samples) * chartW;
+                const y = padding + (yMax - v) * yScale;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        // 频谱图绘制
+        function drawSpectrum() {
+            const canvas = document.getElementById('spectrumChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = { left: 50, right: 20, top: 20, bottom: 40 };
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+
+            const freqs = [25, 50, 75, 87.3, 100, 150, 175, 200, 250, 300];
+            const amps = [0.3, 1.8, 0.2, 4.2, 0.6, 0.1, 0.4, 0.3, 0.1, 0.05];
+
+            const maxFreq = 500;
+            const maxAmp = 5;
+            const xScale = chartW / maxFreq;
+            const yScale = chartH / maxAmp;
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+            ctx.font = '11px PingFang SC';
+            for (let f = 0; f <= 500; f += 100) {
+                const x = padding.left + f * xScale;
+                ctx.fillText(f + 'Hz', x - 10, h - 15);
+            }
+
+            ctx.strokeStyle = '#EF4444';
+            ctx.setLineDash([8, 4]);
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const bpfoX = padding.left + 87.3 * xScale;
+            ctx.moveTo(bpfoX, padding.top);
+            ctx.lineTo(bpfoX, h - padding.bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#EF4444';
+            ctx.font = '10px PingFang SC';
+            ctx.fillText('BPFO', bpfoX - 15, padding.top + 15);
+
+            const barWidth = chartW / freqs.length - 4;
+            freqs.forEach((f, i) => {
+                const x = padding.left + f * xScale - barWidth / 2;
+                const barH = amps[i] * yScale;
+                const y = h - padding.bottom - barH;
+                const gradient = ctx.createLinearGradient(x, y, x, y + barH);
+                gradient.addColorStop(0, '#6366F1');
+                gradient.addColorStop(1, 'rgba(99, 102, 241, 0.3)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barH);
+            });
+
+            ctx.strokeStyle = '#F59E0B';
+            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            const thresholdY = h - padding.bottom - 2.5 * yScale;
+            ctx.moveTo(padding.left, thresholdY);
+            ctx.lineTo(w - padding.right, thresholdY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // 包络谱绘制
+        function drawEnvelope() {
+            const canvas = document.getElementById('envelopeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = 40;
+            const chartW = w - padding * 2;
+            const chartH = h - padding;
+
+            const freqs = [];
+            const amps = [];
+            for (let i = 0; i < 50; i++) {
+                freqs.push(i * 200);
+                let a = Math.random() * 0.3;
+                if (i === 4) a = 2.5;
+                if (i === 8) a = 1.8;
+                if (i === 12) a = 1.2;
+                amps.push(a);
+            }
+
+            const maxAmp = 3;
+            const xScale = chartW / 50;
+            const yScale = chartH / maxAmp;
+
+            ctx.strokeStyle = '#10B981';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            amps.forEach((a, i) => {
+                const x = padding + i * xScale;
+                const y = h - padding - a * yScale;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+            ctx.font = '9px PingFang SC';
+            ctx.fillText('0', padding, h - 20);
+            ctx.fillText('4kHz', w - padding - 25, h - 20);
+        }
+
+        // 时频谱图绘制
+        function drawTimeFreq() {
+            const canvas = document.getElementById('timeFreqChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            const w = canvas.width, h = canvas.height;
+            const timeSlots = 20;
+            const freqSlots = 30;
+
+            for (let t = 0; t < timeSlots; t++) {
+                for (let f = 0; f < freqSlots; f++) {
+                    let intensity = Math.random() * 0.3;
+                    if (f > 3 && f < 8 && t > 5 && t < 15) intensity = 0.7 + Math.random() * 0.3;
+                    if (f > 10 && f < 15 && t > 8 && t < 18) intensity = 0.5 + Math.random() * 0.5;
+                    
+                    const r = Math.floor(intensity * 99);
+                    const g = Math.floor(intensity * 102);
+                    const b = Math.floor(intensity * 241);
+                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.3 + intensity * 0.7})`;
+                    ctx.fillRect(t * (w / timeSlots), f * (h / freqSlots), w / timeSlots, h / freqSlots);
+                }
+            }
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+            ctx.font = '9px PingFang SC';
+            ctx.fillText('0', 5, h - 5);
+            ctx.fillText('20T', w - 25, h - 5);
+            ctx.save();
+            ctx.translate(10, h / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Freq', 0, 0);
+            ctx.restore();
+        }
+
+        // PRPD图谱绘制
+        function drawPRPD(type) {
+            const canvas = document.getElementById('prpdCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.95)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = 30;
+            const chartW = w - padding * 2;
+            const chartH = h - padding * 2;
+
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (i / 4) * chartH;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(w - padding, y);
+                ctx.stroke();
+            }
+
+            const phases = [];
+            const discharges = [];
+            const n = 500;
+
+            for (let i = 0; i < n; i++) {
+                const phase = Math.random() * 360;
+                phases.push(phase);
+                let q = Math.random() * 30 + 5;
+                
+                if (type === 'internal') {
+                    if ((phase > 30 && phase < 90) || (phase > 210 && phase < 270)) {
+                        q += Math.random() * 40 + 20;
+                    }
+                } else if (type === 'surface') {
+                    if ((phase > 0 && phase < 90) || (phase > 180 && phase < 270)) {
+                        q += Math.random() * 50 + 30;
+                    }
+                } else if (type === 'corona') {
+                    if ((phase > 60 && phase < 90) || (phase > 240 && phase < 270)) {
+                        q += Math.random() * 80 + 60;
+                    }
+                } else if (type === 'float') {
+                    q += Math.random() * 60 + 40;
+                }
+                discharges.push(q);
+            }
+
+            discharges.forEach((q, i) => {
+                const phase = phases[i];
+                const x = padding + (phase / 360) * chartW;
+                const y = padding + chartH - (q / 120) * chartH;
+                const alpha = 0.3 + (q / 120) * 0.7;
+                ctx.fillStyle = `rgba(99, 102, 241, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.strokeStyle = '#F59E0B';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding + (chartW * 0.5), padding);
+            ctx.lineTo(padding + (chartW * 0.5), h - padding);
+            ctx.stroke();
+        }
+
+        // PRPS图谱绘制
+        function drawPRPS(type) {
+            const canvas = document.getElementById('prpsCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.95)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = 30;
+            const chartW = w - padding * 2;
+            const chartH = h - padding * 2;
+            const cycles = 10;
+
+            for (let c = 0; c < cycles; c++) {
+                for (let i = 0; i < 30; i++) {
+                    const phase = Math.random() * 360;
+                    let q = Math.random() * 30 + 5;
+                    
+                    if (type === 'internal') {
+                        if ((phase > 30 && phase < 90) || (phase > 210 && phase < 270)) {
+                            q += Math.random() * 40 + 20;
+                        }
+                    } else if (type === 'corona') {
+                        if ((phase > 60 && phase < 90) || (phase > 240 && phase < 270)) {
+                            q += Math.random() * 80 + 60;
+                        }
+                    }
+                    
+                    const x = padding + (phase / 360) * chartW;
+                    const y = padding + (c / cycles) * chartH + 3;
+                    const alpha = 0.3 + (q / 100) * 0.7;
+                    ctx.fillStyle = `rgba(16, 185, 129, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 1 + q / 30, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // 放电量直方图绘制
+        function drawPDHistogram(type) {
+            const canvas = document.getElementById('pdHistogram');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width, h = canvas.height;
+            const padding = { left: 50, right: 20, top: 20, bottom: 40 };
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+
+            const buckets = 20;
+            const data = new Array(buckets).fill(0);
+            
+            for (let i = 0; i < 200; i++) {
+                let v = Math.random() * 80 + 10;
+                if (type === 'internal') v = Math.random() * 60 + 20;
+                if (type === 'surface') v = Math.random() * 80 + 30;
+                if (type === 'corona') v = Math.random() * 100 + 50;
+                if (type === 'float') v = Math.random() * 90 + 40;
+                const idx = Math.min(buckets - 1, Math.floor(v / 5));
+                data[idx]++;
+            }
+
+            const maxVal = Math.max(...data);
+            const barWidth = chartW / buckets - 2;
+
+            data.forEach((v, i) => {
+                const barH = (v / maxVal) * chartH;
+                const x = padding.left + i * (barWidth + 2);
+                const y = h - padding.bottom - barH;
+                const gradient = ctx.createLinearGradient(x, y, x, y + barH);
+                gradient.addColorStop(0, '#6366F1');
+                gradient.addColorStop(1, 'rgba(99, 102, 241, 0.3)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barH);
+            });
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+            ctx.font = '10px PingFang SC';
+            ctx.fillText('0', padding.left, h - 15);
+            ctx.fillText('100pC', w - padding.right - 30, h - 15);
+        }
+
+        // 切换放电类型
+        function switchPDType(type) {
+            document.querySelectorAll('.chart-controls .chart-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const typeNames = {
+                'internal': '内部气隙放电',
+                'surface': '表面放电',
+                'corona': '电晕放电',
+                'float': '悬浮放电'
+            };
+            const typeStats = {
+                'internal': 'N=1280, Qmean=25pC, Qmax=180pC',
+                'surface': 'N=1580, Qmean=35pC, Qmax=250pC',
+                'corona': 'N=2100, Qmean=65pC, Qmax=380pC',
+                'float': 'N=980, Qmean=45pC, Qmax=320pC'
+            };
+            
+            document.getElementById('pdTypeName').textContent = typeNames[type];
+            document.getElementById('pdStats').textContent = typeStats[type];
+            document.getElementById('pdDiagnosis').textContent = typeNames[type];
+            
+            drawPRPD(type);
+            drawPRPS(type);
+            drawPDHistogram(type);
+        }
 
         // ===== 移动端导航菜单 =====
         const hamburgerBtn = document.getElementById('hamburgerBtn');
